@@ -62,6 +62,9 @@
       <label for="signup-password">Password</label>
       <input type="password" id="signup-password" name="signup-password" required>
 
+      <label for="signup-password">Confirm Password</label>
+      <input type="password" id="signup-password" name="signup-confirm-password" required>
+
       <label for="signup-role">Role</label>
       <select id="signup-role" name="signup-role" required>
         <option value="student">Student</option>
