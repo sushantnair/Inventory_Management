@@ -15,8 +15,6 @@
 </head>
 <body>
 <?php 
-        // include "./navbar.php";
-        // echo createnavbar();
         include "login_form.php";
     ?>
 </body>

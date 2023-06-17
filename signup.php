@@ -1,16 +1,16 @@
 <?php 
-include('config.php');
+include('connection.php');
 
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve form data
-    $firstName = $_POST['signup-first-name'];
-    $lastName = $_POST['signup-last-name'];
-    $email = $_POST['signup-email'];
-    $password = $_POST['signup-password'];
-    $confirmPassword = $_POST['signup-confirm-password'];
-    $role = $_POST['signup-role'];
-    $idNumber = $_POST['signup-id-number'];
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+    $cpass = $_POST['cpass'];
+    $role = $_POST['role'];
+    $id = $_POST['id'];
 
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -18,14 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Validate name
-    if (empty($firstName) || empty($lastName)) {
-        echo "First name and last name are required";
-        exit;
-    }
-
     // Check if password and confirm password match
-    if ($password !== $confirmPassword) {
+    if ($pass !== $cpass) {
         echo "Password and confirm password do not match";
         exit;
     }
@@ -36,15 +30,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare and execute SQL query
-    $sql = "INSERT INTO user_db (first_name, last_name, email, password, role, id_number)
-            VALUES ('$firstName', '$lastName', '$email', '$password', '$role', '$idNumber')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "User registered successfully";
-        header("Location:login_form.php");
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    $sql1=mysqli_query($conn,"SELECT * FROM user where email='$email'");
+    if(mysqli_num_rows($sql1)>0){
+        echo "Email Id Already Exists"; 
+        exit;
     }
+    else 
+    {
+        $sql = "INSERT INTO user (fname, lname, email, password, role, id)
+            VALUES ('$fname', '$lname', '$email', '$pass', '$role', '$id')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "User registered successfully";
+            header("Location:login_form.php");
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+    
 
     // Close connection
     $conn->close();
