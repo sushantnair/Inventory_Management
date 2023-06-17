@@ -29,10 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Prepare and execute SQL query
+    // Check if email already exists
     $sql1=mysqli_query($conn,"SELECT * FROM user where email='$email'");
-    if(mysqli_num_rows($sql1)>0){
-        echo "Email Id Already Exists"; 
+    // Check if id already exists
+    $sql2=mysqli_query($conn,"SELECT * FROM user where id='$id'");
+    if(mysqli_num_rows($sql1)>0 || mysqli_num_rows($sql2)>0){
+        echo "Email Id or ID Number Already Exists"; 
         exit;
     }
     else 
