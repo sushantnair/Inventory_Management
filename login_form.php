@@ -13,7 +13,7 @@
       <input type="email" id="email" name="email" required>
 
       <label for="pass">Password</label>
-      <input type="pass" id="pass" name="pass" required>
+      <input type="password" id="pass" name="pass" required>
 
       <button type="submit">Login</button>
     </form>

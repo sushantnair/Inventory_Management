@@ -37,8 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     else 
     {
+        $passhash = password_hash($pass, PASSWORD_DEFAULT);
         $sql = "INSERT INTO user (fname, lname, email, password, role, id)
-            VALUES ('$fname', '$lname', '$email', '$pass', '$role', '$id')";
+            VALUES ('$fname', '$lname', '$email', '$passhash', '$role', '$id')";
 
         if ($conn->query($sql) === TRUE) {
             echo "User registered successfully";

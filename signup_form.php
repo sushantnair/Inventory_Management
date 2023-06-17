@@ -19,10 +19,10 @@
              title="Please enter a valid @somaiya.edu email address">
 
       <label for="pass">Password</label>
-      <input type="pass" id="pass" name="pass" required>
+      <input type="password" id="pass" name="pass" required>
 
       <label for="pass">Confirm Password</label>
-      <input type="pass" id="pass" name="cpass" required>
+      <input type="password" id="pass" name="cpass" required>
 
       <label for="role">Role</label>
       <select id="role" name="role" required>
