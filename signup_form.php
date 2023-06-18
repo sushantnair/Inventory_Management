@@ -1,3 +1,17 @@
+<?php
+	session_start();
+	if(isset($_SESSION['logged']))
+	{
+		include 'connection.php';
+		$role=$_SESSION['role'];
+		if($role=='admin')
+			header('Location:Admin/dash_admin.php');    
+		else if($role=='student')
+			header('Location:Student/dash_student.php');    
+		else if($role=='lab-assistant')
+			header('Location:LabAssistant/dash_lab.php');   
+	}	
+?>
 <!DOCTYPE html>
 <html>
 <head>
