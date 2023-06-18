@@ -1,5 +1,6 @@
 <?php
 	session_start();
+    //Checks if a user is logged in, if so, redirect
 	if(isset($_SESSION['logged']))
 	{
 		include 'connection.php';

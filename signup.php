@@ -1,6 +1,7 @@
 <?php 
     include('connection.php');
 	session_start();
+    //Checks if a user is logged in, if so, redirect
 	if(isset($_SESSION['logged']))
 	{
 		$role=$_SESSION['role'];
@@ -44,13 +45,17 @@
         $sql1=mysqli_query($conn,"SELECT * FROM user where email='$email'");
         // Check if id already exists
         $sql2=mysqli_query($conn,"SELECT * FROM user where id='$id'");
-        if(mysqli_num_rows($sql1)>0 || mysqli_num_rows($sql2)>0){
+        if(mysqli_num_rows($sql1)>0 || mysqli_num_rows($sql2)>0)
+        {
             echo "Email Id or ID Number Already Exists"; 
             exit;
         }
         else 
         {
+            //create a hashed password
             $passhash = password_hash($pass, PASSWORD_DEFAULT);
+            
+            //insert into table query
             $sql = "INSERT INTO user (fname, lname, email, password, role, id)
                 VALUES ('$fname', '$lname', '$email', '$passhash', '$role', '$id')";
 
@@ -61,8 +66,6 @@
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
         }
-        
-
         // Close connection
         $conn->close();
     }
