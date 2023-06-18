@@ -1,26 +1,4 @@
-<?php
-    // session_start();
-    // if (isset($_SESSION['logged'])) 
-    // {
-    //     if($role=="admin")
-	// 	header('Location:dash_admin.php');    
-	// else if($role=="student")
-	// 	header('Location:dash_student.php');    
-	// else if($role=="lab-assistant")
-	// 	header('Location:dash_lab.php');   
-	// else {
-	// 	$error = 'Role Undefined';
-	// 	echo "
-	// 	<html>
-	// 	<head></head>
-	// 	<body>
-	// 	<script>alert('$error');</script>
-	// 	</body>
-	// 	</html>";
-	// 	header('Location:Login_form.php');
-	// }
-    // }
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -17,6 +17,12 @@
     <title>IM-KJSCE</title>
 </head>
 <body>
+    <a href='add_equ.php'>Add equipment</a>
+    <br>
+    <a href='rem_equ.php'>Remove equipment</a>
+    <br>
+    <a href='lend_equ.php'>Lend equipment</a>
+    <br>
     <a href='../logout.php'>SIGN OUT</a>
 </body>
 </html>
