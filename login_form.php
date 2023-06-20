@@ -9,8 +9,15 @@
 			header('Location:Admin/dash_admin.php');    
 		else if($role=='student')
 			header('Location:Student/dash_student.php');    
-		else if($role=='lab-assistant')
-			header('Location:LabAssistant/dash_lab.php');   
+    else if($role=='lab-assistant'){
+		    if($_SESSION['status']==1){
+			header('Location:LabAssistant/dash_lab.php');
+			}
+			elseif($_SESSION['status']==0){
+				unset($_SESSION['logged']);
+				header('Location:login_form.php');
+			}
+		} 
 	}
 ?>
 <!DOCTYPE html>

@@ -67,7 +67,7 @@
         <button class="btn btn-primary btn-block">
             <a href='../logout.php'>Signout</a>
         </button>
-        //changed from all caps for user convenience
+        <!--changed from all caps for user convenience-->
     </div>
 </body>
 </html>
