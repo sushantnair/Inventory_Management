@@ -16,12 +16,12 @@
     // Check if form is submitted
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Retrieve form data
-        $fname = $_POST['fname'];
-        $lname = $_POST['lname'];
+        $name = $_POST['name'];
         $email = $_POST['email'];
         $pass = $_POST['pass'];
         $cpass = $_POST['cpass'];
         $role = $_POST['role'];
+        $dept = $_POST['dept'];
         $id = $_POST['id'];
 
         // Validate email
@@ -56,8 +56,8 @@
             $passhash = password_hash($pass, PASSWORD_DEFAULT);
             
             //insert into table query
-            $sql = "INSERT INTO user (fname, lname, email, password, role, id)
-                VALUES ('$fname', '$lname', '$email', '$passhash', '$role', '$id')";
+            $sql = "INSERT INTO user (name, email, password, role, dept, id)
+                VALUES ('$name', '$email', '$passhash', '$role', '$dept', '$id')";
 
             if ($conn->query($sql) === TRUE) {
                 echo "User registered successfully";

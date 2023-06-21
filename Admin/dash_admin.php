@@ -58,14 +58,16 @@
     <div class="dash_admin_box">
         <p>Please select an option suitable
         for the operation you want to undertake</p>
-        <button class="btn btn-primary btn-block"> <a href='add_assist.php'>Add Lab Assistants</a> </button>
-        <br>
-        <button class="btn btn-primary btn-block">
-            <a href='add_lab.php'>Add Labs</a>
+        <button class="btn btn-primary btn-block" onclick="window.location.href='manage_assist.php'"> 
+            Manage Lab Assistants
         </button>
         <br>
-        <button class="btn btn-primary btn-block">
-            <a href='../logout.php'>Signout</a>
+        <button class="btn btn-primary btn-block" onclick="window.location.href='manage_lab.php'">
+            Manage Labs
+        </button>
+        <br>
+        <button class="btn btn-primary btn-block" onclick="window.location.href='../logout.php'">
+            Signout
         </button>
         <!--changed from all caps for user convenience-->
     </div>

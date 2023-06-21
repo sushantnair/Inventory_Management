@@ -30,11 +30,8 @@
 <div class="container">
     <h2>Signup</h2>
     <form action="signup.php" method="POST">
-      <label for="fname">First Name</label>
-      <input type="text" id="fname" name="fname" required>
-
-      <label for="lname">Last Name</label>
-      <input type="text" id="lname" name="lname" required>
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required>
 
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required pattern=".+@somaiya\.edu$"
@@ -51,6 +48,11 @@
         <option value="student">Student</option>
         <option value="lab-assistant">Lab Assistant</option>
         <option value="faculty">Faculty</option>
+      </select>
+      <label for="dept">Department</label>
+      <select id="dept" name="dept" required>
+        <option value="EXTC">EXTC</option>
+        <option value="COMPS">COMPS</option>
       </select>
 
       <label for="id">ID Number</label>
