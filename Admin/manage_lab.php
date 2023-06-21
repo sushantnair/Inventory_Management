@@ -102,7 +102,7 @@
                         ?>
                         <td>
                             <button class="button1" type="submit" name="assist"> 
-                                <?php if($row['assistname']==NULL ) echo 'Update'; else echo 'Remove'; ?> Assistant 
+                                <?php if(!isset($row['assistname'])) echo 'Update'; else echo 'Remove'; ?> Assistant 
                             </button>
                                 
                             <button class="button1" type="submit" name="lab">
@@ -131,16 +131,17 @@
                     <option value="no">No</option>
                     </td>
                     <?php
-                    $sql1=mysqli_query($conn,"SELECT * FROM user WHERE role='lab-assistant' AND name NOT IN (SELECT assistname from labs) AND status =1" );
+                    // $sql1=mysqli_query($conn,"SELECT * FROM user WHERE role='lab-assistant' AND name NOT IN (SELECT assistname from labs) AND status =1" );
                     ?>
                     <td>
-                        <select id="assistant" name="assistant" required>
+                    <i>(Assign assistant after creating lab)</i>
+                        <!-- <select id="assistant" name="assistant" required>
                             <option value="none">None</option>';
                             <?php while($row = mysqli_fetch_array($sql1,MYSQLI_ASSOC)) {
                                 ?>
                             <option value="<?php echo $row['name']?>"> <?php echo $row['name'] ?>  - <?php echo $row['id']?></option>
                             <?php } ?>
-                        </select>
+                        </select> -->
                     </td>
                 
                 <td>

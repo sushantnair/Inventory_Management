@@ -51,13 +51,16 @@
             font-size: 20px;
             color: black;
         }
+        p,h6{
+            text-align: center;
+        }
     </style>
     <title>IM-KJSCE | Admin Dashboard</title>
 </head>
 <body>
     <div class="dash_admin_box">
-        <p>Please select an option suitable
-        for the operation you want to undertake</p>
+        <h6><span style="float: left; text-decoration: underline;">User ID: <?php echo $id; ?></span><span style="float: right;">Role: Administrator</span></h6><br>
+        <p>Please select an option suitable for the operation you want to undertake</p>
         <button class="btn btn-primary btn-block" onclick="window.location.href='manage_assist.php'"> 
             Manage Lab Assistants
         </button>

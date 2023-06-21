@@ -4,9 +4,9 @@ session_start();
 if (isset($_SESSION['logged']) && $_SESSION['role']=='admin') 
 {
     include '../connection.php';
+    $labassistant=$_POST['assistant'];
     if(isset($_POST['assist']) && $labassistant!='none')
     {   
-        $labassistant=$_POST['assistant'];
         $labno=$_POST['labno'];     
         mysqli_query($conn,"UPDATE labs SET assistname='$labassistant' WHERE labno='$labno'");
     }    
