@@ -6,6 +6,7 @@ if (isset($_SESSION['logged']) && $_SESSION['role']=='admin')
     include '../connection.php';
     $assistid=$_POST['assistant'];
     if(isset($_POST['assist']))
+    //UPDATE ASSISTANTS
     {  
         $labno=$_POST['labno'];  
         if($assistid!=0) 
@@ -23,25 +24,22 @@ if (isset($_SESSION['logged']) && $_SESSION['role']=='admin')
     }  
     if(isset($_POST['lab']))
     {    
-        $labno=$_POST['labno'];
-        mysqli_query($conn,"DELETE FROM labs WHERE labno='$labno'");
-        mysqli_query($conn,"DROP TABLE $labno");
+        // DELETE LAB
+        $labno=$_POST['labno']; // LAB-NUMBER
+        mysqli_query($conn,"DELETE FROM labs WHERE labno='$labno'"); // DELETE LAB FROM LABS TABLE
+        mysqli_query($conn,"DROP TABLE $labno");    //DROP LAB TABLE 
     }
-    if(isset($_POST['addlab']) && $_POST['dept']!='None')
+    if(isset($_POST['addlab']) && $_POST['dept']!='None')   // CREATE LAB
     {
+        //FORM DATA
         $labno=$_POST['labno']; 
         $labname=$_POST['labname']; 
         $dept=$_POST['dept']; 
         $active=$_POST['active']; 
+        //INSERT LAB DETAILS IN LABS TABLE
         mysqli_query($conn,"INSERT INTO labs (labname,dept,labno,active) values('$labname','$dept','$labno','$active')");
-        echo "
-			<html>
-			<head></head>
-			<body>
-			<script>alert('INSERTED');</script>
-			</body>
-			</html>";
-        // mysqli_query($conn,"CREATE TABLE $labno (eqname VARCHAR(50), dsrno VARCHAR(50), quantity INT(4))");
+        //CREATE NEW TABLE FOR LAB USING LAB-NUMBER
+        mysqli_query($conn,"CREATE TABLE $labno (eqname VARCHAR(50), dsrno VARCHAR(50), quantity INT(4))");
     }    
 header('Location:manage_lab.php');
 }

@@ -3,12 +3,16 @@
     //If a user is logged in and is a lab-assistant
     if (isset($_SESSION['logged']) && $_SESSION['role']=='lab-assistant') 
     {
+        include '../connection.php';
         $id=$_SESSION['id'];
+        $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+        $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+        $labno=$row1['labno'];
+        $labname=$row1['labname'];
     }
     //If a user is logged in and is not a lab-assistant
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='lab-assistant')
     {
-        include 'connection.php';
 		$role=$_SESSION['role'];
 		if($role=='admin')
 			header('Location:../Admin/dash_admin.php');    
@@ -60,7 +64,10 @@
 </head>
 <body>
     <div class="dash_lab_box">
+        
         <h6><span style="float: left; text-decoration: underline;">User ID: <?php echo $id; ?></span><span style="float: right;">Role: Lab Assistant</span></h6><br>
+        <h6><span style="float: left;">Lab Name: <?php echo $labname; ?> </span><span style="float: right;">Lab No: <?php echo $labno; ?></span></h6><br>
+        
         <p>Please select an option suitable for the operation you want to undertake</p>
         <button class="btn btn-primary btn-block" onclick="window.location.href='view_equ.php'"> 
             View equipment
@@ -74,12 +81,6 @@
            Signout
         </button>
     </div>
-    <!-- <a href='add_equ.php'>Add equipment</a>
-    <br>
-    <a href='rem_equ.php'>Remove equipment</a>
-    <br>
-    <a href='lend_equ.php'>Lend equipment</a>
-    <br>
-    <a href='../logout.php'>SIGN OUT</a> -->
+    
 </body>
 </html>

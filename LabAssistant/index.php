@@ -3,12 +3,13 @@
     //If a user is logged in and is a lab-assistant
     if (isset($_SESSION['logged']) && $_SESSION['role']=='lab-assistant') 
     {
+        include '../connection.php';
+        
         header('Location:dash_lab.php');
     }
     //If a user is logged in and is not a lab-assistant
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='lab-assistant')
     {
-        include 'connection.php';
 		$role=$_SESSION['role'];
 		if($role=='admin')
 			header('Location:../Admin/dash_admin.php');    

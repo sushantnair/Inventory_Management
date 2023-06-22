@@ -3,23 +3,58 @@
     //If a user is logged in and is a lab-assistant
     if (isset($_SESSION['logged']) && $_SESSION['role']=='lab-assistant') 
     {
+        // CONNECT DATABASE
         include('../connection.php');
+        // USER ID
         $id=$_SESSION['id'];
-
+        // IF ADDING EQUIPMENT
         if(isset($_POST['addeq']))
         {
-            echo "ADDED";
+            // GET DATA FROM FORM
             $eqname=$_POST['eqname'];
             $dsrno=$_POST['dsrno'];
             $quantity=$_POST['quantity'];
-            echo $eqname;
-            echo $dsrno;
-            echo $quantity;
 
+            //GET LAB-NUMBER FROM LAB TABLE USING SESSION ID (ASSISTANT ID)
+            $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+            $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+            $labno=$row1['labno'];   //LAB-NUMBER
+            // SELECT EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER
+            $sql2=mysqli_query($conn,"SELECT * FROM $labno WHERE eqname='$eqname' AND dsrno='$dsrno'");
+            if(mysqli_num_rows($sql2)==0)
+            {
+                // IF NO SAME EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER STORED EARLIER
+                if(mysqli_num_rows(mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'"))==0)
+                {
+                    mysqli_query($conn,"INSERT INTO $labno(eqname,dsrno,quantity) values('$eqname','$dsrno',$quantity)");
+                }
+                else 
+                {
+                    // INVALID INPUT
+                    // SAME DSR NUMBER DIFFERENT EQUIPMENT NAME
+                }
+            }
+            else 
+            {
+                // SAME EQUIPMENT PRESENT, UPDATE QUANTITY 
+                $row2=mysqli_fetch_array($sql2,MYSQLI_ASSOC);
+                $qu=$row2['quantity'];  // OLD QUANTITY
+                mysqli_query($conn,"UPDATE $labno set quantity=($quantity+$qu) where eqname='$eqname' AND dsrno='$dsrno'");
+            }
+        }
+        if(isset($_POST['delete'])) //IF DELETING EQUIPMENT
+        {
+            $eqname=$_POST['eqname'];
+            $dsrno=$_POST['dsrno'];
             $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
             $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
             $labno=$row1['labno'];
-            $sql2=mysqli_query($conn,"INSERT INTO $labno(eqname,dsrno,quantity) values('$eqname','$dsrno',$quantity)");
+            $sql1=mysqli_query($conn,"DELETE FROM $labno WHERE eqname='$eqname' AND dsrno='$dsrno'");
+
+        }
+        if(isset($_POST['update']))
+        {
+            // - 
         }
     }
     //If a user is logged in and is not a lab-assistant
@@ -45,10 +80,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IM-KJSCE</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
 <body>
-    
-    <a href='../logout.php'>SIGN OUT</a>
+    <!-- TEMPORARY DASHBOARD -->
+    <div style="width:450px;">
+        <button onclick="window.location.href='view_equ.php'"> 
+            View Equipment
+        </button>
+        <button onclick="window.location.href='../logout.php'"> 
+            Sign Out
+        </button>        
+    </div>
+
+    <!-- MAIN TABLE  -->
     <div class="row col-lg-12 card card-body table-responsive">
         <table class="table table-centered table-nowrap mb-0">
             <thead>
@@ -62,44 +109,57 @@
             </thead>
             
             <tbody>
-            <?php
-                
-                $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
-                // echo $id;
-                $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
-                $labno=$row1['labno'];
-                // echo $labno;
-                $table=mysqli_query($conn,"SELECT * FROM $labno");
-                while($row = mysqli_fetch_array($table,MYSQLI_ASSOC))
-                {
-                    ?>
-                    <tr>
-                    <td><?php echo $row['eqname'];?></td>
-                    <td><?php echo $row['dsrno'];?></td>
-                    <td><?php echo $row['quantity'];?></td>
-                    <td></td>
-                    </tr>
-                    <?php
-                    
-                }
-            ?>
-            <tr>
-                <form action="view_equ.php" method="post">
-                <td><input type="text" name='eqname' id='eqname' required></td>
-                <td><input type="text" name='dsrno' id='dsrno' required></td>
-                <td><input type="number" name='quantity' id='quantity' required></td>
+                <?php
+                    //FETCH LAB-NUMBER USING SESSION ID
+                    $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+                    $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+                    $labno=$row1['labno'];
 
-                <td>
-                    <button class="button1" type="submit" name="addeq"> 
-                        Add equi
-                    </button>
-                </td>
-                </form>
-            </tr>
-            
+                    //FETCH LAB TABLE USING LAB-NUMBER
+                    $table=mysqli_query($conn,"SELECT * FROM $labno");
 
+                    while($row = mysqli_fetch_array($table,MYSQLI_ASSOC))
+                    {
+                        ?>
+                        <tr>
+                        <td><?php echo $row['eqname'];?></td>
+                        <td><?php echo $row['dsrno'];?></td>
+                        <td><?php echo $row['quantity'];?></td>
+                        <td>
+                        <form action="view_equ.php" method="post">
+                            <input type="text" name="eqname" value="<?php echo $row['eqname']; ?>" style="display:none;">
+                            <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                            <button class="button1" type="submit" name="update"> 
+                                Update Quantity
+                            </button>
+                            <button class="button1" type="submit" name="delete"> 
+                                Delete Equipment
+                            </button>
+                        </form>
+                        
+                    </td>
+                        </tr>
+                        <?php
+                        
+                    }
+                ?>
+                <tr>
+                    <!-- FORM FOR INPUTTING EQUIPMENT  -->
+                    <form action="view_equ.php" method="post">
+                    <td><input type="text" name='eqname' id='eqname' required></td>
+                    <td><input type="text" name='dsrno' id='dsrno' required></td>
+                    <td><input type="number" name='quantity' id='quantity' required></td>
+
+                    <td>
+                        <button class="button1" type="submit" name="addeq"> 
+                            Add Equipment
+                        </button>
+                    </td>
+                    </form>
+                </tr>
             </tbody>
         </table>
-    
+    </div>
+
 </body>
 </html>
