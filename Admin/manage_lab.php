@@ -47,7 +47,7 @@
         </button>
     </div>
     
-    <form action="" method="get" style="text-align:center;">
+    <form action="" method="post" style="text-align:center;">
         <input type="text" name="search" id="search" style="text-align:center;">
         <br>
         <label for="assigned">Lab Assistant Assigned?</label>
@@ -57,13 +57,13 @@
             <option value="and assistname=''">No</option>
         </select>
         <br>
-        <!-- <label for="sta">Active</label>
+        <label for="sta">Active</label>
         <select id="sta" name="sta">
             <option value="">Any</option>
             <option value="and active='yes'">Yes</option>
             <option value="and active='no'">No</option>
         </select>
-        <br> -->
+        <br>
         <input type="submit" value="Search">
     </form>
     <?php 
@@ -97,14 +97,14 @@
             <tbody>
             <!-- EACH ROW IN WHILE LOOP DISPLAYING ALL LABS -->
             <?php
-                $parts = parse_url(basename($_SERVER['REQUEST_URI']));
-                if (isset($parts['query'])) 
+                // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
+                if (isset($_POST['search'])) 
                 {
-                    parse_str($parts['query'],$query);
-                    $search=$query['search'];
-                    $assign=$query['assigned'];
-                    // $active=$query['sta'];
-                    $sql=mysqli_query($conn,"SELECT * FROM labs where (dept like '%$search%' OR labno like '%$search%' OR labname like '%$search%' OR assistname like '%$search%' ) $assign");
+                    // parse_str($parts['query'],$query);
+                    $search=$_POST['search'];
+                    $assign=$_POST['assigned'];
+                    $active=$_POST['sta'];
+                    $sql=mysqli_query($conn,"SELECT * FROM labs where (dept like '%$search%' OR labno like '%$search%' OR labname like '%$search%' OR assistname like '%$search%' ) $assign $active");
                 }
                 else 
                 {

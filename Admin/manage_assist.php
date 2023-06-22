@@ -71,7 +71,7 @@
             Signout
         </button>
     </div>
-    <form action="" method="get" style="text-align:center;">
+    <form action="" method="post" style="text-align:center;">
         <input type="text" name="search" id="search" style="text-align:center;">
         <br>
         <!-- <label for="assigned">Lab Assistant Assigned?</label>
@@ -112,16 +112,18 @@
                             
                             <?php
                                 // For transactions in Home Page(index page)
-                                $parts = parse_url(basename($_SERVER['REQUEST_URI']));
-                                if (isset($parts['query'])) 
+                                // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
+                                if (isset($_POST['search'])) 
                                 {
-                                    parse_str($parts['query'],$query);
-                                    $search=$query['search'];
-                                    $status=$query['sta'];
+                                    // parse_str($parts['query'],$query);
+                                    $search=$_POST['search'];
+                                    $status=$_POST['sta'];
                                     $query_for_transactions="SELECT * FROM user WHERE role='lab-assistant' and (name like '%$search%' OR email like '%$search%' OR id like '%$search%' OR dept like '%$search%') $status";
                                 }
                                 else
+                                {
                                     $query_for_transactions = "SELECT * FROM user WHERE role='lab-assistant'";
+                                }
                                 $transaction_result = mysqli_query($conn,$query_for_transactions);
                                 $no_of_transaction = mysqli_num_rows($transaction_result);
 
