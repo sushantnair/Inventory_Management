@@ -4,26 +4,44 @@ session_start();
 if (isset($_SESSION['logged']) && $_SESSION['role']=='admin') 
 {
     include '../connection.php';
-    $labassistant=$_POST['assistant'];
-    if(isset($_POST['assist']) && $labassistant!='none')
-    {   
-        $labno=$_POST['labno'];     
-        mysqli_query($conn,"UPDATE labs SET assistname='$labassistant' WHERE labno='$labno'");
-    }    
-    else if(isset($_POST['lab']))
+    $assistid=$_POST['assistant'];
+    if(isset($_POST['assist']))
+    {  
+        $labno=$_POST['labno'];  
+        if($assistid!=0) 
+        {
+            $query1=mysqli_query($conn,"SELECT * from user where id=$assistid");
+            $row = mysqli_fetch_array($query1,MYSQLI_ASSOC);
+            $name=$row['name'];
+            mysqli_query($conn,"UPDATE labs SET assistid=$assistid, assistname='$name' WHERE labno='$labno'");
+        }
+        else 
+        {
+            mysqli_query($conn,"UPDATE labs SET assistid=0, assistname=NULL WHERE labno='$labno'");
+        }
+        
+    }  
+    if(isset($_POST['lab']))
     {    
         $labno=$_POST['labno'];
         mysqli_query($conn,"DELETE FROM labs WHERE labno='$labno'");
+        mysqli_query($conn,"DROP TABLE $labno");
     }
-    else if(isset($_POST['addlab']) && $_POST['dept']!='None')
+    if(isset($_POST['addlab']) && $_POST['dept']!='None')
     {
         $labno=$_POST['labno']; 
         $labname=$_POST['labname']; 
         $dept=$_POST['dept']; 
         $active=$_POST['active']; 
-        $labassistant=$_POST['assistant'];
-        mysqli_query($conn,"INSERT INTO labs(labname,dept,labno,active,assistname) values('$labname','$dept','$labno','$active','$labassistant')");
-
+        mysqli_query($conn,"INSERT INTO labs (labname,dept,labno,active) values('$labname','$dept','$labno','$active')");
+        echo "
+			<html>
+			<head></head>
+			<body>
+			<script>alert('INSERTED');</script>
+			</body>
+			</html>";
+        // mysqli_query($conn,"CREATE TABLE $labno (eqname VARCHAR(50), dsrno VARCHAR(50), quantity INT(4))");
     }    
 header('Location:manage_lab.php');
 }

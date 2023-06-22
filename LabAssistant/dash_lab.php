@@ -62,12 +62,8 @@
     <div class="dash_lab_box">
         <h6><span style="float: left; text-decoration: underline;">User ID: <?php echo $id; ?></span><span style="float: right;">Role: Lab Assistant</span></h6><br>
         <p>Please select an option suitable for the operation you want to undertake</p>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='add_equ.php'"> 
-            Add equipment
-        </button>
-        <br>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='rem_equ.php'"> 
-            Remove equipment
+        <button class="btn btn-primary btn-block" onclick="window.location.href='view_equ.php'"> 
+            View equipment
         </button>
         <br>
         <button class="btn btn-primary btn-block" onclick="window.location.href='lend_equ.php'"> 

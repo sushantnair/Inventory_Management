@@ -5,6 +5,7 @@
     unset($_SESSION["id"]);
     unset($_SESSION["role"]);
     session_destroy();
-    header("Location: index.php");
     mysqli_close($conn);
+    header("Location: index.php");
+
 ?>

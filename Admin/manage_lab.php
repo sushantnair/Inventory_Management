@@ -129,10 +129,10 @@
                             ?>
                             <td>
                                 <select id="assistant" name="assistant" required>
-                                    <option value="none">None</option>';
+                                    <option value="0">None</option>';
                                     <?php while($row = mysqli_fetch_array($sql1,MYSQLI_ASSOC)) {
                                         ?>
-                                    <option value="<?php echo $row['name']?>"> <?php echo $row['name'] ?>  - <?php echo $row['id']?></option>
+                                    <option value="<?php echo $row['id']?>"> <?php echo $row['name'] ?>  - <?php echo $row['id']?></option>
                                     <?php } ?>
                                 </select>
                             </td>
