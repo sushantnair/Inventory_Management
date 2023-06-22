@@ -3,7 +3,7 @@
     //If a user is logged in and is a lab-assistant
     if (isset($_SESSION['logged']) && $_SESSION['role']=='lab-assistant') 
     {
-        include 'connection.php';
+        include('../connection.php');
         $id=$_SESSION['id'];
 
         if(isset($_POST['addeq']))
@@ -16,10 +16,10 @@
             echo $dsrno;
             echo $quantity;
 
-            // $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
-            // $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
-            // $labno=$row1['labno'];
-            // $sql2=mysqli_query($conn,"INSERT INTO $labno(eqname,dsrno,quantity) values($eqname,$dsrno,$quantity)");
+            $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+            $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+            $labno=$row1['labno'];
+            $sql2=mysqli_query($conn,"INSERT INTO $labno(eqname,dsrno,quantity) values('$eqname','$dsrno',$quantity)");
         }
     }
     //If a user is logged in and is not a lab-assistant
@@ -62,6 +62,27 @@
             </thead>
             
             <tbody>
+            <?php
+                
+                $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+                // echo $id;
+                $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+                $labno=$row1['labno'];
+                // echo $labno;
+                $table=mysqli_query($conn,"SELECT * FROM $labno");
+                while($row = mysqli_fetch_array($table,MYSQLI_ASSOC))
+                {
+                    ?>
+                    <tr>
+                    <td><?php echo $row['eqname'];?></td>
+                    <td><?php echo $row['dsrno'];?></td>
+                    <td><?php echo $row['quantity'];?></td>
+                    <td></td>
+                    </tr>
+                    <?php
+                    
+                }
+            ?>
             <tr>
                 <form action="view_equ.php" method="post">
                 <td><input type="text" name='eqname' id='eqname' required></td>
@@ -75,27 +96,6 @@
                 </td>
                 </form>
             </tr>
-            <?php
-                
-                $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
-                echo $id;
-                $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
-                $labno=$row1['labno'];
-                echo $labno;
-                $table=mysqli_query($conn,"SELECT * FROM $labno");
-                while($row = mysqli_fetch_array($table,MYSQLI_ASSOC))
-                {
-                    ?>
-                    <tr>
-                    <td><?php echo $row['eqname'];?></td>
-                    <td><?php echo $row['dsrno'];?></td>
-                    <td><?php echo $row['quantitiy'];?></td>
-                    <td></td>
-                    </tr>
-                    <?php
-                    
-                }
-            ?>
             
 
             </tbody>
