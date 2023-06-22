@@ -71,7 +71,25 @@
             Signout
         </button>
     </div>
-
+    <form action="" method="get" style="text-align:center;">
+        <input type="text" name="search" id="search" style="text-align:center;">
+        <br>
+        <!-- <label for="assigned">Lab Assistant Assigned?</label>
+        <select id="assigned" name="assigned">
+            <option value="">Any</option>
+            <option value="and assistname!=NULL">Yes</option>
+            <option value="and assistname=NULL">No</option>
+        </select>
+        <br> -->
+        <label for="sta">Status</label>
+        <select id="sta" name="sta">
+            <option value="">Any</option>
+            <option value="and status=1">Yes</option>
+            <option value="and status=0">No</option>
+        </select>
+        <br>
+        <input type="submit" value="Search">
+    </form>
 <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -94,7 +112,16 @@
                             
                             <?php
                                 // For transactions in Home Page(index page)
-                                $query_for_transactions = "SELECT * FROM user WHERE role='lab-assistant'";
+                                $parts = parse_url(basename($_SERVER['REQUEST_URI']));
+                                if (isset($parts['query'])) 
+                                {
+                                    parse_str($parts['query'],$query);
+                                    $search=$query['search'];
+                                    $status=$query['sta'];
+                                    $query_for_transactions="SELECT * FROM user WHERE role='lab-assistant' and (name like '%$search%' OR email like '%$search%' OR id like '%$search%' OR dept like '%$search%') $status";
+                                }
+                                else
+                                    $query_for_transactions = "SELECT * FROM user WHERE role='lab-assistant'";
                                 $transaction_result = mysqli_query($conn,$query_for_transactions);
                                 $no_of_transaction = mysqli_num_rows($transaction_result);
 
