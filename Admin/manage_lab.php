@@ -96,98 +96,126 @@
             </thead>
             
             <tbody>
-            <!-- EACH ROW IN WHILE LOOP DISPLAYING ALL LABS -->
-            <?php
-                // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
-                if (isset($_POST['search'])) 
-                {
-                    // parse_str($parts['query'],$query);
-                    $search=$_POST['search'];
-                    $assign=$_POST['assigned'];
-                    $active=$_POST['sta'];
-                    $sql=mysqli_query($conn,"SELECT * FROM labs where (dept like '%$search%' OR labno like '%$search%' OR labname like '%$search%' OR assistname like '%$search%' ) $assign $active");
-                }
-                else 
-                {
-                    $sql = mysqli_query($conn,"SELECT * FROM labs");
-                }
-                $num = mysqli_num_rows($sql);
-                while($row = mysqli_fetch_array($sql,MYSQLI_ASSOC)) 
-                {    
-                    ?>
-                    <tr>
-                        <form action="update_lab.php" method="post">
-                        <input type="text" value="<?php echo $row['labno']?>" style="display:none" name="labno" id="labno">
-
-                        <td><?php echo $row['labno']?></td>
-                        <td><?php echo $row['labname']?></td>
-                        <td><?php echo $row['dept']?></td>
-                        <td><?php echo $row['active'] ?></td>
-                        <?php if($row['assistname']=='')
-                        {
-                            $dept=$row['dept'];
-                            $sql1=mysqli_query($conn,"SELECT * FROM user WHERE role='lab-assistant' AND name NOT IN (SELECT assistname from labs) AND status =1 AND dept='$dept'" );
-                            ?>
-                            <td>
-                                <select id="assistant" name="assistant" required>
-                                    <option value="0">None</option>';
-                                    <?php while($row = mysqli_fetch_array($sql1,MYSQLI_ASSOC)) {
-                                        ?>
-                                    <option value="<?php echo $row['id']?>"> <?php echo $row['name'] ?>  - <?php echo $row['id']?></option>
-                                    <?php } ?>
-                                </select>
-                            </td>
-                        <?php                
+                <!-- EACH ROW IN WHILE LOOP DISPLAYING ALL LABS -->
+                <?php
+                    // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
+                    if (isset($_POST['search'])) 
+                    {
+                        // parse_str($parts['query'],$query);
+                        $search=$_POST['search'];
+                        $assign=$_POST['assigned'];
+                        $active=$_POST['sta'];
+                        $sql_table_display = "SELECT * 
+                                            FROM labs 
+                                            where (dept like '%$search%' OR 
+                                                    labno like '%$search%' OR 
+                                                    labname like '%$search%' OR 
+                                                    assistname like '%$search%' ) 
+                                            $assign $active";
+                        $result_table_display = mysqli_query($conn, $sql_table_display);
+                        if(!$result_table_display){
+                            echo "There is some problem in the connection.";
+                            return;
                         }
-                        else 
-                        {
-                            ?>
-                            <td> <?php echo $row['assistname'] ?> </td>
-                            <?php
+                    }
+                    else 
+                    {
+                        $sql_table_display = "SELECT * 
+                                            FROM labs";
+                        $result_table_display = mysqli_query($conn, $sql_table_display);
+                        if(!$result_table_display){
+                            echo "There is some problem in the connection.";
+                            return;
                         }
+                    }
+                    $num = mysqli_num_rows($result_table_display);
+                    while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
+                    {    
                         ?>
-                        <td>
-                            <button class="button1" type="submit" name="assist"> 
-                                <?php if(!isset($row['assistname'])) echo 'Update'; else echo 'Remove'; ?> Assistant 
-                            </button>
-                                
-                            <button class="button1" type="submit" name="lab">
-                                Delete Lab
-                            </button>
-                            
+                        <tr>
+                            <form action="update_lab.php" method="post">
+                                <input type="text" value="<?php echo $row['labno']?>" style="display:none" name="labno" id="labno">
+                                <td><?php echo $row['labno']?></td>
+                                <td><?php echo $row['labname']?></td>
+                                <td><?php echo $row['dept']?></td>
+                                <td><?php echo $row['active'] ?></td>
+                                <?php if($row['assistname']=='')
+                                {
+                                    $dept=$row['dept'];
+                                    $sql_labassist_fetch = "SELECT * 
+                                                            FROM user
+                                                            WHERE role='lab-assistant' AND 
+                                                                name NOT IN (SELECT assistname 
+                                                                            from labs) AND 
+                                                                status = 1 AND 
+                                                                dept='$dept'";
+                                    $result_labassist_fetch = mysqli_query($conn, $sql_labassist_fetch);
+                                    if(!$result_labassist_fetch){
+                                        echo "There was an error in fetching lab assistant names.";
+                                        return;
+                                    }
+                                    ?>
+                                    <td>
+                                        <select id="assistant" name="assistant" required>
+                                            <option value="0">None</option>';
+                                            <?php 
+                                                while($row = mysqli_fetch_array($result_labassist_fetch, MYSQLI_ASSOC)) {
+                                            ?>
+                                                <option value="<?php echo $row['id']?>"> <?php echo $row['name'] ?>  - <?php echo $row['id']?></option>
+                                            <?php 
+                                                } 
+                                            ?>
+                                        </select>
+                                    </td>
+                                <?php                
+                                } else {
+                                ?>
+                                    <td> <?php echo $row['assistname'] ?> </td>
+                                <?php
+                                    }
+                                ?>
+                                <td>
+                                    <button class="button1" type="submit" name="assist"> 
+                                        <?php 
+                                            if(!isset($row['assistname'])) echo 'Update'; else echo 'Remove'; 
+                                        ?> Assistant 
+                                    </button>
+                                    <button class="button1" type="submit" name="lab">
+                                        Delete Lab
+                                    </button>
+                                </td>
                             </form>
+                        </tr>
+                        <?php
+                    }
+                ?>
+                <tr>
+                    <form action="update_lab.php" method="post">
+                        <td><input type="text" name='labno' id='labno' required></td>
+                        <td><input type="text" name='labname' id='labname' required></td>
+                        <td>
+                            <select id="dept" name="dept" required>
+                                <option value="None">None</option>
+                                <option value="EXTC">EXTC</option>
+                                <option value="COMPS">COMPS</option>
+                            </select>
                         </td>
-                    
-                    </tr>
-
-                    <?php
-                }
-            ?>
-            <tr>
-            <form action="update_lab.php" method="post">
-                <td><input type="text" name='labno' id='labno' required></td>
-                <td><input type="text" name='labname' id='labname' required></td>
-                <td><select id="dept" name="dept" required>
-                    <option value="None">None</option>
-                    <option value="EXTC">EXTC</option>
-                    <option value="COMPS">COMPS</option>
-                    </select></td>
-                <td> <select id="active" name="active" required>
-                    <option selected value="yes">Yes</option>
-                    <option value="no">No</option>
-                    </td>
-                    
-                    <td>
-                    <i>(Assign assistant after creating lab)</i>
-                    </td>
-                
-                <td>
-                    <button class="button1" type="submit" name="addlab"> 
-                        Create Lab
-                    </button>
-                </td>
-
-            </tr>
+                        <td> 
+                            <select id="active" name="active" required>
+                                <option selected value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </td>
+                        <td>
+                            <i>(Assign assistant after creating lab)</i>
+                        </td>
+                        <td>
+                            <button class="button1" type="submit" name="addlab"> 
+                                Create Lab
+                            </button>
+                        </td>
+                    </form>
+                </tr>
             </tbody>
         </table>
     </div>
