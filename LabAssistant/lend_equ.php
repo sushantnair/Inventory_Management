@@ -11,9 +11,9 @@
     {
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:../Admin/dash_admin.php');    
+			header('Location:../Admin/dash.php');    
 		else if($role=='student')
-			header('Location:../Student/dash_student.php');    
+			header('Location:../Student/dash.php');    
         else
             header('Location:../logout.php');
     }
@@ -35,7 +35,10 @@
 </head>
 <body>
     
-<div style="width:450px;">
+    <div style="width:450px;">
+        <button onclick="window.location.href='dash.php'"> 
+            Dashboard
+        </button>
         <button onclick="window.location.href='view_equ.php'"> 
             View Equipment
         </button>

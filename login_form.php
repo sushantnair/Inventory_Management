@@ -1,3 +1,28 @@
+<?php 
+	session_start();
+	include('connection.php');
+	//Checks if a user is logged in, if so, redirect
+	if(isset($_SESSION['logged']))
+	{
+		$role=$_SESSION['role'];
+		if($role=='admin')
+			header('Location:Admin/dash.php');    
+		else if($role=='student')
+			header('Location:Student/dash.php');    
+		else if($role=='lab-assistant')
+		{
+            if($_SESSION['status']==1)
+            {
+			    header('Location:LabAssistant/dash.php');
+			}
+			else if($_SESSION['status']==0)
+            {
+				unset($_SESSION['logged']);
+				header('Location:login_form.php');
+			}  
+        }
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>

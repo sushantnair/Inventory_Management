@@ -37,9 +37,18 @@ if (isset($_SESSION['logged']) && $_SESSION['role']=='admin')
         $dept=$_POST['dept']; 
         $active=$_POST['active']; 
         //INSERT LAB DETAILS IN LABS TABLE
-        mysqli_query($conn,"INSERT INTO labs (labname,dept,labno,active) values('$labname','$dept','$labno','$active')");
+        $insert_lab=mysqli_query($conn,"INSERT INTO labs (labname,dept,labno,active,assistname,assistid) values('$labname','$dept','$labno','$active','',0)");
+        if(!$insert_lab)
+            {
+                echo mysqli_error($conn);
+                die();
+            }
+            else
+            {
+                echo "Query succesfully executed!";
+            } 
         //CREATE NEW TABLE FOR LAB USING LAB-NUMBER
-        mysqli_query($conn,"CREATE TABLE $labno (eqname VARCHAR(50), dsrno VARCHAR(50), quantity INT(4))");
+        mysqli_query($conn,"CREATE TABLE $labno (eqname VARCHAR(50), dsrno VARCHAR(50), quantity INT(4), desc1 VARCHAR(250), desc2 VARCHAR(250))");
     }    
 header('Location:manage_lab.php');
 }
@@ -48,9 +57,9 @@ else if (isset($_SESSION['logged']) && $_SESSION['role']!='admin')
 {
     $role=$_SESSION['role'];
     if($role=='lab-assistant')
-        header('Location:../LabAssistant/dash_lab.php');    
+        header('Location:../LabAssistant/dash.php');    
     else if($role=='student')
-        header('Location:../Student/dash_student.php');    
+        header('Location:../Student/dash.php');    
     else
         header('Location:../logout.php');
 }

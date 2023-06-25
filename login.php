@@ -6,17 +6,21 @@
 	{
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:Admin/dash_admin.php');    
+			header('Location:Admin/dash.php');    
 		else if($role=='student')
-			header('Location:Student/dash_student.php');    
+			header('Location:Student/dash.php');    
 		else if($role=='lab-assistant')
-		    if($_SESSION['status']==1){
-			header('Location:LabAssistant/dash_lab.php');
+		{
+            if($_SESSION['status']==1)
+            {
+			    header('Location:LabAssistant/dash.php');
 			}
-			elseif($_SESSION['status']==0){
+			else if($_SESSION['status']==0)
+            {
 				unset($_SESSION['logged']);
 				header('Location:login_form.php');
 			}  
+        }
 	}
 	//Accept email & password from submitted form
 	$email = mysqli_real_escape_string($conn,$_POST['email']);
@@ -37,12 +41,12 @@
 		
 		//Redirect user to respective dashboards
 		if($role=='admin')
-			header('Location:Admin/dash_admin.php');    
+			header('Location:Admin/dash.php');    
 		else if($role=='student')
-			header('Location:Student/dash_student.php');    
+			header('Location:Student/dash.php');    
 		else if($role=='lab-assistant'){
 		    if($_SESSION['status']==1){
-			header('Location:LabAssistant/dash_lab.php');
+			header('Location:LabAssistant/dash.php');
 			}
 			elseif($_SESSION['status']==0){
 				unset($_SESSION['logged']);

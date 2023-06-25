@@ -10,9 +10,9 @@
     {
         $role=$_SESSION['role'];
         if($role=='admin')
-            header('Location:../Admin/dash_admin.php'); 
+            header('Location:../Admin/dash.php'); 
         else if($role=='lab-assistant')
-            header('Location:../LabAssistant/dash_lab.php');    
+            header('Location:../LabAssistant/dash.php');    
         else
             header('Location:../logout.php');
     }

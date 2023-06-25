@@ -3,16 +3,16 @@
     //If a user is logged in and is a student
     if (isset($_SESSION['logged']) && $_SESSION['role']=='student') 
     {
-        header('Location:dash_student.php');
+        header('Location:dash.php');
     }
     //If a user is logged in and is not a student
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='student')
     {
         $role=$_SESSION['role'];
         if($role=='admin')
-            header('Location:../Admin/dash_admin.php'); 
+            header('Location:../Admin/dash.php'); 
         else if($role=='lab-assistant')
-            header('Location:../LabAssistant/dash_lab.php');    
+            header('Location:../LabAssistant/dash.php');    
         else
             header('Location:../logout.php');
     }

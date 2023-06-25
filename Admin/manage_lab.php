@@ -4,16 +4,15 @@
     if (isset($_SESSION['logged']) && $_SESSION['role']=='admin') 
     {
         include '../connection.php';
-        $id=$_SESSION['id'];
     }
     //If a user is logged in and is not an admin
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='admin')
     {
 		$role=$_SESSION['role'];
 		if($role=='lab-assistant')
-			header('Location:../LabAssistant/dash_lab.php');    
+			header('Location:../LabAssistant/dash.php');    
 		else if($role=='student')
-			header('Location:../Student/dash_student.php');    
+			header('Location:../Student/dash.php');    
         else
             header('Location:../logout.php');
     }
@@ -36,7 +35,10 @@
 </head>
 <body>
     <!-- TEMPORARY DASHBOARD -->
-    <div style="width:450px;">
+    <div>
+        <button onclick="window.location.href='dash.php'"> 
+            Dashboard
+        </button>
         <button onclick="window.location.href='manage_assist.php'"> 
             Manage Lab Assistants
         </button>

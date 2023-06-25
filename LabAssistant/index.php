@@ -4,17 +4,16 @@
     if (isset($_SESSION['logged']) && $_SESSION['role']=='lab-assistant') 
     {
         include '../connection.php';
-        
-        header('Location:dash_lab.php');
+        header('Location:dash.php');
     }
     //If a user is logged in and is not a lab-assistant
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='lab-assistant')
     {
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:../Admin/dash_admin.php');    
+			header('Location:../Admin/dash.php');    
 		else if($role=='student')
-			header('Location:../Student/dash_student.php');    
+			header('Location:../Student/dash.php');    
         else
             header('Location:../logout.php');
     }

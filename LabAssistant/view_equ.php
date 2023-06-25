@@ -13,11 +13,19 @@
             // GET DATA FROM FORM
             $eqname=$_POST['eqname'];
             $dsrno=$_POST['dsrno'];
-            $quantity=$_POST['quantity'];
-
+            $quantity=$_POST['quantity'];   
+            $desc1=$_POST['desc1'];
+            $desc2=$_POST['desc2'];
             //GET LAB-NUMBER FROM LAB TABLE USING SESSION ID (ASSISTANT ID)
             $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+            
             $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+            if(!$row1)
+            {
+                echo mysqli_error($conn);
+                die();
+            }
+            
             $labno=$row1['labno'];   //LAB-NUMBER
             // SELECT EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER
             $sql2=mysqli_query($conn,"SELECT * FROM $labno WHERE eqname='$eqname' AND dsrno='$dsrno'");
@@ -26,7 +34,7 @@
                 // IF NO SAME EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER STORED EARLIER
                 if(mysqli_num_rows(mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'"))==0)
                 {
-                    mysqli_query($conn,"INSERT INTO $labno(eqname,dsrno,quantity) values('$eqname','$dsrno',$quantity)");
+                    mysqli_query($conn,"INSERT INTO $labno(eqname,dsrno,quantity,desc1,desc2) values('$eqname','$dsrno',$quantity,'$desc1','$desc2')");
                 }
                 else 
                 {
@@ -62,9 +70,9 @@
     {
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:../Admin/dash_admin.php');    
+			header('Location:../Admin/dash.php');    
 		else if($role=='student')
-			header('Location:../Student/dash_student.php');    
+			header('Location:../Student/dash.php');    
         else
             header('Location:../logout.php');
     }
@@ -89,6 +97,9 @@
 <body>
     <!-- TEMPORARY DASHBOARD -->
     <div style="width:450px;">
+        <button onclick="window.location.href='dash.php'"> 
+            Dashboard
+        </button>
         <button onclick="window.location.href='view_equ.php'"> 
             View Equipment
         </button>
@@ -106,11 +117,29 @@
                     <th scope="col">Equipment Name<br></th>
                     <th scope="col">DSR Number</th>
                     <th scope="col">Quantity</th>
+                    <th scope="col">Description 1</th>
+                    <th scope="col">Description 2</th>
                     <th scope="col">Update<br></th>
                 </tr>
             </thead>
             
             <tbody>
+            <tr>
+                    <!-- FORM FOR INPUTTING EQUIPMENT  -->
+                    <form action="view_equ.php" method="post">
+                    <td><input type="text" name='eqname' id='eqname' required></td>
+                    <td><input type="text" name='dsrno' id='dsrno' required></td>
+                    <td><input type="number" name='quantity' id='quantity' required></td>
+                    <td><input type="text" name='desc1' id='desc1'></td>
+                    <td><input type="text" name='desc2' id='desc2'></td>
+
+                    <td>
+                        <button class="button1" type="submit" name="addeq"> 
+                            Add
+                        </button>
+                    </td>
+                    </form>
+                </tr>
                 <?php
                     //FETCH LAB-NUMBER USING SESSION ID
                     $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
@@ -127,15 +156,17 @@
                         <td><?php echo $row['eqname'];?></td>
                         <td><?php echo $row['dsrno'];?></td>
                         <td><?php echo $row['quantity'];?></td>
+                        <td><?php echo $row['desc1'];?></td>
+                        <td><?php echo $row['desc2'];?></td>
                         <td>
                         <form action="view_equ.php" method="post">
                             <input type="text" name="eqname" value="<?php echo $row['eqname']; ?>" style="display:none;">
                             <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                             <button class="button1" type="submit" name="update"> 
-                                Update Quantity
+                                Update
                             </button>
                             <button class="button1" type="submit" name="delete"> 
-                                Delete Equipment
+                                Delete
                             </button>
                         </form>
                         
@@ -145,20 +176,7 @@
                         
                     }
                 ?>
-                <tr>
-                    <!-- FORM FOR INPUTTING EQUIPMENT  -->
-                    <form action="view_equ.php" method="post">
-                    <td><input type="text" name='eqname' id='eqname' required></td>
-                    <td><input type="text" name='dsrno' id='dsrno' required></td>
-                    <td><input type="number" name='quantity' id='quantity' required></td>
-
-                    <td>
-                        <button class="button1" type="submit" name="addeq"> 
-                            Add Equipment
-                        </button>
-                    </td>
-                    </form>
-                </tr>
+                
             </tbody>
         </table>
     </div>

@@ -1,16 +1,26 @@
-<?php
+<?php 
 	session_start();
+	include('connection.php');
 	//Checks if a user is logged in, if so, redirect
 	if(isset($_SESSION['logged']))
 	{
-		include 'connection.php';
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:Admin/dash_admin.php');    
+			header('Location:Admin/dash.php');    
 		else if($role=='student')
-			header('Location:Student/dash_student.php');    
+			header('Location:Student/dash.php');    
 		else if($role=='lab-assistant')
-			header('Location:LabAssistant/dash_lab.php');   
+		{
+            if($_SESSION['status']==1)
+            {
+			    header('Location:LabAssistant/dash.php');
+			}
+			else if($_SESSION['status']==0)
+            {
+				unset($_SESSION['logged']);
+				header('Location:login_form.php');
+			}  
+        }
 	}
 ?>
 <!DOCTYPE html>
@@ -35,7 +45,7 @@
 </head>
 <body>
 <?php 
-        include "login_form.php";
+        header("Location:login_form.php");
     ?>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>	
 	<script type="text/javascript" src="js/jquery.js"></script>	
