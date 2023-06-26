@@ -37,12 +37,14 @@
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
-    <!-- <link rel="stylesheet" href="CSS/styles.css"> -->
 </head>
 <body>
-    
-<div>
-        
+    <style>
+        table{
+            text-align: center;
+        }
+        </style>
+    <div>
         <button onclick="window.location.href='dash.php'"> 
             Dash
         </button>
@@ -58,11 +60,14 @@
             <thead>
                 <tr>
                     <!-- HEADINGS -->
-                    <th scope="col">Equipment<br></th>
+                    <th scope="col">Name<br></th>
+                    <th scope="col">Type<br></th>
                     <th scope="col">DSR No</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Desc1</th>
                     <th scope="col">Desc2</th>
+                    <th scope="col">Cost</th>
+                    <th scope="col">Request</th>
                     <!-- <th scope="col">View<br></th> -->
                 </tr>
             </thead>
@@ -84,10 +89,12 @@
                         <tr>
                             <form action="view.php" method="post">
                                 <td><?php echo $row['eqname']?></td>
+                                <td><?php echo $row['eqtype']?></td>
                                 <td><?php echo $row['dsrno']?></td>
                                 <td><?php echo $row['quantity']?></td>
                                 <td><?php echo $row['desc1'] ?></td>
                                 <td> <?php echo $row['desc2'] ?> </td>
+                                <td> <?php echo $row['cost'] ?> </td>
                                 <td>
                                     
                                     <button class="button1" name="lab">
