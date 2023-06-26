@@ -18,7 +18,7 @@ if (isset($_SESSION['logged']) && $_SESSION['role']=='admin')
         }
         else 
         {
-            mysqli_query($conn,"UPDATE labs SET assistid=0, assistname=NULL WHERE labno='$labno'");
+            mysqli_query($conn,"UPDATE labs SET assistid=0, assistname='' WHERE labno='$labno'");
         }
         
     }  
@@ -48,7 +48,7 @@ if (isset($_SESSION['logged']) && $_SESSION['role']=='admin')
                 echo "Query succesfully executed!";
             } 
         //CREATE NEW TABLE FOR LAB USING LAB-NUMBER
-        mysqli_query($conn,"CREATE TABLE $labno (eqname VARCHAR(50), dsrno VARCHAR(50), quantity INT(4), desc1 VARCHAR(250), desc2 VARCHAR(250))");
+        mysqli_query($conn,"CREATE TABLE $labno (eqname VARCHAR(250), dsrno VARCHAR(250), eqtype VARCHAR(250), quantity INT(4), desc1 VARCHAR(250), desc2 VARCHAR(250), cost FLOAT(10))");
     }    
 header('Location:manage_lab.php');
 }

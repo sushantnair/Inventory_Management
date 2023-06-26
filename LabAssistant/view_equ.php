@@ -12,43 +12,50 @@
         {
             // GET DATA FROM FORM
             $eqname=$_POST['eqname'];
+            $eqtype=$_POST['eqtype'];
             $dsrno=$_POST['dsrno'];
             $quantity=$_POST['quantity'];   
             $desc1=$_POST['desc1'];
             $desc2=$_POST['desc2'];
-            //GET LAB-NUMBER FROM LAB TABLE USING SESSION ID (ASSISTANT ID)
-            $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
-            
-            $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
-            if(!$row1)
+            $cost=$_POST['cost'];
+            if($eqtype!=0)
             {
-                echo mysqli_error($conn);
-                die();
-            }
-            
-            $labno=$row1['labno'];   //LAB-NUMBER
-            // SELECT EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER
-            $sql2=mysqli_query($conn,"SELECT * FROM $labno WHERE eqname='$eqname' AND dsrno='$dsrno'");
-            if(mysqli_num_rows($sql2)==0)
-            {
-                // IF NO SAME EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER STORED EARLIER
-                if(mysqli_num_rows(mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'"))==0)
+                //GET LAB-NUMBER FROM LAB TABLE USING SESSION ID (ASSISTANT ID)
+                $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+                
+                $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+                if(!$row1)
                 {
-                    mysqli_query($conn,"INSERT INTO $labno(eqname,dsrno,quantity,desc1,desc2) values('$eqname','$dsrno',$quantity,'$desc1','$desc2')");
+                    echo mysqli_error($conn);
+                    die();
+                }
+                
+                $labno=$row1['labno'];   //LAB-NUMBER
+                // echo $labno;
+                // SELECT EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER
+                $sql2=mysqli_query($conn,"SELECT * FROM $labno WHERE eqname='$eqname' AND dsrno='$dsrno'");
+                if(mysqli_num_rows($sql2)==0)
+                {
+                    // IF NO SAME EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER STORED EARLIER
+                    if(mysqli_num_rows(mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'"))==0)
+                    {
+                        mysqli_query($conn,"INSERT INTO $labno(eqname,eqtype,dsrno,quantity,desc1,desc2,cost) values('$eqname','$eqtype','$dsrno',$quantity,'$desc1','$desc2',$cost)");
+                    }
+                    else 
+                    {
+                        // INVALID INPUT
+                        // SAME DSR NUMBER DIFFERENT EQUIPMENT NAME
+                    }
                 }
                 else 
                 {
-                    // INVALID INPUT
-                    // SAME DSR NUMBER DIFFERENT EQUIPMENT NAME
+                    // SAME EQUIPMENT PRESENT, UPDATE QUANTITY 
+                    $row2=mysqli_fetch_array($sql2,MYSQLI_ASSOC);
+                    $qu=$row2['quantity'];  // OLD QUANTITY
+                    mysqli_query($conn,"UPDATE $labno set quantity=($quantity+$qu) where eqname='$eqname' AND dsrno='$dsrno'");
                 }
             }
-            else 
-            {
-                // SAME EQUIPMENT PRESENT, UPDATE QUANTITY 
-                $row2=mysqli_fetch_array($sql2,MYSQLI_ASSOC);
-                $qu=$row2['quantity'];  // OLD QUANTITY
-                mysqli_query($conn,"UPDATE $labno set quantity=($quantity+$qu) where eqname='$eqname' AND dsrno='$dsrno'");
-            }
+            
         }
         if(isset($_POST['delete'])) //IF DELETING EQUIPMENT
         {
@@ -114,11 +121,13 @@
             <thead>
                 <tr>
                     <!-- HEADINGS -->
-                    <th scope="col">Equipment Name<br></th>
-                    <th scope="col">DSR Number</th>
+                    <th scope="col">Name<br></th>
+                    <th scope="col">Type<br></th>
+                    <th scope="col">DSR</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Description 1</th>
                     <th scope="col">Description 2</th>
+                    <th scope="col">Cost</th>
                     <th scope="col">Update<br></th>
                 </tr>
             </thead>
@@ -128,10 +137,17 @@
                     <!-- FORM FOR INPUTTING EQUIPMENT  -->
                     <form action="view_equ.php" method="post">
                     <td><input type="text" name='eqname' id='eqname' required></td>
+                    <td><select id="eqtype" name="eqtype" required>
+                            <option value="0" selected>None</option>
+                            <option value="Software">Software</option>
+                            <option value="Hardware">Hardware</option>
+                            <option value="Furniture">Furniture</option>
+                        </select></td>
                     <td><input type="text" name='dsrno' id='dsrno' required></td>
                     <td><input type="number" name='quantity' id='quantity' required></td>
                     <td><input type="text" name='desc1' id='desc1'></td>
                     <td><input type="text" name='desc2' id='desc2'></td>
+                    <td><input type="number" step="0.01" name='cost' id='cost'></td>
 
                     <td>
                         <button class="button1" type="submit" name="addeq"> 
@@ -154,10 +170,12 @@
                         ?>
                         <tr>
                         <td><?php echo $row['eqname'];?></td>
+                        <td><?php echo $row['eqtype'];?></td>
                         <td><?php echo $row['dsrno'];?></td>
                         <td><?php echo $row['quantity'];?></td>
                         <td><?php echo $row['desc1'];?></td>
                         <td><?php echo $row['desc2'];?></td>
+                        <td><?php echo $row['cost'];?></td>
                         <td>
                         <form action="view_equ.php" method="post">
                             <input type="text" name="eqname" value="<?php echo $row['eqname']; ?>" style="display:none;">

@@ -1,0 +1,38 @@
+
+th,td,tr{
+text-align:center;
+}
+.button1{
+background-color: #4CAF50;
+color: white;
+padding: 5px 20px;
+margin-right:10px;
+border: none;   
+border-radius: 4px;
+cursor: pointer;
+}
+html, body{
+    height: 100%;
+}
+/* the html and body elements are set to have a height of 100% using height: 100%;. This ensures that the body element will take up the full height of the viewport */
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dash_lab_box{
+    width: auto;
+    height: auto;
+    background-color: azure;
+    border: solid 2px black;
+    padding: 10px;
+    margin: 5vw;
+}
+a{
+    font-size: 20px;
+    color: black;
+}
+p, h6{
+    text-align: center;
+    padding: 5px;
+}
