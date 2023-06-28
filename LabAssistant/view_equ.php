@@ -162,7 +162,13 @@
             Sign Out
         </button>        
     </div>
-
+    <!-- Search bar -->
+    
+    <form action="" method="post" style="text-align:center;">
+        <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter equipment which you want to search for">
+        <br>
+        <input type="submit" value="Search">
+    </form>
     <!-- MAIN TABLE  -->
     <div class="row col-lg-12 card card-body table-responsive">
         <table class="table table-centered table-nowrap mb-0">

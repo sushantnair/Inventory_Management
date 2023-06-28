@@ -27,8 +27,23 @@
 	$pass = mysqli_real_escape_string($conn,$_POST['pass']);
 
 	//check if email is registered
-	$sql = mysqli_query($conn," SELECT * FROM user WHERE email = '$email'");
-	$row = mysqli_fetch_array($sql);
+	$sql_fetch_user_data = "SELECT * 
+							FROM user 
+							WHERE email = '$email'";
+	//check if email is registered
+	$result_fetch_user_data = mysqli_query($conn, $sql_fetch_user_data);
+	if(!$result_fetch_user_data){
+		$response = array("success" => false, "message" => "There was a problem in the connection");
+		echo json_encode($response);
+		return;
+	}
+	$row_count = mysqli_num_rows($result_fetch_user_data);
+	if($row_count == 0){
+		$response = array("success" => false, "message" => "Account does not exist. Please signup first.");
+		echo json_encode($response);
+		return;
+	}
+	$row = mysqli_fetch_array($result_fetch_user_data);
 
 	//if email registered, check if password matches
 	if((is_array($row))&&(password_verify($pass,$row['password'])))
