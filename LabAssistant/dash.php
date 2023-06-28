@@ -73,8 +73,8 @@
             View equipment
         </button>
         <br>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='lend_equ.php'"> 
-            Lend equipment
+        <button class="btn btn-primary btn-block" onclick="window.location.href='lent_equ.php'"> 
+            Lent equipment
         </button>
         <br>
         <button class="btn btn-primary btn-block" onclick="window.location.href='../logout.php'"> 

@@ -10,6 +10,7 @@
         // IF ADDING EQUIPMENT
         if(isset($_POST['addeq']))
         {
+            
             // GET DATA FROM FORM
             $eqname=$_POST['eqname'];
             $eqtype=$_POST['eqtype'];
@@ -31,15 +32,19 @@
                 }
                 
                 $labno=$row1['labno'];   //LAB-NUMBER
+                $dept=$row1['dept'];
+                $dsr="KJSCE/".$dept."/".$labno."/".$dsrno;
+
+
                 // echo $labno;
                 // SELECT EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER
-                $sql2=mysqli_query($conn,"SELECT * FROM $labno WHERE eqname='$eqname' AND dsrno='$dsrno'");
+                $sql2=mysqli_query($conn,"SELECT * FROM $labno WHERE eqname='$eqname' AND dsrno='$dsr'");
                 if(mysqli_num_rows($sql2)==0)
                 {
                     // IF NO SAME EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER STORED EARLIER
-                    if(mysqli_num_rows(mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'"))==0)
+                    if(mysqli_num_rows(mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsr'"))==0)
                     {
-                        mysqli_query($conn,"INSERT INTO $labno(eqname,eqtype,dsrno,quantity,desc1,desc2,cost) values('$eqname','$eqtype','$dsrno',$quantity,'$desc1','$desc2',$cost)");
+                        mysqli_query($conn,"INSERT INTO $labno(eqname,eqtype,dsrno,quantity,desc1,desc2,cost) values('$eqname','$eqtype','$dsr',$quantity,'$desc1','$desc2',$cost)");
                     }
                     else 
                     {
@@ -65,12 +70,52 @@
             $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
             $labno=$row1['labno'];
             $sql1=mysqli_query($conn,"DELETE FROM $labno WHERE eqname='$eqname' AND dsrno='$dsrno'");
-
         }
-        if(isset($_POST['update']))
+        if(isset($_POST['return']))
         {
-            // - 
+            $lendto=$_POST['labno'];
+            $dsrno=$_POST['dsrno'];
+
+            //FIND LENDING LAB DETAILS
+            $query=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno'");
+            $row=mysqli_fetch_array($query,MYSQLI_ASSOC);
+            $lendfrom=$row['lendfrom'];
+            $lendquan=$row['lendquan'];
+            echo $lendfrom;
+            echo $lendquan;
+            $remove_lend=mysqli_query($conn,"DELETE FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom'");
+            if(!$remove_lend)
+            {
+                echo "ERR1";
+                echo mysqli_error($conn);
+                die();
+            }
+            else
+            {
+                $remove_lendfrom=mysqli_query($conn,"DELETE FROM $lendto WHERE dsrno='$dsrno'");
+                $remove_lendto1=mysqli_query($conn,"UPDATE $lendfrom SET toquan=0 WHERE dsrno='$dsrno'");
+                $remove_lendto2=mysqli_query($conn,"UPDATE $lendfrom SET quantity=(quantity+$lendquan) WHERE dsrno='$dsrno'");
+                if(!$remove_lendfrom)
+                {
+                    echo "ERR2";
+                    echo mysqli_error($conn);
+                    die();
+                }
+                if(!$remove_lendto1)
+                {
+                    echo "ERR3";
+                    echo mysqli_error($conn);
+                    die();
+                }
+                if(!$remove_lendto2)
+                {
+                    echo "ERR4";
+                    echo mysqli_error($conn);
+                    die();
+                }
+            }
         }
+        
     }
     //If a user is logged in and is not a lab-assistant
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='lab-assistant')
@@ -103,12 +148,15 @@
 </head>
 <body>
     <!-- TEMPORARY DASHBOARD -->
-    <div style="width:450px;">
+    <div>
         <button onclick="window.location.href='dash.php'"> 
             Dashboard
         </button>
         <button onclick="window.location.href='view_equ.php'"> 
             View Equipment
+        </button>
+        <button onclick="window.location.href='lent_equ.php'"> 
+            Lent Equipment
         </button>
         <button onclick="window.location.href='../logout.php'"> 
             Sign Out
@@ -169,32 +217,54 @@
                     {
                         ?>
                         <tr>
-                        <td><?php echo $row['eqname'];?></td>
-                        <td><?php echo $row['eqtype'];?></td>
-                        <td><?php echo $row['dsrno'];?></td>
-                        <td><?php echo $row['quantity'];?></td>
-                        <td><?php echo $row['desc1'];?></td>
-                        <td><?php echo $row['desc2'];?></td>
-                        <td><?php echo $row['cost'];?></td>
-                        <td>
-                        <form action="view_equ.php" method="post">
-                            <input type="text" name="eqname" value="<?php echo $row['eqname']; ?>" style="display:none;">
-                            <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                            <button class="button1" type="submit" name="update"> 
-                                Update
-                            </button>
-                            <button class="button1" type="submit" name="delete"> 
-                                Delete
-                            </button>
-                        </form>
-                        
-                    </td>
+                            <td><?php echo $row['eqname'];?></td>
+                            <td><?php echo $row['eqtype'];?></td>
+                            <td><?php echo $row['dsrno'];?></td>
+                            <td><?php echo $row['quantity'];?></td>
+                            <td><?php echo $row['desc1'];?></td>
+                            <td><?php echo $row['desc2'];?></td>
+                            <td><?php echo $row['cost'];?></td>
+                            <td>
+                            <?php 
+                            if($row['byquan']==0)
+                            {
+                                ?>
+                                <form action="view_equ.php" method="post">
+                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                    <button class="button1" type="submit" name="update"> 
+                                        Update
+                                    </button>
+                                    <button class="button1" type="submit" name="delete"> 
+                                        Delete
+                                    </button>
+                                </form>
+                                <form action="lend.php" method="post">
+                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                    <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                    <button class="button1" type="submit" name="lend"> 
+                                        Lend
+                                    </button>
+                                </form>
+                                <?php 
+                            }
+                            else 
+                            {
+                                ?>
+                                <form action="view_equ.php" method="post">
+                                    <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                    <button class="button1" type="submit" name="return"> 
+                                        Return
+                                    </button>
+                                </form>
+                                <?php
+                            }
+                            ?>
+                            </td>
                         </tr>
                         <?php
-                        
                     }
                 ?>
-                
             </tbody>
         </table>
     </div>

@@ -6,6 +6,6 @@
     unset($_SESSION["role"]);
     session_destroy();
     mysqli_close($conn);
-    $conn->close();
     header("Location: index.php");
+    $conn->close();
 ?>

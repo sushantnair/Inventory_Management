@@ -39,16 +39,36 @@ if (isset($_SESSION['logged']) && $_SESSION['role']=='admin')
         //INSERT LAB DETAILS IN LABS TABLE
         $insert_lab=mysqli_query($conn,"INSERT INTO labs (labname,dept,labno,active,assistname,assistid) values('$labname','$dept','$labno','$active','',0)");
         if(!$insert_lab)
-            {
-                echo mysqli_error($conn);
-                die();
-            }
-            else
-            {
-                echo "Query succesfully executed!";
-            } 
+        {
+            echo mysqli_error($conn);
+            die();
+        }
+        else
+        {
+            echo "Query succesfully executed!";
+        } 
         //CREATE NEW TABLE FOR LAB USING LAB-NUMBER
-        mysqli_query($conn,"CREATE TABLE $labno (eqname VARCHAR(250), dsrno VARCHAR(250), eqtype VARCHAR(250), quantity INT(4), desc1 VARCHAR(250), desc2 VARCHAR(250), cost FLOAT(10))");
+        $create_lab=mysqli_query($conn,"CREATE TABLE $labno (
+            eqname VARCHAR(250), 
+            dsrno VARCHAR(250) PRIMARY KEY, 
+            eqtype VARCHAR(250), 
+            quantity INT(4), 
+            desc1 VARCHAR(250), 
+            desc2 VARCHAR(250), 
+            cost FLOAT(10),
+            toquan INT DEFAULT 0,
+            byquan INT DEFAULT 0
+            )");
+        if(!$create_lab)
+        {
+            echo mysqli_error($conn);
+            mysqli_query($conn,"DELETE FROM labs WHERE labno='$labno'"); // DELETE LAB FROM LABS TABLE
+            die();
+        }
+        else
+        {
+            echo "Query succesfully executed!";
+        } 
     }    
 header('Location:manage_lab.php');
 }
