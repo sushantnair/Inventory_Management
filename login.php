@@ -77,7 +77,7 @@
 			<script>alert('$error');</script>
 			</body>
 			</html>";
-			header('Location:Login_form.php');
+			header('Location:login_form.php');
 		}
 	}
 	// Wrong Input

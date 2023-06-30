@@ -71,8 +71,18 @@
       <div class="form-floating">
       <select class="form-select" id="dept" name="dept" required>
         <option value="" disabled selected>Choose a Department</option>
-        <option value="EXTC">EXTC</option>
-        <option value="COMPS">COMPS</option>
+        <?php 
+          $fetch_departments=mysqli_query($conn,"SELECT * FROM departments");
+          while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
+          {
+              
+              ?>
+              <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
+              <?php
+          }
+        ?>
+        <!-- <option value="EXTC">EXTC</option>
+        <option value="COMPS">COMPS</option> -->
       </select>
       <label for="dept" class="select-label">Department</label>
       </div>

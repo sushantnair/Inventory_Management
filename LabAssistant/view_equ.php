@@ -64,12 +64,12 @@
         }
         if(isset($_POST['delete'])) //IF DELETING EQUIPMENT
         {
-            $eqname=$_POST['eqname'];
+            // $eqname=$_POST['eqname'];
             $dsrno=$_POST['dsrno'];
             $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
             $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
             $labno=$row1['labno'];
-            $sql1=mysqli_query($conn,"DELETE FROM $labno WHERE eqname='$eqname' AND dsrno='$dsrno'");
+            $sql1=mysqli_query($conn,"DELETE FROM $labno WHERE dsrno='$dsrno'");
         }
         if(isset($_POST['return']))
         {

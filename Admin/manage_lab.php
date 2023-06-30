@@ -197,9 +197,17 @@
                         <td><input type="text" name='labname' id='labname' required></td>
                         <td>
                             <select id="dept" name="dept" required>
-                                <option value="None">None</option>
-                                <option value="EXTC">EXTC</option>
-                                <option value="COMPS">COMPS</option>
+                                <option value="" disabled selected>None</option>
+                                <?php 
+                                $fetch_departments=mysqli_query($conn,"SELECT * FROM departments");
+                                while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
+                                {
+                                    
+                                    ?>
+                                    <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
+                                    <?php
+                                }
+                                ?>
                             </select>
                         </td>
                         <td> 

@@ -77,6 +77,10 @@
             Lent equipment
         </button>
         <br>
+        <button class="btn btn-primary btn-block" onclick="window.location.href='f_upload.php'"> 
+           Upload CSV file
+        </button>
+        <br>
         <button class="btn btn-primary btn-block" onclick="window.location.href='../logout.php'"> 
            Signout
         </button>

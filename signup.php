@@ -6,11 +6,11 @@
 	{
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:Admin/dash_admin.php');    
+			header('Location:Admin/dash.php');    
 		else if($role=='student')
-			header('Location:Student/dash_student.php');    
+			header('Location:Student/dash.php');    
 		else if($role=='lab-assistant')
-			header('Location:LabAssistant/dash_lab.php');   
+			header('Location:LabAssistant/dash.php');   
 	}
     // Retrieve form data
     $name = $_POST['name'];
@@ -82,8 +82,9 @@
             echo json_encode($response);
             return;
         }
-        $response = array("success" => true, "message" => "Account created successfully.");
-        echo json_encode($response);
+        // $response = array("success" => true, "message" => "Account created successfully.");
+        // echo json_encode($response);
+        header('Location: login_form.php');
     }
     // Close connection
     mysqli_close($conn);

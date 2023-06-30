@@ -50,14 +50,15 @@ if (isset($_SESSION['logged']) && $_SESSION['role']=='admin')
         //CREATE NEW TABLE FOR LAB USING LAB-NUMBER
         $create_lab=mysqli_query($conn,"CREATE TABLE $labno (
             eqname VARCHAR(250), 
-            dsrno VARCHAR(250) PRIMARY KEY, 
+            dsrno VARCHAR(250), 
             eqtype VARCHAR(250), 
             quantity INT(4), 
             desc1 VARCHAR(250), 
             desc2 VARCHAR(250), 
             cost FLOAT(10),
             toquan INT DEFAULT 0,
-            byquan INT DEFAULT 0
+            byquan INT DEFAULT 0,
+            PRIMARY KEY (dsrno)
             )");
         if(!$create_lab)
         {
