@@ -44,7 +44,7 @@
                     // IF NO SAME EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER STORED EARLIER
                     if(mysqli_num_rows(mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsr'"))==0)
                     {
-                        mysqli_query($conn,"INSERT INTO $labno(eqname,eqtype,dsrno,quantity,desc1,desc2,cost) values('$eqname','$eqtype','$dsr',$quantity,'$desc1','$desc2',$cost)");
+                        mysqli_query($conn,"INSERT INTO $labno(eqname,eqtype,dsrno,quantity,desc1,desc2,cost,byquan) values('$eqname','$eqtype','$dsr',$quantity,'$desc1','$desc2','$cost',0)");
                     }
                     else 
                     {
@@ -185,21 +185,24 @@
             </thead>
             
             <tbody>
-            <tr>
+                <tr>
                     <!-- FORM FOR INPUTTING EQUIPMENT  -->
                     <form action="view_equ.php" method="post">
-                    <td><input type="text" name='eqname' id='eqname' required></td>
-                    <td><select id="eqtype" name="eqtype" required>
-                            <option value="0" selected>None</option>
+                        <!-- placeholder helps when the table headers are not visible without scrolling to the top -->
+                    <td><input type="text" name='eqname' id='eqname' placeholder="Enter Equipment Name" required></td>
+                    <td>
+                        <select id="eqtype" name="eqtype" placeholder="Equipment Type" required>
+                            <option value="0" selected>Other</option>
                             <option value="Software">Software</option>
                             <option value="Hardware">Hardware</option>
                             <option value="Furniture">Furniture</option>
-                        </select></td>
-                    <td><input type="text" name='dsrno' id='dsrno' required></td>
-                    <td><input type="number" name='quantity' id='quantity' required></td>
-                    <td><input type="text" name='desc1' id='desc1'></td>
-                    <td><input type="text" name='desc2' id='desc2'></td>
-                    <td><input type="number" step="0.01" name='cost' id='cost'></td>
+                        </select>
+                    </td>
+                    <td><input type="text" name='dsrno' id='dsrno' placeholder="DSR No." required></td>
+                    <td><input type="number" name='quantity' id='quantity' placeholder="Quantity" required></td>
+                    <td><input type="text" name='desc1' placeholder="Description 1" id='desc1'></td>
+                    <td><input type="text" name='desc2' placeholder="Description 2" id='desc2'></td>
+                    <td><input type="number" step="0.01" name='cost' placeholder="Cost" id='cost'></td>
 
                     <td>
                         <button class="button1" type="submit" name="addeq"> 
