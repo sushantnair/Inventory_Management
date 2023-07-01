@@ -8,6 +8,49 @@
         // USER ID
         $id=$_SESSION['id'];
         // IF RETURNING EQUIPMENT
+        if(isset($_POST['return']))
+        {
+            $lendto=$_POST['labno'];
+            $dsrno=$_POST['dsrno'];
+
+            //FIND LENDING LAB DETAILS
+            $query=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno'");
+            $row=mysqli_fetch_array($query,MYSQLI_ASSOC);
+            $lendfrom=$row['lendfrom'];
+            $lendquan=$row['lendquan'];
+
+            $remove_lend=mysqli_query($conn,"DELETE FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom'");
+            if(!$remove_lend)
+            {
+                echo "ERR1";
+                echo mysqli_error($conn);
+                die();
+            }
+            else
+            {
+                $remove_lendfrom=mysqli_query($conn,"DELETE FROM $lendto WHERE dsrno='$dsrno'");
+                $remove_lendto1=mysqli_query($conn,"UPDATE $lendfrom SET toquan=0 WHERE dsrno='$dsrno'");
+                $remove_lendto2=mysqli_query($conn,"UPDATE $lendfrom SET quantity=(quantity+$lendquan) WHERE dsrno='$dsrno'");
+                if(!$remove_lendfrom)
+                {
+                    echo "ERR2";
+                    echo mysqli_error($conn);
+                    die();
+                }
+                if(!$remove_lendto1)
+                {
+                    echo "ERR3";
+                    echo mysqli_error($conn);
+                    die();
+                }
+                if(!$remove_lendto2)
+                {
+                    echo "ERR4";
+                    echo mysqli_error($conn);
+                    die();
+                }
+            }
+        }
         
         
     }
@@ -155,7 +198,13 @@
                                 <td><?php echo $eqrow['desc1'];?></td>
                                 <td><?php echo $eqrow['desc2'];?></td>
                                 <td><?php echo $row['lendfrom'];?></td>
-
+                                <td><form action="lent_equ.php" method="post">
+                                    <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                    <button class="button1" type="submit" name="return"> 
+                                        Return
+                                    </button>
+                                </form></td>
                                 </tr>
                             <?php
                             }

@@ -81,8 +81,6 @@
             $row=mysqli_fetch_array($query,MYSQLI_ASSOC);
             $lendfrom=$row['lendfrom'];
             $lendquan=$row['lendquan'];
-            echo $lendfrom;
-            echo $lendquan;
             $remove_lend=mysqli_query($conn,"DELETE FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom'");
             if(!$remove_lend)
             {
