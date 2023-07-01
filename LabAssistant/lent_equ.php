@@ -51,7 +51,47 @@
                 }
             }
         }
-        
+        if(isset($_POST['lend']))
+        {
+            $labno=$_POST['labno'];
+            $dsrno=$_POST['dsrno'];
+            $quantity=$_POST['quantity'];
+            $lendto=$_POST['lendto'];
+            $fetch_equipment=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
+            if(!$fetch_equipment)
+            {
+                echo mysqli_error($conn);
+                die();
+            }
+            else
+            {
+                $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendfrom='$labno' AND dsrno='$dsrno' AND lendto=$lendto");
+                if(!$check_prev_lend)
+                {
+                    echo "ER1";
+                    echo mysqli_error($conn);
+                    die();
+                }
+                if(mysqli_num_rows($check_prev_lend)==1)
+                {
+                    echo "PRESENT";
+                }
+                else
+                {
+                    $insert_transaction=mysqli_query($conn,"INSERT INTO lend(lendfrom,dsrno,quantity,lendto) values ('$labno','$dsrno',$quantity,'$lendto')");
+                    if(!$insert_transaction)
+                    {
+                        echo "ER2";
+                        echo mysqli_error($conn);
+                        die();
+                    }
+                    echo "ADDING";
+                }
+
+            }
+                
+
+        }
         
     }
     //If a user is logged in and is not a lab-assistant
@@ -159,6 +199,7 @@
         </div>
         <?php 
     } 
+
     $lend=mysqli_query($conn,"SELECT * FROM lend where lendto='$labno'");
     if(mysqli_num_rows($lend)>0)
     {
@@ -216,6 +257,70 @@
         <?php
     }
     ?>
+    
+    <?php
+    $request=mysqli_query($conn,"SELECT * FROM request WHERE labno='$labno'");
+    if(mysqli_num_rows($request)>0)
+    {
+        ?>
+        <h4 style="text-align: center;">REQUESTS</h4>
+        <div class="row col-lg-12 card card-body table-responsive">
+            <table class="table table-centered table-nowrap mb-0">
+                <thead>
+                    <tr>
+                        <!-- HEADINGS -->
+                        <th scope="col">Equipment Name<br></th>
+                        <th scope="col">DSR Number<br></th>
+                        <th scope="col">Request Quantity</th>
+                        <th scope="col">Description 1</th>
+                        <th scope="col">Description 2</th>
+                        <th scope="col">Request From</th>
+                        <th scope="col">Lend Quantity</th>
+                        <th scope="col">Update<br></th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <?php 
+                        //FETCH LENDING DATA FOR THIS LAB
+                        
+                        while($row = mysqli_fetch_array($request,MYSQLI_ASSOC))
+                        {
+                            $dsrno=$row['dsrno'];
+                            $equ_details=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
+                            $eqrow=mysqli_fetch_array($equ_details,MYSQLI_ASSOC);
+                            ?>
+                                
+                                <tr>
+                                <td><?php echo $eqrow['eqname'];?></td>
+                                <td><?php echo $eqrow['dsrno'];?></td>
+                                <td><?php echo $row['quantity'];?></td>
+                                <td><?php echo $eqrow['desc1'];?></td>
+                                <td><?php echo $eqrow['desc2'];?></td>
+                                <td><?php echo $row['id'];?></td>
+                                <form action="lent_equ.php" method="post">
+                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
+                                
+                                <td><input type="number" name="lendquan" id="lendquan" min ="1" max="<?php echo $row['quantity'];?>" style="width:150px;" required></td>
+                                <td>
+                                    <button class="button1" type="submit" name="lend"> 
+                                        Lend
+                                    </button>
+                                </td>
 
+                                </form>
+                                </tr>
+                            <?php
+                            }
+                        
+                    ?>
+                    
+                </tbody>
+            </table>
+        </div>
+        <?php 
+    } ?>
 </body>
 </html>

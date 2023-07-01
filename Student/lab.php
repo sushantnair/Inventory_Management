@@ -10,6 +10,44 @@
             $labno=$_POST['labno'];
             // echo $labno;
         }
+        if(isset($_POST['request']))
+        {
+
+            $dsrno=$_POST['dsrno']; 
+            $labno=$_POST['labno'];  //REQUEST FROM LAB
+            $quantity=$_POST['quan'];   //REQUESTING QUANTITY
+            $fetch_equipment=mysqli_query($conn,"SELECT * FROM request WHERE labno='$labno' AND id=$id AND dsrno='$dsrno'");
+            if(!$fetch_equipment)
+            {
+                echo mysqli_error($conn);
+                die();
+            }
+            else 
+            {
+                if(mysqli_num_rows($fetch_equipment)==0)
+                {
+                    $insert_request=mysqli_query($conn,"INSERT INTO request(labno,id,dsrno,quantity) values('$labno',$id,'$dsrno',$quantity)");
+                }
+                else 
+                {
+                    echo "REQUEST PRESENT";
+                }
+            }
+        }
+        if(isset($_POST['delrequest']))
+        {
+
+            $dsrno=$_POST['dsrno']; 
+            $labno=$_POST['labno'];  //REQUEST FROM LAB
+            $quantity=$_POST['quan'];   //REQUESTING QUANTITY
+            $fetch_equipment=mysqli_query($conn,"DELETE FROM request WHERE labno='$labno' AND id=$id AND dsrno='$dsrno'");
+            if(!$fetch_equipment)
+            {
+                echo mysqli_error($conn);
+                die();
+            }
+        }
+
     }
     //If a user is logged in and is not a student
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='student')
@@ -67,6 +105,7 @@
                     <th scope="col">Desc1</th>
                     <th scope="col">Desc2</th>
                     <th scope="col">Cost</th>
+                    <th scope="col">Request Quantity</th>
                     <th scope="col">Request</th>
                     <!-- <th scope="col">View<br></th> -->
                 </tr>
@@ -74,20 +113,24 @@
             <?php
                     // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
                     
-                        $sql_table_display = "SELECT * 
-                                            FROM $labno";
-                        $result_table_display = mysqli_query($conn, $sql_table_display);
-                        if(!$result_table_display){
-                            echo "There is some problem in the connection.";
-                            return;
-                        }
+                    $sql_table_display = "SELECT * 
+                                        FROM $labno";
+                    $result_table_display = mysqli_query($conn, $sql_table_display);
+                    if(!$result_table_display){
+                        echo "There is some problem in the connection.";
+                        return;
+                    }
                     
                     $num = mysqli_num_rows($result_table_display);
                     while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
                     {    
+                        $dsrno=$row['dsrno'];
+                        
                         ?>
                         <tr>
-                            <form action="view.php" method="post">
+                            <form action="lab.php" method="post">
+                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                 <td><?php echo $row['eqname']?></td>
                                 <td><?php echo $row['eqtype']?></td>
                                 <td><?php echo $row['dsrno']?></td>
@@ -95,19 +138,41 @@
                                 <td><?php echo $row['desc1'] ?></td>
                                 <td> <?php echo $row['desc2'] ?> </td>
                                 <td> <?php echo $row['cost'] ?> </td>
-                                <td>
-                                    
-                                    <button class="button1" name="lab">
-                                        Request
-                                    </button>
-                                </td>
-                    </form>
+                                <?php
+                                    $fetch_requested=mysqli_query($conn,"SELECT quantity FROM request WHERE dsrno='$dsrno' AND labno='$labno' AND id=$id");
+                                    $quan=mysqli_fetch_array($fetch_requested,MYSQLI_ASSOC);
+                                    if(mysqli_num_rows($fetch_requested)==1)
+                                    {
+                                        ?>
+                                        <td><?php echo $quan['quantity'];?></td>
+                                        <td>
+                                            <button class="button1" name="delrequest">
+                                                Delete Request
+                                            </button>
+                                        </td>
+                                        <?php 
+                                    }
+                                    else if(mysqli_num_rows($fetch_requested)==0)
+                                    {
+                                        ?>
+                                        <td><input type="number" name="quan"></td>
+                                        <td>
+                                            <button class="button1" name="request">
+                                                Request
+                                            </button>
+                                        </td>
+                                        <?php 
+                                    }
+                                    ?>
+                                        
+                                
+                            </form>
+                        </tr>
 
-                 <?php
+                        <?php
                     }
-                 ?>
+                    ?>
             <tbody>
-
     </body>
 </html>
 
