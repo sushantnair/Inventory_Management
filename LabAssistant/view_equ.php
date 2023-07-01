@@ -224,7 +224,7 @@
                             <td><?php echo $row['eqname'];?></td>
                             <td><?php echo $row['eqtype'];?></td>
                             <td><?php echo $row['dsrno'];?></td>
-                            <td><?php echo $row['quantity'];?></td>
+                            <td><?php echo $row['quantity']." + ".$row['toquan'];?> </td>
                             <td><?php echo $row['desc1'];?></td>
                             <td><?php echo $row['desc2'];?></td>
                             <td><?php echo $row['cost'];?></td>

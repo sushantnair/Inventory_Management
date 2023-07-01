@@ -17,7 +17,6 @@
             $lendto=$_POST['labno'];
             $dsrno=$_POST['dsrno'];
             $requan=$_POST['requan'];
-
             //FIND LENDING LAB DETAILS
             $query=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno'");
             $row=mysqli_fetch_array($query,MYSQLI_ASSOC);
@@ -25,50 +24,74 @@
             $lendquan=$row['lendquan'];     //QUANTITY OF LENT EQUIPMENT
             if($requan==$lendquan)
             {
-                
-            }
-            //DELETE FROM LEND TABLE
-            $remove_lend=mysqli_query($conn,"DELETE FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom'");
-            if(!$remove_lend)
-            {
-                echo "ERR1";
-                echo mysqli_error($conn);
-                die();
-            }
-            else
-            {
-                //DELETE FROM TABLE OF RETURNING LAB
-                $remove_lendfrom = mysqli_query($conn," DELETE FROM $lendto 
-                                                        WHERE dsrno='$dsrno'");
-                
-                // UPDATE VALUES IN ORIGINAL TABLE
-                $remove_lendto1 = mysqli_query($conn,"  UPDATE $lendfrom 
-                                                        SET toquan=0 
-                                                        WHERE dsrno='$dsrno'");
-
-                $remove_lendto2 = mysqli_query($conn,"  UPDATE $lendfrom 
-                                                        SET quantity=(quantity+$lendquan) 
-                                                        WHERE dsrno='$dsrno'");
-
-                if(!$remove_lendfrom)
+                //DELETE FROM LEND TABLE
+                $remove_lend=mysqli_query($conn,"DELETE FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom'");
+                if(!$remove_lend)
                 {
-                    echo "Error in deleting from recieving lab's table<br>";
+                    echo "ERR1";
                     echo mysqli_error($conn);
                     die();
                 }
+                else
+                {
+                    //DELETE FROM TABLE OF RETURNING LAB
+                    $remove_lendfrom = mysqli_query($conn," DELETE FROM $lendto WHERE dsrno='$dsrno'");
+                    if(!$remove_lendfrom)
+                    {
+                        echo "ERR1";
+                        echo mysqli_error($conn);
+                        die();
+                    }
+                }
+            }
+            else
+            {
+                echo $lendfrom;
+                echo $dsrno;
+                $reduce_lend_table=mysqli_query($conn,"UPDATE lend SET lendquan=lendquan-$requan WHERE (lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom')");
+                if(!$reduce_lend_table)
+                {
+                    echo "ERR1";
+                    echo mysqli_error($conn);
+                    die();
+                }
+                else
+                {
+                    $reduce_lend_this_lab = mysqli_query($conn,"UPDATE $lendto SET quantity=(quantity-$requan) ,byquan=(byquan-$requan) WHERE dsrno='$dsrno'");
+                    if(!$reduce_lend_this_lab)
+                    {
+                        echo "ERR1";
+                        echo mysqli_error($conn);
+                        die();
+                    }
+                }
+            }
+            
+                
+                
+                // UPDATE VALUES IN ORIGINAL TABLE
+                $remove_lendto1 = mysqli_query($conn,"  UPDATE $lendfrom 
+                                                        SET toquan=(toquan-$requan), quantity=(quantity+$requan)
+                                                        WHERE dsrno='$dsrno'");
+
+                // $remove_lendto2 = mysqli_query($conn,"  UPDATE $lendfrom 
+                //                                         SET quantity=(quantity+$requan) 
+                //                                         WHERE dsrno='$dsrno'");
+
+                
                 if(!$remove_lendto1)
                 {
                     echo "Error 1 in updating from original lab's table<br>";
                     echo mysqli_error($conn);
                     die();
                 }
-                if(!$remove_lendto2)
-                {
-                    echo "Error 2 in updating from original lab's table<br>";
-                    echo mysqli_error($conn);
-                    die();
-                }
-            }
+                // if(!$remove_lendto2)
+                // {
+                //     echo "Error 2 in updating from original lab's table<br>";
+                //     echo mysqli_error($conn);
+                //     die();
+                // }
+            
         }
         if(isset($_POST['lend']))
         {
@@ -113,14 +136,13 @@
                             echo mysqli_error($conn);
                             die();
                         }
-                        // $delete_request=mysqli_query($conn,"DELETE FROM request WHERE (labno='$lendfrom' AND dsrno='$dsrno' AND id='$lendto') ");
-                        // if(!$delete_request)    //error in executing query
-                        // {
-                        //     echo "Error in inserting new lending transaction<br>";
-                        //     echo mysqli_error($conn);
-                        //     die();
-                        // }
-                        // echo "Same equipment previosuly lent";
+                        $delete_request=mysqli_query($conn,"DELETE FROM request WHERE (labno='$lendfrom' AND dsrno='$dsrno' AND id='$lendto') ");
+                        if(!$delete_request)    //error in executing query
+                        {
+                            echo "Error in inserting new lending transaction<br>";
+                            echo mysqli_error($conn);
+                            die();
+                        }
                     }
                     else
                     {
@@ -155,6 +177,19 @@
             }
                 
 
+        }
+        if(isset($_POST['deny']))
+        {
+            $lendfrom=$_POST['labno'];
+            $dsrno=$_POST['dsrno'];
+            $lendto=$_POST['lendto'];
+            $deny_request=mysqli_query($conn,"DELETE FROM request WHERE labno='$lendfrom' AND dsrno='$dsrno' AND id='$lendto'");
+            if(!$deny_request)    //error in executing query
+            {
+                echo "Error in inserting new lending transaction<br>";
+                echo mysqli_error($conn);
+                die();
+            }
         }
         
     }
@@ -364,18 +399,26 @@
                                 <td><?php echo $eqrow['desc1'];?></td>
                                 <td><?php echo $eqrow['desc2'];?></td>
                                 <td><?php echo $row['id'];?></td>
-                                <form action="lent_equ.php" method="post">
-                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
-                                
-                                <td><input type="number" name="lendquan" id="lendquan" min ="1" max="<?php echo $row['quantity'];?>" style="width:150px;" placeholder="Lending Quantity" required>
-                                    <button class="button1" type="submit" name="lend"> 
-                                        Lend
-                                    </button>
+                                <td>
+                                    <form action="lent_equ.php" method="post" >
+                                        <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                        <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                        <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
+                                        <input type="number" name="lendquan" id="lendquan" min ="1" max="<?php echo $row['quantity'];?>" style="width:150px;" placeholder="Lending Quantity" required>
+                                        <button class="button1" type="submit" name="lend"> 
+                                            Lend
+                                        </button>
+                                    </form>
+                                    <form action="lent_equ.php" method="post">
+                                        <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                        <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                        <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
+                                        
+                                        <button class="button1" type="submit" name="deny"> 
+                                            Deny
+                                        </button>
+                                    </form>
                                 </td>
-
-                                </form>
                                 </tr>
                             <?php
                             }
