@@ -1,5 +1,9 @@
 <?php
 include('../connection.php');
+include('../Components/SimpleXLS.php');
+include('../Components/SimpleXLSX.php');
+use Shuchkin\SimpleXLS;
+use Shuchkin\SimpleXLSX;
 $target_dir = "uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
@@ -30,8 +34,8 @@ if ($_FILES["fileToUpload"]["size"] > 500000) {
 }
 
 // Allow certain file formats
-if($imageFileType != "csv") {
-  echo "Sorry, only CSV files are allowed.";
+if($imageFileType != "csv" && $imageFileType != "xlsx" && $imageFileType != "xls") {
+  echo "Sorry, only CSV, XLS and XLSX files are allowed.";
   $uploadOk = 0;
 }
 
@@ -48,12 +52,28 @@ if ($uploadOk == 0) {
 }
 
 if ($uploadOk != 0) {
+  if($imageFileType == "csv"){
     if (($open = fopen($target_file, "r")) !== false) {
         while (($data = fgetcsv($open, 1000, ",")) !== false) {
             $array[] = $data;
         }
         fclose($open);
     }
+  } else if($imageFileType == "xlsx"){
+
+    if ( $xlsx = SimpleXLSX::parse($target_file) ) {
+        $array = $xlsx->rows();
+    } else {
+      echo SimpleXLSX::parseError();
+    }
+  } else if($imageFileType == "xls"){
+
+    if ( $xls = SimpleXLS::parse($target_file) ) {
+        $array = $xls->rows();
+    } else {
+      echo SimpleXLS::parseError();
+    }
+  }
 
     for ($row = 1; $row < count($array); $row++) {
         $dept = $_POST['dept'];

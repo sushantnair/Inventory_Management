@@ -56,7 +56,7 @@
   <input type="file" name="fileToUpload" id="fileToUpload">
   <input type="text" name="labno" id="labno" value="<?php echo $labno; ?>" hidden>
   <input type="text" name="dept" id="dept" value="<?php echo $dept; ?>" hidden>
-  <input type="submit" value="Upload Image" name="submit">
+  <input type="submit" value="Upload Excel file" name="submit">
 </form>
 
 </body>
