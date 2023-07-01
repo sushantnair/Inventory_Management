@@ -45,7 +45,7 @@
     justify-content: center;
 }
     #para{
-      background-color: ;
+      /* background-color: red; */
       /* height: 100%;
       width: 50%; */
       
