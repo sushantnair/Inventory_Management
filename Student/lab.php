@@ -157,7 +157,7 @@
                                     else if(mysqli_num_rows($fetch_requested)==0)
                                     {
                                         ?>
-                                                <td><input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" style="width:150px;" pplaceholder="Return quantity" required></td>                                
+                                                <td><input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" style="width:150px;" placeholder="Request Quantity" required></td>                                
                                         <td>
                                             <button class="button1" name="request">
                                                 Request

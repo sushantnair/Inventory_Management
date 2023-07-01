@@ -341,7 +341,7 @@
                                 <td><form action="lent_equ.php" method="post">
                                     <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                     <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                    <input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" style="width:150px;" pplaceholder="Return quantity" required>
+                                    <input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['lendquan'];?>" style="width:150px;" placeholder="Return quantity" required>
                                     <button class="button1" type="submit" name="return"> 
                                         Return
                                     </button>
@@ -404,7 +404,7 @@
                                         <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                                         <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                         <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
-                                        <input type="number" name="lendquan" id="lendquan" min ="1" max="<?php echo $row['quantity'];?>" style="width:150px;" placeholder="Lending Quantity" required>
+                                        <input type="number" name="lendquan" id="lendquan" min ="1" max="<?php if($row['quantity']>$eqrow['quantity']) echo $eqrow['quantity']; else echo $row['quantity'];?>" style="width:150px;" placeholder="Lending Quantity" required>
                                         <button class="button1" type="submit" name="lend"> 
                                             Lend
                                         </button>

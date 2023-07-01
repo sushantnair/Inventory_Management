@@ -44,7 +44,7 @@
                     // IF NO SAME EQUIPMENT WITH SAME NAME AND SAME DSR-NUMBER STORED EARLIER
                     if(mysqli_num_rows(mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsr'"))==0)
                     {
-                        mysqli_query($conn,"INSERT INTO $labno(eqname,eqtype,dsrno,quantity,desc1,desc2,cost,byquan) values('$eqname','$eqtype','$dsr',$quantity,'$desc1','$desc2','$cost',0)");
+                        mysqli_query($conn,"INSERT INTO $labno(eqname,eqtype,dsrno,quantity,desc1,desc2,cost) values('$eqname','$eqtype','$dsr',$quantity,'$desc1','$desc2','$cost')");
                     }
                     else 
                     {
@@ -192,7 +192,7 @@
                     <td><input type="text" name='eqname' id='eqname' placeholder="Enter Equipment Name" required></td>
                     <td>
                         <select id="eqtype" name="eqtype" placeholder="Equipment Type" required>
-                            <option value="0" selected>Other</option>
+                            <option value="0" selected>None</option>
                             <option value="Software">Software</option>
                             <option value="Hardware">Hardware</option>
                             <option value="Furniture">Furniture</option>

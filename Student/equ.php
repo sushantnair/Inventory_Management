@@ -151,7 +151,7 @@
                                             <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                                             <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                             <td>
-                                                <input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['lendquan'];?>" style="width:150px;" pplaceholder="Return quantity" required>                                
+                                                <input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['lendquan'];?>" style="width:150px;" placeholder="Return quantity" required>                                
                                                 <button class="button1" type="submit" name="return"> 
                                                     Return
                                                 </button>
