@@ -391,6 +391,8 @@
                             $eqrow=mysqli_fetch_array($equ_details,MYSQLI_ASSOC);
                             ?>
                                 
+
+                                
                                 <tr>
                                 <td><?php echo $eqrow['eqname'];?></td>
                                 <td><?php echo $eqrow['dsrno'];?></td>
