@@ -15,7 +15,7 @@
 
             $dsrno=$_POST['dsrno']; 
             $labno=$_POST['labno'];  //REQUEST FROM LAB
-            $quantity=$_POST['quan'];   //REQUESTING QUANTITY
+            $quantity=$_POST['requan'];   //REQUESTING QUANTITY
             $fetch_equipment=mysqli_query($conn,"SELECT * FROM request WHERE labno='$labno' AND id=$id AND dsrno='$dsrno'");
             if(!$fetch_equipment)
             {
@@ -39,9 +39,8 @@
 
             $dsrno=$_POST['dsrno']; 
             $labno=$_POST['labno'];  //REQUEST FROM LAB
-            $quantity=$_POST['quan'];   //REQUESTING QUANTITY
-            $fetch_equipment=mysqli_query($conn,"DELETE FROM request WHERE labno='$labno' AND id=$id AND dsrno='$dsrno'");
-            if(!$fetch_equipment)
+            $delete_request=mysqli_query($conn,"DELETE FROM request WHERE labno='$labno' AND id=$id AND dsrno='$dsrno'");
+            if(!$delete_request)
             {
                 echo mysqli_error($conn);
                 die();
@@ -89,6 +88,9 @@
         <button onclick="window.location.href='view.php'"> 
             View Labs
         </button>
+        <button onclick="window.location.href='equ.php'"> 
+            View Equipment and Requests
+        </button>
         <button onclick="window.location.href='../logout.php'"> 
            Signout
         </button>
@@ -114,7 +116,7 @@
                     // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
                     
                     $sql_table_display = "SELECT * 
-                                        FROM $labno";
+                                        FROM $labno WHERE dsrno LIKE '%$labno%'";
                     $result_table_display = mysqli_query($conn, $sql_table_display);
                     if(!$result_table_display){
                         echo "There is some problem in the connection.";
@@ -155,7 +157,7 @@
                                     else if(mysqli_num_rows($fetch_requested)==0)
                                     {
                                         ?>
-                                        <td><input type="number" name="quan"></td>
+                                                <td><input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" style="width:150px;" pplaceholder="Return quantity" required></td>                                
                                         <td>
                                             <button class="button1" name="request">
                                                 Request

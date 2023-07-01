@@ -44,6 +44,10 @@
             View Labs
         </button>
         <br>
+        <button class="btn btn-primary btn-block" onclick="window.location.href='equ.php'"> 
+            View Equipment and Requests
+        </button>
+        <br>
         <button class="btn btn-primary btn-block" onclick="window.location.href='../logout.php'"> 
            Signout
         </button>

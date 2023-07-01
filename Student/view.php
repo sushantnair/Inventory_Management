@@ -44,6 +44,9 @@
         <button onclick="window.location.href='view.php'"> 
             View Labs
         </button>
+        <button onclick="window.location.href='equ.php'"> 
+            View Equipment and Requests
+        </button>
         <button onclick="window.location.href='../logout.php'"> 
            Signout
         </button>

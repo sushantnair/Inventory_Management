@@ -57,7 +57,7 @@
                     // SAME EQUIPMENT PRESENT, UPDATE QUANTITY 
                     $row2=mysqli_fetch_array($sql2,MYSQLI_ASSOC);
                     $qu=$row2['quantity'];  // OLD QUANTITY
-                    mysqli_query($conn,"UPDATE $labno set quantity=($quantity+$qu) where eqname='$eqname' AND dsrno='$dsrno'");
+                    mysqli_query($conn,"UPDATE $labno set quantity=($quantity+$qu) WHERE dsrno='$dsrno'");
                 }
             }
             
