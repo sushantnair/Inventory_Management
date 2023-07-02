@@ -287,6 +287,7 @@
                     </td>
                     <td><input type="text" name='dsrno' id='dsrno' placeholder="DSR No." required></td>
                     <td><input type="number" name='quantity' id='quantity' placeholder="Quantity" required></td>
+                    <td></td>
                     <td><input type="text" name='desc1' placeholder="Description 1" id='desc1'></td>
                     <td><input type="text" name='desc2' placeholder="Description 2" id='desc2'></td>
                     <td><input type="number" step="0.01" name='cost' placeholder="Cost" id='cost'></td>
@@ -333,13 +334,7 @@
                                         Delete
                                     </button>
                                 </form>
-                                <form action="lend.php" method="post">
-                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                    <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                    <button class="button1" type="submit" name="lend"> 
-                                        Lend
-                                    </button>
-                                </form>
+                                
                                 <?php 
                             }
                             else 
@@ -355,6 +350,13 @@
                                 <?php
                             }
                             ?>
+                            <form action="lend.php" method="post">
+                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                    <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                    <button class="button1" type="submit" name="lend"> 
+                                        Lend
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         <?php

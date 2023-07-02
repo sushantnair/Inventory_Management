@@ -36,35 +36,84 @@
             $lendfrom=$_POST['labno'];  //LEND FROM
             $lendquan=$_POST['lendquan'];   //LENDING QUANTITY
             $lendto=$_POST['lendid']; //LEND TO
+            if($lendto=='0')
+                header("Location:view_equ.php");
 
             $fetch_equipment=mysqli_query($conn,"SELECT * FROM $lendfrom WHERE dsrno='$dsrno'");
-            if(!$fetch_equipment)
-            {
-                echo mysqli_error($conn);
-                die();
-            }
-            else
-            {
-                //FETCH EQUIPMENT DETAILS
-                $eqrow=mysqli_fetch_array($fetch_equipment,MYSQLI_ASSOC);
-                $eqtype=$eqrow['eqtype'];
-                
-                //STORE EQUIPMENT DETAILS
-                $eqname=$eqrow['eqname'];
-                $quantity=$eqrow['quantity'];
-                $desc1=$eqrow['desc1'];
-                $desc2=$eqrow['desc2'];
-                $cost=$eqrow['cost'];
-                
-                if($lendto!='0')
-                {
+            
+            //FETCH EQUIPMENT DETAILS
+            $eqrow=mysqli_fetch_array($fetch_equipment,MYSQLI_ASSOC);
+            
+            //STORE EQUIPMENT DETAILS
+            $eqname=$eqrow['eqname'];
+            $eqtype=$eqrow['eqtype'];
+            $quantity=$eqrow['quantity'];
+            $desc1=$eqrow['desc1'];
+            $desc2=$eqrow['desc2'];
+            $cost=$eqrow['cost'];
+            
+            
+            $check_ownership=mysqli_query($conn,"SELECT * FROM lend WHERE dsrno='$dsrno' AND lendto='$lendfrom'");
 
+            if(mysqli_num_rows($check_ownership)==1)
+            {
+                $fetch_owner=mysqli_fetch_array($check_ownership,MYSQLI_ASSOC);
+                $orignal_labno=$fetch_owner['lendfrom'];
+                $orignal_lend_quan=$fetch_owner['lendquan'];
+
+
+                if($orignal_lend_quan==$lendquan)   //ALL EQUIPMENTS BEING LEND FROM LAB-B TO LAB-C (OWNED BY LAB-A)
+                {
+                    $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                    if(mysqli_num_rows($check_prev_lend)==0)    //LAB-C NOT LENT SAME EQUIPMENT FROM LAB-A
+                    {
+                        //SHIFT 'lend' TRANSACTION 'lendto' FROM LAB-B TO LAB-C
+                        $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendto='$lendto' WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                        $create_reciever_quantity=mysqli_query($conn,"INSERT INTO $lendto (eqname,dsrno,quantity,byquan,eqtype,desc1,desc2,cost) values('$eqname','$dsrno',$lendquan,$lendquan,'$eqtype','$desc1','$desc2',$cost)");
+                    }
+                    else    //LAB-C PREVIOUSLY LENT SAME EQUIPMENT FROM LAB-A
+                    {
+                        $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan+$lendquan) WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                        $delete_old_transaction=mysqli_query($conn,"DELETE FROM lend WHERE lendto='$lendfrom' AND dsrno='$dsrno'");
+                        $update_reciever_quantity=mysqli_query($conn,"UPDATE $lendto SET byquan=(byquan+$lendquan),quantity=(quantity+$lendquan) WHERE dsrno='$dsrno'");
+                        
+                    }
+                        //DELETE FROM LAB-B
+                    $remove_old_lend=mysqli_query($conn,"DELETE FROM $lendfrom WHERE dsrno='$dsrno'");
+
+                        
+                }
+                else    //SOME EQUIPMENTS BEING LEND TO LAB-C
+                {
+                    $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                    if(mysqli_num_rows($check_prev_lend)==0)    //LAB-C NOT LENT SAME EQUIPMENT FROM LAB-A
+                    {                        
+                        $insert_transaction=mysqli_query($conn,"INSERT INTO lend(lendfrom,dsrno,lendquan,lendto) values('$orignal_labno','$dsrno',$lendquan,'$lendto')");
+                        $modify_old=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan-$lendquan) WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                        $create_reciever_quantity=mysqli_query($conn,"INSERT INTO $lendto (eqname,dsrno,quantity,byquan,eqtype,desc1,desc2,cost) values('$eqname','$dsrno',$lendquan,$lendquan,'$eqtype','$desc1','$desc2',$cost)");
+
+                    }                    
+                    else    //LAB-C PREVIOUSLY LENT SAME EQUIPMENT FROM LAB-A
+                    {
+                        $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan+$lendquan) WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                        $modify_old=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan-$lendquan) WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                        $update_reciever_quantity=mysqli_query($conn,"UPDATE $lendto SET byquan=(byquan+$lendquan),quantity=(quantity+$lendquan) WHERE dsrno='$dsrno'");
+
+                    }
+                    //SUBTRACT FROM LAB-B
+                    $update_old_lend=mysqli_query($conn,"UPDATE $lendfrom SET quantity=quantity-$lendquan, byquan=byquan-$lendquan WHERE dsrno='$dsrno'");
+
+                
+                }
+            }
+            else 
+            {
                     //INSERT TRANSACTION IN LEND TABLE
                     $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom'");
                     if(mysqli_num_rows($check_prev_lend)==0)
-                    $insert_transaction=mysqli_query($conn,"INSERT into lend(lendfrom,dsrno,lendquan,lendto) VALUES('$lendfrom','$dsrno',$lendquan,'$lendto')");
+                        $insert_transaction=mysqli_query($conn,"INSERT into lend(lendfrom,dsrno,lendquan,lendto) VALUES('$lendfrom','$dsrno',$lendquan,'$lendto')");
                     else
-                    $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan+$lendquan) WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom'");
+                        $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan+$lendquan) WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom'");
                     if(!$insert_transaction)
                     {
                         echo mysqli_error($conn);
@@ -115,11 +164,14 @@
                             
                         }
                         
-                    }
-                    header("Location:view_equ.php");
                     
-                }
+                    // header("Location:view_equ.php");
+                    
+                
+                    }
             }
+
+            
 
             
         }
@@ -185,7 +237,7 @@
         <select type="number" name="lendid" id="lendid">
             <option value="0">None</option>
             <?php
-                $fetch_labs=mysqli_query($conn,"SELECT * FROM labs WHERE NOT labno='$labno'");
+                $fetch_labs=mysqli_query($conn,"SELECT * FROM labs WHERE NOT labno='$labno' AND labno NOT IN (SELECT lendfrom FROM lend WHERE dsrno='$dsrno' AND lendto='$labno')");
                 while($lab_row=mysqli_fetch_array($fetch_labs,MYSQLI_ASSOC))
                 {
                     $labname=$lab_row['labname'];
