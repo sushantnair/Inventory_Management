@@ -101,16 +101,59 @@
             $lendquan=$_POST['lendquan'];
             $lendto=$_POST['lendto'];
             
-            //FETCH SPECIFIC EQUIPMENT DATA FROM LAB TABLE
-            $fetch_equipment=mysqli_query($conn,"SELECT * FROM $lendfrom WHERE dsrno='$dsrno'");
-            if(!$fetch_equipment)   //Error in fetching equipment data
+            $check_ownership=mysqli_query($conn,"SELECT * FROM lend WHERE dsrno='$dsrno' AND lendto='$lendfrom'");
+
+            if(mysqli_num_rows($check_ownership)==1)    //OWNED BY OTHER LAB
             {
-                echo mysqli_error($conn);
-                die();
+                $fetch_owner=mysqli_fetch_array($check_ownership,MYSQLI_ASSOC);
+                $orignal_labno=$fetch_owner['lendfrom'];
+                $orignal_lend_quan=$fetch_owner['lendquan'];
+
+
+                if($orignal_lend_quan==$lendquan)   //ALL EQUIPMENTS BEING LEND FROM LAB-B TO Student (OWNED BY LAB-A)
+                {
+                    $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                    if(mysqli_num_rows($check_prev_lend)==0)    //STUDENT NOT LENT SAME EQUIPMENT FROM LAB-A
+                    {
+                        //SHIFT 'lend' TRANSACTION 'lendto' FROM LAB-B TO Student
+                        $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendto='$lendto' WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                    }
+                    else    //STUDENT PREVIOUSLY LENT SAME EQUIPMENT FROM LAB-A
+                    {
+                        $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan+$lendquan) WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                        $delete_old_transaction=mysqli_query($conn,"DELETE FROM lend WHERE lendto='$lendfrom' AND dsrno='$dsrno'");
+                        
+                    }
+                    //DELETE FROM LAB-B
+                    $remove_old_lend=mysqli_query($conn,"DELETE FROM $lendfrom WHERE dsrno='$dsrno'");
+                }
+                else
+                {
+                    $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                    if(mysqli_num_rows($check_prev_lend)==0)    //STUDENT NOT LENT SAME EQUIPMENT FROM LAB-A
+                    {                        
+                        $insert_transaction=mysqli_query($conn,"INSERT INTO lend(lendfrom,dsrno,lendquan,lendto) values('$orignal_labno','$dsrno',$lendquan,'$lendto')");
+                        $modify_old=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan-$lendquan) WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                    }                    
+                    else    //STUDENT PREVIOUSLY LENT SAME EQUIPMENT FROM LAB-A
+                    {
+                        $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan+$lendquan) WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                        $modify_old=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan-$lendquan) WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
+                    }
+                    //SUBTRACT FROM LAB-B
+                    $update_old_lend=mysqli_query($conn,"UPDATE $lendfrom SET quantity=quantity-$lendquan, byquan=byquan-$lendquan WHERE dsrno='$dsrno'");
+
+                }
+                $delete_request=mysqli_query($conn,"DELETE FROM request WHERE (labno='$lendfrom' AND dsrno='$dsrno' AND id='$lendto') ");
+                if(!$delete_request)    //error in executing query
+                {
+                    echo "Error in inserting new lending transaction<br>";
+                    echo mysqli_error($conn);
+                    die();
+                }
             }
-            else
+            else    //OWNED BY THIS LAB
             {
-                //CHECK IF SAME EQUIPMENT HAS BEEN LENT TO SAME STUDENT/PROFESSOR
                 $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendfrom='$lendfrom' AND dsrno='$dsrno' AND lendto='$lendto'");
                 if(!$check_prev_lend)   //error in executing query
                 {
@@ -172,9 +215,13 @@
                         }
                     }
                 }
+            }            
+
+                //CHECK IF SAME EQUIPMENT HAS BEEN LENT TO SAME STUDENT/PROFESSOR
+                
                 
 
-            }
+            
                 
 
         }

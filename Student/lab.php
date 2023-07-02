@@ -116,7 +116,7 @@
                     // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
                     
                     $sql_table_display = "SELECT * 
-                                        FROM $labno WHERE dsrno LIKE '%$labno%'";
+                                        FROM $labno";
                     $result_table_display = mysqli_query($conn, $sql_table_display);
                     if(!$result_table_display){
                         echo "There is some problem in the connection.";
