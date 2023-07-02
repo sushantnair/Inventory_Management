@@ -3,6 +3,20 @@ html,body{
   padding: 0;
 }
 
+.icon {
+  margin-top: 0.8rem;
+}
+
+.form-floating > .form-control,
+.form-floating > .label {
+  padding-left: 4rem;
+}
+
+.form-control, .form-select {
+  background-color: #f2f2f2;
+  border: none;
+}
+
 /* 
     body {
       font-family: Arial, sans-serif;
