@@ -156,7 +156,7 @@
             </div>
         </div>
     </div>
-    <h1><u>KJSCE Inventory Management</u></h1>
+    <!-- <h1><u>KJSCE Inventory Management</u></h1>
     <h2>Login</h2>
     <form action="login.php" method="POST">
       <label for="email">Email</label>
@@ -169,6 +169,6 @@
     </form>
     <p>Don't have an account? <a href="signup_form.php"><button>Signup</button></a></p>
   
-  </div>
+  </div> -->
 </body>
 </html>
