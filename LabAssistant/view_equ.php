@@ -57,19 +57,22 @@
                     // SAME EQUIPMENT PRESENT, UPDATE QUANTITY 
                     $row2=mysqli_fetch_array($sql2,MYSQLI_ASSOC);
                     $qu=$row2['quantity'];  // OLD QUANTITY
-                    mysqli_query($conn,"UPDATE $labno set quantity=($quantity+$qu) WHERE dsrno='$dsrno'");
+                    mysqli_query($conn,"UPDATE $labno set quantity=($quantity+$qu) WHERE dsrno='$dsr'");
                 }
             }
             
         }
         if(isset($_POST['delete'])) //IF DELETING EQUIPMENT
         {
-            // $eqname=$_POST['eqname'];
             $dsrno=$_POST['dsrno'];
-            $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
-            $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
-            $labno=$row1['labno'];
+            $labno=$_POST['labno'];
             $sql1=mysqli_query($conn,"DELETE FROM $labno WHERE dsrno='$dsrno'");
+        }
+        if(isset($_POST['delete_lend'])) //IF DELETING LENT EQUIPMENT
+        {
+            $dsrno=$_POST['dsrno'];
+            $labno=$_POST['labno'];
+            $sql1=mysqli_query($conn,"UPDATE $labno SET quantity=0 WHERE dsrno='$dsrno'");
         }
         if(isset($_POST['return']))
         {
@@ -113,6 +116,37 @@
                 }
             }
         }
+        if (isset($_POST['update'])) {
+            $eqname = $_POST['name'];
+            $eqtype = $_POST['type'];
+            $dsrno = $_POST['dsr'];
+            $quantity = $_POST['quant'];
+            $desc1 = $_POST['description1'];
+            $desc2 = $_POST['description2'];
+            $cost = $_POST['cost'];
+      
+            $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+                    
+            $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+            if(!$row1)
+            {
+                echo mysqli_error($conn);
+                die();
+            }
+            
+            $labno=$row1['labno'];   //LAB-NUMBER
+      
+            $updateQuery = "UPDATE $labno SET eqname='$eqname', eqtype='$eqtype', dsrno='$dsrno', quantity='$quantity', desc1='$desc1', desc2='$desc2', cost='$cost' WHERE dsrno='$dsrno'";
+            $result = mysqli_query($conn, $updateQuery);
+      
+            if ($result) {
+                // Update successful
+                echo "Update successful!";
+            } else {
+                // Update failed
+                echo "Update failed: " . mysqli_error($conn);
+            }
+        }
         
     }
     //If a user is logged in and is not a lab-assistant
@@ -132,37 +166,7 @@
         header('Location:../logout.php');
     }
 
-    if (isset($_POST['update'])) {
-      $eqname = $_POST['name'];
-      $eqtype = $_POST['type'];
-      $dsrno = $_POST['dsr'];
-      $quantity = $_POST['quant'];
-      $desc1 = $_POST['description1'];
-      $desc2 = $_POST['description2'];
-      $cost = $_POST['cost'];
-
-      $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
-              
-      $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
-      if(!$row1)
-      {
-          echo mysqli_error($conn);
-          die();
-      }
-      
-      $labno=$row1['labno'];   //LAB-NUMBER
-
-      $updateQuery = "UPDATE $labno SET eqname='$eqname', eqtype='$eqtype', dsrno='$dsrno', quantity='$quantity', desc1='$desc1', desc2='$desc2', cost='$cost' WHERE dsrno='$dsrno'";
-      $result = mysqli_query($conn, $updateQuery);
-
-      if ($result) {
-          // Update successful
-          echo "Update successful!";
-      } else {
-          // Update failed
-          echo "Update failed: " . mysqli_error($conn);
-      }
-  }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -170,9 +174,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IM-KJSCE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="CSS/styles.css">
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
     <style>
     .popup {
@@ -266,7 +273,7 @@
                     <th scope="col">Lent Quantity</th>
                     <th scope="col">Description 1</th>
                     <th scope="col">Description 2</th>
-                    <th scope="col">Cost</th>
+                    <th scope="col">Cost/Item</th>
                     <th scope="col">Update<br></th>
                 </tr>
             </thead>
@@ -293,7 +300,7 @@
                     <td><input type="number" step="0.01" name='cost' placeholder="Cost" id='cost'></td>
 
                     <td>
-                        <button class="button1" type="submit" name="addeq"> 
+                        <button class="btn btn-success" type="submit" name="addeq"> 
                             Add
                         </button>
                     </td>
@@ -325,15 +332,48 @@
                             if($row['byquan']==0)
                             {
                                 ?>
-                                <button class="button1" onclick="openPopup(<?php echo$v;?>)"> 
+                                    <button class="btn btn-success" onclick="openPopup(<?php echo$v;?>)"> 
                                         Update
                                     </button>
-                                <form action="view_equ.php" method="post">
-                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                    <button class="button1" type="submit" name="delete"> 
+                                    <!-- Button trigger modal -->
+                                    
+                                    <button type="submit" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
                                         Delete
                                     </button>
-                                </form>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="staticBackdrop<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-danger" id="staticBackdropLabel">Warning</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <?php
+                                                if($row['toquan']>0)
+                                                {
+                                                    echo "This equipment has been lent to other labs.<br>Are you sure you want to delete the equipment you have?<br>This action cannot be reversed<br>(This will not delete the equipments lent to others)";
+                                                }
+                                                else
+                                                {
+                                                    echo "Are you sure you want to permanently delete this equipment?<br>This action cannot be reversed";
+                                                }
+                                                    
+                                            ?>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn alert-danger" data-bs-dismiss="modal">Cancel</button>
+                                            <form action="" method="post">  
+                                                <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">              
+                                                <button type="submit" name="<?php if($row['toquan']>0) echo "delete_lend"; else echo "delete";?>" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+        
                                 
                                 <?php 
                             }
@@ -343,7 +383,7 @@
                                 <form action="view_equ.php" method="post">
                                     <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                     <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                    <button class="button1" type="submit" name="return"> 
+                                    <button class="btn btn-success" type="submit" name="return"> 
                                         Return
                                     </button>
                                 </form>
@@ -353,7 +393,7 @@
                             <form action="lend.php" method="post">
                                     <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                                     <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                    <button class="button1" type="submit" name="lend"> 
+                                    <button class="btn btn-success" type="submit" name="lend"> 
                                         Lend
                                     </button>
                                 </form>
@@ -366,6 +406,34 @@
             </tbody>
         </table>
     </div>
+    <?php 
+    if(isset($_POST['delete']))
+    {
+        $dsrno=$_POST['dsrno'];
+        ?>
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">r
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <?php echo $dsrno;?>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Understood</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <?php
+    }
+    
+    ?>
+    
     <div id="popup" class="popup">
     <h2>Update Form</h2>
     <form action="" method="post" id="updateForm">
