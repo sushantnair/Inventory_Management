@@ -10,87 +10,37 @@
         $id=$_SESSION['id'];
 
         // IF RETURNING EQUIPMENT
-        if(isset($_POST['return']))
+        if(isset($_POST['return'])||isset($_POST['returnall']))
         {
 
             //FORM DATA
             $lendto=$_POST['labno'];
             $dsrno=$_POST['dsrno'];
             $requan=$_POST['requan'];
+
             //FIND LENDING LAB DETAILS
             $query=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno'");
             $row=mysqli_fetch_array($query,MYSQLI_ASSOC);
             $lendfrom=$row['lendfrom'];     //LAB EQUIPMENT LENT FROM
             $lendquan=$row['lendquan'];     //QUANTITY OF LENT EQUIPMENT
-            if($requan==$lendquan)
+            if($requan==$lendquan || isset($_POST['returnall']))
             {
                 //DELETE FROM LEND TABLE
                 $remove_lend=mysqli_query($conn,"DELETE FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom'");
-                if(!$remove_lend)
-                {
-                    echo "ERR1";
-                    echo mysqli_error($conn);
-                    die();
-                }
-                else
-                {
-                    //DELETE FROM TABLE OF RETURNING LAB
-                    $remove_lendfrom = mysqli_query($conn," DELETE FROM $lendto WHERE dsrno='$dsrno'");
-                    if(!$remove_lendfrom)
-                    {
-                        echo "ERR1";
-                        echo mysqli_error($conn);
-                        die();
-                    }
-                }
+                
+                //DELETE FROM TABLE OF RETURNING LAB
+                $remove_lendfrom = mysqli_query($conn," DELETE FROM $lendto WHERE dsrno='$dsrno'");
             }
             else
             {
-                echo $lendfrom;
-                echo $dsrno;
                 $reduce_lend_table=mysqli_query($conn,"UPDATE lend SET lendquan=lendquan-$requan WHERE (lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$lendfrom')");
-                if(!$reduce_lend_table)
-                {
-                    echo "ERR1";
-                    echo mysqli_error($conn);
-                    die();
-                }
-                else
-                {
-                    $reduce_lend_this_lab = mysqli_query($conn,"UPDATE $lendto SET quantity=(quantity-$requan) ,byquan=(byquan-$requan) WHERE dsrno='$dsrno'");
-                    if(!$reduce_lend_this_lab)
-                    {
-                        echo "ERR1";
-                        echo mysqli_error($conn);
-                        die();
-                    }
-                }
+                $reduce_lend_this_lab = mysqli_query($conn,"UPDATE $lendto SET quantity=(quantity-$requan) ,byquan=(byquan-$requan) WHERE dsrno='$dsrno'");
             }
             
                 
                 
-                // UPDATE VALUES IN ORIGINAL TABLE
-                $remove_lendto1 = mysqli_query($conn,"  UPDATE $lendfrom 
-                                                        SET toquan=(toquan-$requan), quantity=(quantity+$requan)
-                                                        WHERE dsrno='$dsrno'");
-
-                // $remove_lendto2 = mysqli_query($conn,"  UPDATE $lendfrom 
-                //                                         SET quantity=(quantity+$requan) 
-                //                                         WHERE dsrno='$dsrno'");
-
-                
-                if(!$remove_lendto1)
-                {
-                    echo "Error 1 in updating from original lab's table<br>";
-                    echo mysqli_error($conn);
-                    die();
-                }
-                // if(!$remove_lendto2)
-                // {
-                //     echo "Error 2 in updating from original lab's table<br>";
-                //     echo mysqli_error($conn);
-                //     die();
-                // }
+            // UPDATE VALUES IN ORIGINAL TABLE
+            $remove_lendto = mysqli_query($conn,"  UPDATE $lendfrom SET toquan=(toquan-$requan), quantity=(quantity+$requan)WHERE dsrno='$dsrno'");
             
         }
         if(isset($_POST['lend']))
@@ -263,9 +213,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IM-KJSCE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="CSS/styles.css">
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
 
 </head>
@@ -373,6 +326,7 @@
                                                     
                             $lendfrom=$row['lendfrom'];
                             $dsrno=$row['dsrno'];
+                            $labno=$row['lendto'];
                             $equ_details=mysqli_query($conn,"SELECT * FROM $lendfrom WHERE dsrno='$dsrno'");
                             $eqrow=mysqli_fetch_array($equ_details,MYSQLI_ASSOC);
 
@@ -385,14 +339,63 @@
                                 <td><?php echo $eqrow['desc1'];?></td>
                                 <td><?php echo $eqrow['desc2'];?></td>
                                 <td><?php echo $row['lendfrom'];?></td>
-                                <td><form action="lent_equ.php" method="post">
-                                    <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                    <input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['lendquan'];?>" style="width:150px;" placeholder="Return quantity" required>
-                                    <button class="button1" type="submit" name="return"> 
+                                <td><button name="return" style="width: 80px;" class="btn btn-outline-danger alert-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropreturn<?php echo str_replace('/', '_', strtolower($eqrow['dsrno']));?>">
                                         Return
-                                    </button>
-                                </form></td>
+                                    </button></td>
+                                    <div class="modal fade" id="staticBackdropreturn<?php echo str_replace('/', '_', strtolower($eqrow['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Returning</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <?php
+                                                            $dsrno=$eqrow['dsrno'];
+                                                            echo $dsrno;
+                                                            $fetch_equipment=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
+                                                            $fetch_lab=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$labno' AND dsrno='$dsrno'");
+                                                            
+                                                            $labno_row=mysqli_fetch_array($fetch_lab,MYSQLI_ASSOC);
+                                                            $lendfrom=$labno_row['lendfrom'];
+
+                                                            $eqroww=mysqli_fetch_array($fetch_equipment,MYSQLI_ASSOC);
+                                                            $eqtype=$eqroww['eqtype'];
+                                                            $eqname=$eqroww['eqname'];
+                                                            $quantity=$eqroww['quantity'];
+                                                            echo "Equipment Name: <strong>".$eqname."</strong><br>";
+                                                            echo "Equipment Type: <strong>".$eqtype."</strong><br>";
+                                                            echo "Equipment Type: <strong>".$dsrno."</strong><br>";
+                                                            echo "Equipment Quantity: <strong>".$quantity."</strong><br>";
+                                                            echo "Returning to: <strong>".$lendfrom."</strong><br><br>";
+                                                            
+                                                        ?>
+                                                        <form action="" method="post">  
+                                                            <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                                            <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">              
+                                                            <div class="form-floating col-12">
+                                                                <input class="form-control" type="number" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" required>
+                                                                <label class="label ms-2" for="lendquan">Returning Quantity</label>        
+                                                            </div>
+                                                            <p style="font-size: x-small; margin:0;">Click 'Return All' to return all quantity of the equipment</p>
+                                                            <p style="font-size: x-small;">Input quantity and click 'Return' to return some quantity of the equipment</p>
+                                                    </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn alert-danger" data-bs-dismiss="modal">Cancel</button>
+                                                        <button type="submit" name="return" class="btn btn-danger">Return</button>
+                                                        </form>
+
+                                                        <form action="" method="post">  
+                                                            <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                                            <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">    
+                                                            <button type="submit" name="returnall" class="btn btn-danger">Return All</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </td>
                                 </tr>
                             <?php
                             }

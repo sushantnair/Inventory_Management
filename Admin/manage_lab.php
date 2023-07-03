@@ -98,6 +98,41 @@
             </thead>
             
             <tbody>
+            <tr>
+                    <form action="update_lab.php" method="post">
+                        <td><input type="text" name='labno' id='labno' required></td>
+                        <td><input type="text" name='labname' id='labname' required></td>
+                        <td>
+                            <select id="dept" name="dept" required>
+                                <option value="" disabled selected>None</option>
+                                <?php 
+                                $fetch_departments=mysqli_query($conn,"SELECT * FROM departments");
+                                while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
+                                {
+                                    
+                                    ?>
+                                    <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </td>
+                        <td> 
+                            <select id="active" name="active" required>
+                                <option selected value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </td>
+                        <td>
+                            <i>(Assign assistant after creating lab)</i>
+                        </td>
+                        <td>
+                            <button class="button1" type="submit" name="addlab"> 
+                                Create Lab
+                            </button>
+                        </td>
+                    </form>
+                </tr>
                 <!-- EACH ROW IN WHILE LOOP DISPLAYING ALL LABS -->
                 <?php
                     // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
@@ -191,41 +226,7 @@
                         <?php
                     }
                 ?>
-                <tr>
-                    <form action="update_lab.php" method="post">
-                        <td><input type="text" name='labno' id='labno' required></td>
-                        <td><input type="text" name='labname' id='labname' required></td>
-                        <td>
-                            <select id="dept" name="dept" required>
-                                <option value="" disabled selected>None</option>
-                                <?php 
-                                $fetch_departments=mysqli_query($conn,"SELECT * FROM departments");
-                                while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
-                                {
-                                    
-                                    ?>
-                                    <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                        </td>
-                        <td> 
-                            <select id="active" name="active" required>
-                                <option selected value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </td>
-                        <td>
-                            <i>(Assign assistant after creating lab)</i>
-                        </td>
-                        <td>
-                            <button class="button1" type="submit" name="addlab"> 
-                                Create Lab
-                            </button>
-                        </td>
-                    </form>
-                </tr>
+                
             </tbody>
         </table>
     </div>

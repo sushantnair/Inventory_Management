@@ -27,18 +27,14 @@
 	$pass = mysqli_real_escape_string($conn,$_POST['pass']);
 
 	//check if email is registered
-	$sql_fetch_user_data = "SELECT * 
-							FROM user 
-							WHERE email = '$email'";
-	//check if email is registered
-	$result_fetch_user_data = mysqli_query($conn, $sql_fetch_user_data);
+	$result_fetch_user_data = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email'");
 	if(!$result_fetch_user_data){
-		$response = array("success" => false, "message" => "There was a problem in the connection");
-		echo json_encode($response);
-		return;
+		header("Location:login_form.php?conn=false");
+        exit;
 	}
 	$row_count = mysqli_num_rows($result_fetch_user_data);
-	if($row_count == 0){		
+	if($row_count == 0)
+	{		
 		header("Location:login_form.php?error=true");
 	}
 	$row = mysqli_fetch_array($result_fetch_user_data);
@@ -57,38 +53,28 @@
 			header('Location:Admin/dash.php');    
 		else if($role=='student')
 			header('Location:Student/dash.php');    
-		else if($role=='lab-assistant'){
-		    if($_SESSION['status']==1){
-			header('Location:LabAssistant/dash.php');
+		else if($role=='lab-assistant')
+		{
+		    if($_SESSION['status']==1)
+			{
+				header('Location:LabAssistant/dash.php');
 			}
-			elseif($_SESSION['status']==0){
+			elseif($_SESSION['status']==0)
+			{
 				unset($_SESSION['logged']);
 				header('Location:login_form.php');
 			}
 		}   
-		else {
-			$error = 'Role Undefined';
-			echo "
-			<html>
-			<head></head>
-			<body>
-			<script>alert('$error');</script>
-			</body>
-			</html>";
-			header('Location:login_form.php');
+		else 
+		{
+			header("Location:login_form.php?conn=false");
+        	exit;
 		}
 	}
-	// Wrong Input
 	else
 	{
-		$error = 'WRONG ENTRY';
-		echo "
-		<html>
-		<head></head>
-		<body>
-		<script>alert('$error');</script>
-		</body>
-		</html>";
+		header("Location:login_form.php?error=false");
+        exit;
 	}
 
 ?>

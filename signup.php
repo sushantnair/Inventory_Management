@@ -35,25 +35,19 @@
     }
 
     // Check if email already exists
-    $sql_email_check = "SELECT * 
-                        FROM user 
-                        where email='$email'";
+    $sql_email_check = "SELECT * FROM user where email='$email'";
     $result_email_check = mysqli_query($conn, $sql_email_check);
     if(!$result_email_check){
-        $response = array("success" => false, "message" => "There was a problem in the connection.");
-        echo json_encode($response);
-        return;
+        header("Location:signup_form.php?pass=false");
+        exit;
     }
 
     // Check if id already exists
-    $sql_id_check = "SELECT * 
-                     FROM user 
-                     where id='$id'";
+    $sql_id_check = "SELECT * FROM user where id='$id'";
     $result_id_check = mysqli_query($conn, $sql_id_check);
     if(!$result_id_check){
-        $response = array("success" => false, "message" => "There was a problem in the connection.");
-        echo json_encode($response);
-        return;
+        header("Location:signup_form.php?conn=false");
+        exit;
     }
 
     $row_count_email = mysqli_num_rows($result_email_check);
@@ -68,13 +62,11 @@
         $passhash = password_hash($pass, PASSWORD_DEFAULT);
         
         //insert into table query
-        $sql = "INSERT INTO user (name, email, password, role, dept, id)
-                VALUES ('$name', '$email', '$passhash', '$role', '$dept', '$id')";
+        $sql = "INSERT INTO user (name, email, password, role, dept, id) VALUES ('$name', '$email', '$passhash', '$role', '$dept', '$id')";
         $result = mysqli_query($conn, $sql);
         if(!$result){
-            $response = array("success" => false, "message" => "There was a problem while inserting data into the database.");
-            echo json_encode($response);
-            return;
+            header("Location:signup_form.php?conn=false");
+            exit;
         }
         header('Location: login_form.php');
     }

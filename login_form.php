@@ -85,7 +85,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body alert-danger">
-                Invalid Email or Password.
+                Invalid Login Credentials
+            </div>
+        </div>
+    </div>
+    <div class="toast-container position-fixed top-0 end-0 p-3 ">
+        <div id="liveToast2" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto text-danger">Error</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body alert-danger">
+                Error in connecting to the database.
             </div>
         </div>
     </div>
@@ -100,8 +111,20 @@
                     toastBootstrap.show()
                 </script> 
             <?php 
-
         }
+        if(isset($_GET['conn']))
+        {
+            
+            ?>
+                <script>
+                    const toastLiveExample2 = document.getElementById('liveToast2')
+                    const toastBootstrap2 = bootstrap.Toast.getOrCreateInstance(toastLiveExample2)
+                    toastBootstrap2.show()
+                </script> 
+            <?php 
+        }
+        
+
     ?>
     
 </body>
