@@ -28,9 +28,11 @@
 <html>
 <head>
     <title>Login Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> --> 
+    
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="CSS/signup.css">
 </head>
 <body>
@@ -47,24 +49,22 @@
 					<button class="btn btn-secondary col-lg-12 col-md-10 col-12 mb-3 mt-4" style="background-color: #ffffff; border-width:2px; border-color: #f2f2f2; color: black; font-weight: bold; height:45px;"><span><img src="Assets/Glogo.png" style="object-fit: contain; max-height: 60%; margin-bottom: 3px;">&nbsp;&nbsp; Login with Google</span></button>
 					<hr class="mb-3">
 					
-                    <form action="login.php" method="POST">
-                        
-                            <div class="mx-auto">
+                    <form action="login.php" method="POST">  
+                        <div class="mx-auto">
                             <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">&#128231; </span>
-                               
+                            
                             <div class="form-floating col-12 mb-6">
                                 <input class="form-control" type="email" id="email" name="email" placeholder="Email" required pattern=".+@somaiya\.edu$" title="Please enter a valid @somaiya.edu email address">             
                                 <label class="label ms-2" for="email">Email</label>
                             </div>
-                        	</div>    
+                        </div>    
                         <br> 
-                        
                             <div class="mx-auto">
-                            <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">🔑 </span>
-                            
-                            <div class="form-floating col-12 mb-6">
-                                <input class="form-control" type="password" id="pass" name="pass" placeholder="Password" required>
-                                <label class="label ms-2" for="pass">Password</label>
+                                <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">🔑 </span>
+                                
+                                <div class="form-floating col-12 mb-6">
+                                    <input class="form-control" type="password" id="pass" name="pass" placeholder="Password" required>
+                                    <label class="label ms-2" for="pass">Password</label>
                             </div>
                         </div>
 						<br>
@@ -103,6 +103,5 @@
 
         }
     ?>
-    
 </body>
 </html>
