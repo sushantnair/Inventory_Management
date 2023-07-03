@@ -27,9 +27,11 @@
 <html>
     <head>
         <title>Signup Page</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> --> 
+        
+        <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href="CSS/signup.css">
     </head>
 <body>
@@ -47,19 +49,19 @@
                     <form action="signup.php" method="POST">
                         <!-- <div class="input-group mb-6"> -->
                             <!-- <div class="input-group-prepend"> -->
-                            <div class="mx-auto">
-                                <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">👤 </span>
+                        <div class="mx-auto">
+                            <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">👤 </span>
                             <!-- </div> -->
                             <div class="form-floating col-12 mb-6">
                                 <input class="form-control" type="text" id="name" name="name" placeholder="Full Name" required>
                                 <label class="label ms-2" for="name">Full Name</label>        
                             </div>
-                            </div>
+                        </div>
                         <!-- </div> -->
                         <br>
-                        <!-- <div class="input-group mb-3">
-                            <div class="input-group-prepend"> -->
-                            <div class="mx-auto">
+                            <!-- <div class="input-group mb-3">
+                                <div class="input-group-prepend"> -->
+                        <div class="mx-auto">
                             <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">&#128231; </span>
                                 <!-- <span class="input-group-text py-3">&#128231; </span> -->
                             <!-- </div> -->
@@ -70,25 +72,25 @@
                         </div>    
                         <br>
                         <div class="row">  
-                        <!-- <div class="col-6">    
-                        <div class="input-group mb-3">
+                            <!-- <div class="col-6">    
+                            <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text py-3">🔑</span>
                             </div> -->
                             <div class="mx-auto col-6">
-                            <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">🔑 </span>
-                            
-                            <div class="form-floating col-12 mb-6">
-                                <input class="form-control" type="password" id="pass" name="pass" placeholder="Password" required>
-                                <label class="label ms-2" for="pass">Password</label>
+                                <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">🔑 </span>
+                                
+                                <div class="form-floating col-12 mb-6">
+                                    <input class="form-control" type="password" id="pass" name="pass" placeholder="Password" required>
+                                    <label class="label ms-2" for="pass">Password</label>
+                                </div>
                             </div>
-                        </div>
-                        <!-- </div> -->
-                        <!-- <div class="col-6">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text py-3">🔒</span>
-                            </div> -->
+                            <!-- </div> -->
+                            <!-- <div class="col-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text py-3">🔒</span>
+                                </div> -->
                             <div class="mx-auto col-6">
                             <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">🔒 </span>
                             
@@ -100,33 +102,33 @@
                         </div>
                         <br>
                         <div class="row mb-6">
-                        <div class="col-6 form-floating">
-                            <select class="form-select" id="role" name="role" required>
-                                <option value="" disabled selected>Choose a role</option>
-                                <option value="student">Student</option>
-                                <option value="lab-assistant">Lab Assistant</option>
-                                <option value="faculty">Faculty</option>
-                            </select>
-                            <label for="role" class="select-label ms-3">Role</label>
-                        </div>
+                            <div class="col-6 form-floating">
+                                <select class="form-select" id="role" name="role" required>
+                                    <option value="" disabled selected>Choose a role</option>
+                                    <option value="student">Student</option>
+                                    <option value="lab-assistant">Lab Assistant</option>
+                                    <option value="faculty">Faculty</option>
+                                </select>
+                                <label for="role" class="select-label ms-3">Role</label>
+                            </div>
 
-                        <div class="col-6 form-floating">
-                        <select class="form-select" id="dept" name="dept" required>
-                            <option value="" disabled selected>Choose a Department</option>
-                            <?php 
-                                $fetch_departments=mysqli_query($conn,"SELECT * FROM departments");
-                                while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
-                                {
-                                    
+                            <div class="col-6 form-floating">
+                                <select class="form-select" id="dept" name="dept" required>
+                                    <option value="" disabled selected>Choose a Department</option>
+                                    <?php 
+                                        $fetch_departments=mysqli_query($conn,"SELECT * FROM departments");
+                                        while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
+                                        {
+                                            
+                                            ?>
+                                            <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
+                                            <?php
+                                        }
                                     ?>
-                                    <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
-                                    <?php
-                                }
-                            ?>
 
-                        </select>
-                        <label for="dept" class="select-label ms-3">Department</label>
-                        </div>
+                                </select>
+                                <label for="dept" class="select-label ms-3">Department</label>
+                            </div>
                         </div>
                         <br>
 

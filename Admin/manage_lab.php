@@ -60,7 +60,7 @@
             <option value="and assistname=''">No</option>
         </select>
         <br>
-        <label for="sta">Active</label>
+        <label for="sta">Lab is Active?</label>
         <select id="sta" name="sta">
             <option value="">Any</option>
             <option value="and active='yes'">Yes</option>
@@ -165,7 +165,7 @@
                             return;
                         }
                     }
-                    $num = mysqli_num_rows($result_table_display);
+                    //$num = mysqli_num_rows($result_table_display);
                     while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
                     {    
                         ?>
