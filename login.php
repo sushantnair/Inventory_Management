@@ -38,10 +38,8 @@
 		return;
 	}
 	$row_count = mysqli_num_rows($result_fetch_user_data);
-	if($row_count == 0){
-		$response = array("success" => false, "message" => "Account does not exist. Please signup first.");
-		echo json_encode($response);
-		return;
+	if($row_count == 0){		
+		header("Location:login_form.php?error=true");
 	}
 	$row = mysqli_fetch_array($result_fetch_user_data);
 

@@ -28,14 +28,10 @@
     }
 
     // Check if password and confirm password match
-    if ($pass !== $cpass) {
-        echo "Password and confirm password do not match";
+    if ($pass !== $cpass) 
+    {
+        header("Location:signup_form.php?pass=false");
         exit;
-    }
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
     }
 
     // Check if email already exists
@@ -64,9 +60,7 @@
     $row_count_id = mysqli_num_rows($result_id_check);
     if($row_count_email > 0 || $row_count_id > 0)
     {
-        $response = array("success" => false, "message" => "This account is already registered. Please login.");
-        echo json_encode($response);
-        return;
+        header("Location:signup_form.php?error=true");
     }
     else 
     {
@@ -82,8 +76,6 @@
             echo json_encode($response);
             return;
         }
-        // $response = array("success" => true, "message" => "Account created successfully.");
-        // echo json_encode($response);
         header('Location: login_form.php');
     }
     // Close connection

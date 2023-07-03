@@ -33,19 +33,16 @@
         <link rel="stylesheet" href="CSS/signup.css">
     </head>
 <body>
-    <!-- <div style="height:110%; position:fixed; top:-5px; left:-2px">
-        <img src="Signup.png" class="img-fluid" >
-    </div> -->
+    
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-5 col-md-6 col-12 ms-0 ps-0 pt-0" style="height:100vh;">
-            <!-- <img src="Group 1.png" class="absolute img-fluid h-100"> -->
-            <img src="Signup.png" class="position-absolute img-fluid ms-0 ps-0 h-100">
+            <img src="Assets/Signup.png" class="position-absolute img-fluid ms-0 ps-0 h-100">
             </div>
             <div class="col-lg-6 col-md-6 col-12 mt-3">
                 <div class="container ">
                     <h2>Welcome to</h2>
-                    <h2 style="color: red; font-weight: bold;">KJSCE lab Inventory Management</h2>
+                    <h2 style="color: red; font-weight: bold;">KJSCE Lab Inventory Management</h2>
                     <hr>
                     <form action="signup.php" method="POST">
                         <!-- <div class="input-group mb-6"> -->
@@ -156,5 +153,51 @@
             </div>
         </div>
     </div>
+    <div class="toast-container position-fixed top-0 end-0 p-3 ">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto text-danger">Error</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body alert-danger">
+                This Email or ID number already exists.
+            </div>
+        </div>
+    </div>
+    <div class="toast-container position-fixed top-0 end-0 p-3 ">
+        <div id="liveToast2" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto text-danger">Error</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body alert-danger">
+                Password and Confirm Password do not match.
+            </div>
+        </div>
+    </div>
+    <?php
+        if(isset($_GET['error']))
+        {
+            ?>
+                <script>
+                    const toastLiveExample = document.getElementById('liveToast')
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                    toastBootstrap.show()
+                </script> 
+            <?php 
+
+        }
+        if(isset($_GET['pass']))
+        {
+            ?>
+                <script>
+                    const toastLiveExample2 = document.getElementById('liveToast2')
+                    const toastBootstrap2 = bootstrap.Toast.getOrCreateInstance(toastLiveExample2)
+                    toastBootstrap2.show()
+                </script> 
+            <?php 
+
+        }
+    ?>
 </body>
 </html>
