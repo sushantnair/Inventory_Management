@@ -60,7 +60,7 @@
             <option value="and assistname=''">No</option>
         </select>
         <br>
-        <label for="sta">Lab is Active?</label>
+        <label for="sta">Active</label>
         <select id="sta" name="sta">
             <option value="">Any</option>
             <option value="and active='yes'">Yes</option>

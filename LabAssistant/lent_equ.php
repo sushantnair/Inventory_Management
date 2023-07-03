@@ -272,18 +272,14 @@
     <!-- MAIN TABLE  -->
     <?php
 
-    $sql_lab_fetch = "SELECT *
-                      FROM labs
-                      WHERE assistid = $id";
-    $result_lab_fetch = mysqli_query($conn, $sql_lab_fetch);
+    $result_lab_fetch = mysqli_query($conn,"SELECT * FROM labs WHERE assistid = $id");
     if(!$result_lab_fetch){
         echo "Lab details could not be fetched.";
         return;
     }
-    $lab_data = mysqli_fetch_array($result_lab_fetch, MYSQLI_ASSOC);
-    $labno = $lab_data['labno'];
-    echo "Here is your lab number: ";
-    echo $labno;  
+    $row = mysqli_fetch_array($result_lab_fetch, MYSQLI_ASSOC);
+    $labno = $row['labno'];
+    
     //FETCH LAB TABLE USING LAB-NUMBER
     //$table=mysqli_query($conn,"SELECT * FROM $labno"); --- this line is redundant
     //$lend=mysqli_query($conn,"SELECT * FROM lend where lendfrom='$labno'");
@@ -426,14 +422,63 @@
                                 <td><?php echo $eqrow['desc1'];?></td>
                                 <td><?php echo $eqrow['desc2'];?></td>
                                 <td><?php echo $row['lendfrom'];?></td>
-                                <td><form action="lent_equ.php" method="post">
-                                    <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                    <input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['lendquan'];?>" style="width:150px;" placeholder="Return quantity" required>
-                                    <button class="button1" type="submit" name="return"> 
-                                        Return
-                                    </button>
-                                </form></td>
+                                <td><button name="return" style="width: 80px;" class="btn btn-outline-danger alert-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropreturn<?php echo str_replace('/', '_', strtolower($eqrow['dsrno']));?>">
+                                    Return
+                                </button></td>
+                                    <div class="modal fade" id="staticBackdropreturn<?php echo str_replace('/', '_', strtolower($eqrow['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Returning</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <?php
+                                                            $dsrno=$eqrow['dsrno'];
+                                                            echo $dsrno;
+                                                            $fetch_equipment=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
+                                                            $fetch_lab=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$labno' AND dsrno='$dsrno'");
+                                                            
+                                                            $labno_row=mysqli_fetch_array($fetch_lab,MYSQLI_ASSOC);
+                                                            $lendfrom=$labno_row['lendfrom'];
+
+                                                            $eqroww=mysqli_fetch_array($fetch_equipment,MYSQLI_ASSOC);
+                                                            $eqtype=$eqroww['eqtype'];
+                                                            $eqname=$eqroww['eqname'];
+                                                            $quantity=$eqroww['quantity'];
+                                                            echo "Equipment Name: <strong>".$eqname."</strong><br>";
+                                                            echo "Equipment Type: <strong>".$eqtype."</strong><br>";
+                                                            echo "Equipment Type: <strong>".$dsrno."</strong><br>";
+                                                            echo "Equipment Quantity: <strong>".$quantity."</strong><br>";
+                                                            echo "Returning to: <strong>".$lendfrom."</strong><br><br>";
+                                                            
+                                                        ?>
+                                                        <form action="" method="post">  
+                                                            <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                                            <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">              
+                                                            <div class="form-floating col-12">
+                                                                <input class="form-control" type="number" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" required>
+                                                                <label class="label ms-2" for="lendquan">Returning Quantity</label>        
+                                                            </div>
+                                                            <p style="font-size: x-small; margin:0;">Click 'Return All' to return all quantity of the equipment</p>
+                                                            <p style="font-size: x-small;">Input quantity and click 'Return' to return some quantity of the equipment</p>
+                                                    </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn alert-danger" data-bs-dismiss="modal">Cancel</button>
+                                                        <button type="submit" name="return" class="btn btn-danger">Return</button>
+                                                        </form>
+
+                                                        <form action="" method="post">  
+                                                            <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                                            <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">    
+                                                            <button type="submit" name="returnall" class="btn btn-danger">Return All</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
                                 </tr>
                             <?php
                             }
