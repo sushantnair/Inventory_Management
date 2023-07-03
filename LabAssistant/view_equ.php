@@ -459,8 +459,6 @@
                     }
                     $lab_data = mysqli_fetch_array($result_lab_fetch, MYSQLI_ASSOC);
                     $labno = $lab_data['labno'];
-                    echo "Here is your lab number: ";
-                    echo $labno;
                     if(isset($_POST['search']))
                     {
                         $search = $_POST['search'];

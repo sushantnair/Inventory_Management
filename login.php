@@ -43,6 +43,7 @@
 	if((is_array($row))&&(password_verify($pass,$row['password'])))
 	{
 		$_SESSION['id']=$row['id'];
+		$_SESSION['dept']=$row['dept'];
 		$_SESSION['role']=$row['role'];
 		$_SESSION['logged']=true;
 		$_SESSION['status']=$row['status'];
