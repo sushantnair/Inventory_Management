@@ -1,5 +1,6 @@
 <?php 
     session_start();
+    $dept1=$_SESSION['dept'];
     //If a user is logged in and is an admin
     if (isset($_SESSION['logged']) && $_SESSION['role']=='admin') 
     {
@@ -106,14 +107,20 @@
                             <select id="dept" name="dept" required>
                                 <option value="" disabled selected>None</option>
                                 <?php 
+                                if($dept1!=NULL){
+                                    ?>
+                                    <option value=<?php echo $dept1; ?>><?php echo $dept1; ?></option>
+                                    <?php
+                                }
+                                else{
                                 $fetch_departments=mysqli_query($conn,"SELECT * FROM departments");
                                 while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
                                 {
-                                    
                                     ?>
                                     <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
                                     <?php
                                 }
+                            }
                                 ?>
                             </select>
                         </td>
@@ -144,21 +151,26 @@
                         $active=$_POST['sta'];
                         $sql_table_display = "SELECT * 
                                             FROM labs 
-                                            where (dept like '%$search%' OR 
-                                                    labno like '%$search%' OR 
+                                            where dept='$dept1' and (labno like '%$search%' OR 
                                                     labname like '%$search%' OR 
                                                     assistname like '%$search%' ) 
                                             $assign $active";
                         $result_table_display = mysqli_query($conn, $sql_table_display);
                         if(!$result_table_display){
-                            echo "There is some problem in the connection.";
+                            echo "There is some problem in the connection or search error";
                             return;
                         }
                     }
                     else 
                     {
+                        if($dept1!=NULL){
                         $sql_table_display = "SELECT * 
+                                            FROM labs WHERE dept='$dept1'";
+                        }
+                        else{
+                            $sql_table_display = "SELECT * 
                                             FROM labs";
+                        }
                         $result_table_display = mysqli_query($conn, $sql_table_display);
                         if(!$result_table_display){
                             echo "There is some problem in the connection.";

@@ -1,5 +1,6 @@
 <?php 
     session_start();
+    $dept=$_SESSION['dept'];
     //If a user is logged in and is an admin
     if (isset($_SESSION['logged']) && $_SESSION['role']=='admin') 
     {
@@ -122,11 +123,23 @@
                                     // parse_str($parts['query'],$query);
                                     $search=$_POST['search'];
                                     $status=$_POST['sta'];
+                                    if($dept!=NULL){
+                                        $query_for_transactions="SELECT * FROM user WHERE role='lab-assistant' and dept='$dept' and (name like '%$search%' OR email like '%$search%' OR id like '%$search%') $status";
+                                    }
+                                    else{
+
                                     $query_for_transactions="SELECT * FROM user WHERE role='lab-assistant' and (name like '%$search%' OR email like '%$search%' OR id like '%$search%' OR dept like '%$search%') $status";
+                                    }
                                 }
                                 else
                                 {
-                                    $query_for_transactions = "SELECT * FROM user WHERE role='lab-assistant'";
+                                    if($dept!=NULL){
+                                        $query_for_transactions = "SELECT * FROM user WHERE role='lab-assistant' and dept='$dept'";
+                                    }
+                                    else{
+
+                                        $query_for_transactions = "SELECT * FROM user WHERE role='lab-assistant'";
+                                    }
                                 }
                                 $transaction_result = mysqli_query($conn,$query_for_transactions);
                                 $no_of_transaction = mysqli_num_rows($transaction_result);
