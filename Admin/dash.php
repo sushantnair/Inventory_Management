@@ -60,15 +60,15 @@
 <body>
     <div class="dash_admin_box">
         <h6><span style="float: left; text-decoration: underline;">User ID: <?php echo $id; ?></span><span style="float: right;">Role: Administrator</span></h6><br>
-        <p>Please select an option suitable for the operation you want to undertake</p>
+        <p>Please select an option suitable for the operation you want to undertake</p><br>
         <button class="btn btn-primary btn-block" onclick="window.location.href='manage_assist.php'"> 
             Manage Lab Assistants
         </button>
-        <br>
+        <br><br>
         <button class="btn btn-primary btn-block" onclick="window.location.href='manage_lab.php'">
             Manage Labs
         </button>
-        <br>
+        <br><br>
         <button class="btn btn-primary btn-block" onclick="window.location.href='../logout.php'">
             Signout
         </button>
