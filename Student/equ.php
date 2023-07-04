@@ -103,6 +103,8 @@
         <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
             <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter equipment which you want to search for">
             <br>
+            <em>Enter only DSR No. or an integer for search</em>
+            <br>
             <select id="filter" name="filter" placeholder="Select Filter" required>
                 <option value="0" selected>Select Filter</option>
                 <option value="1">Search from Lended Equipments</option>

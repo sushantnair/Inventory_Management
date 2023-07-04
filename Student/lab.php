@@ -7,7 +7,9 @@
         $id=$_SESSION['id'];
         if(isset($_POST['lab']))
         {
-            $labno=$_POST['labno'];
+            $_SESSION['labno']=$_POST['labno'];
+            $labno = $_SESSION['labno'];
+            //The lab number is stored in a Session variable 'labno'
             // echo $labno;
         }
         if(isset($_POST['request']))
@@ -99,8 +101,8 @@
         <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
             <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter equipment which you want to search for">
             <br>
-            <?php $_POST['labno'] = $labno; ?>
             <button class="btn btn-primary" type="submit" value="Search">Submit</button>
+            
         </form>
     </div>
     <div class="row col-lg-12 card card-body table-responsive">
@@ -117,15 +119,10 @@
                     <th scope="col">Cost</th>
                     <th scope="col">Request Quantity</th>
                     <th scope="col">Request</th>
-                    <!-- <th scope="col">View<br></th> -->
                 </tr>
-                <?php
-                    echo "Here is your lab number:";
-                    echo $labno;
-                    
-                ?>
             </thead>
-            <?php
+            <tbody>
+                <?php
                     // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
                     
                     /*$sql_table_display = "SELECT * 
@@ -135,46 +132,37 @@
                         echo "There is some problem in the connection.";
                         return;
                     }
-                    WHERE (eqname LIKE '%$search%' OR
+                    */
+                    if(isset($_POST['search']))  
+                    {
+                        $search = $_POST['search'];
+                        $labno = $_SESSION['labno'];
+                        $sql_table_display = "SELECT * 
+                                                FROM $labno
+                                                WHERE (eqname LIKE '%$search%' OR
                                                     dsrno LIKE '%$search%' OR
                                                     eqtype LIKE '%$search%' OR
                                                     quantity LIKE '%$search%' OR
                                                     desc1 LIKE '%$search%' OR
                                                     desc2 LIKE '%$search%' OR
-                                                    cost LIKE '%$search%')*/
-                                                    
-                    
-                    if(isset($_POST['search'])) 
-                    {
-                        echo "Here is your lab number:";
-                        
-                    echo $_POST['labno'];
-                        $search = $_POST['search'];
-                        $sql_table_display = "SELECT * 
-                                                FROM $labno
-                                                ";
+                                                    cost LIKE '%$search%')
+                                              ";
                         $result_table_display = mysqli_query($conn,$sql_table_display);
                         if(!$result_table_display){
                             echo "There is some problem in fetching equipment data.";
                             return;
                         }
                     } else {
-                        echo "Here is your lab number:";
-                        
-                    echo $_POST['labno'];
                         $result_table_display = mysqli_query($conn,"SELECT * FROM $labno");
                         if(!$result_table_display){
                             echo "There is some problem in fetching equipment data.";
                             return;
                         }
                     } 
-                    
-                    
-                    $num = mysqli_num_rows($result_table_display);
                     while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
                     {    
+                        $labno = $_SESSION['labno'];
                         $dsrno=$row['dsrno'];
-                        
                         ?>
                         <tr>
                             <form action="lab.php" method="post">
@@ -221,8 +209,10 @@
                         <?php
                     }
                     ?>
-            <tbody>
-    </body>
+            </tbody>
+        </table>
+    </div>
+</body>
 </html>
 
 
