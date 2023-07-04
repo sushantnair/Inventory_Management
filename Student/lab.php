@@ -160,6 +160,7 @@
                         }
                     } else {
                         echo "Here is your lab number:";
+                        
                     echo $_POST['labno'];
                         $result_table_display = mysqli_query($conn,"SELECT * FROM $labno");
                         if(!$result_table_display){
