@@ -291,7 +291,6 @@
                             <th scope="col">Description 1</th>
                             <th scope="col">Description 2</th>
                             <th scope="col">Lent To</th>
-                            <th scope="col">Update<br></th>
                         </tr>
                     </thead>
                     
@@ -302,11 +301,16 @@
                             {
                                 $search = $_POST['search'];
                                 $sql_given_equipment_fetch = "SELECT *
-                                                            FROM lend
-                                                            WHERE (lendfrom = '$labno' AND
-                                                                    dsrno LIKE '%$search%' OR 
-                                                                    lendto LIKE '%$search%' OR
-                                                                    lendquan LIKE '%$search%')";
+                                                                FROM lend NATURAL JOIN $labno
+                                                                WHERE lendfrom = '$labno' AND
+                                                                    (lend.dsrno LIKE '%$search%' OR 
+                                                                    lend.lendto LIKE '%$search%' OR
+                                                                    lend.lendquan LIKE '%$search%' OR
+                                                                    $labno.eqname LIKE '%$search%' OR
+                                                                        $labno.eqtype LIKE '%$search%' OR
+                                                                        $labno.desc1 LIKE '%$search%' OR
+                                                                        $labno.desc2 LIKE '%$search%' OR
+                                                                        $labno.cost LIKE '%$search%');";
                                 $result_given_equipment_fetch = mysqli_query($conn, $sql_given_equipment_fetch);
                                 if(!$result_given_equipment_fetch){
                                     echo "There is some problem in fetching lab equipment data.";
@@ -374,11 +378,16 @@
                                 $search = $_POST['search'];
                                 
                                 $sql_borrowed_equipment_fetch = "SELECT *
-                                                            FROM lend
-                                                            WHERE lendto = '$labno' AND
-                                                            ( dsrno LIKE '%$search%' OR 
-                                                                lendto LIKE '%$search%' OR
-                                                                lendquan LIKE '%$search%')";
+                                                                FROM lend NATURAL JOIN $labno
+                                                                WHERE lendto = '$labno' AND
+                                                                    (lend.dsrno LIKE '%$search%' OR 
+                                                                    lend.lendto LIKE '%$search%' OR
+                                                                    lend.lendquan LIKE '%$search%' OR
+                                                                    $labno.eqname LIKE '%$search%' OR
+                                                                        $labno.eqtype LIKE '%$search%' OR
+                                                                        $labno.desc1 LIKE '%$search%' OR
+                                                                        $labno.desc2 LIKE '%$search%' OR
+                                                                        $labno.cost LIKE '%$search%')";
                                 $result_borrowed_equipment_fetch = mysqli_query($conn, $sql_borrowed_equipment_fetch);
                                 if(!$result_borrowed_equipment_fetch){
                                     echo "There is some problem in fetching lab equipment data.";
@@ -507,11 +516,17 @@
                                     $search = $_POST['search'];
                                     
                                     $sql_requested_equipment_fetch = "SELECT *
-                                                                FROM request
-                                                                WHERE labno = '$labno' AND
-                                                                ( dsrno LIKE '%$search%' OR 
-                                                                    id LIKE '%$search%' OR
-                                                                    quantity LIKE '%$search%')";
+                                                                    FROM request, $labno
+                                                                    WHERE labno = '$labno' AND
+                                                                        (request.dsrno LIKE '%$search%' OR 
+                                                                        request.id LIKE '%$search%' OR
+                                                                        request.quantity LIKE '%$search%' OR
+                                                                        $labno.eqname LIKE '%$search%' OR
+                                                                        $labno.eqtype LIKE '%$search%' OR
+                                                                        $labno.desc1 LIKE '%$search%' OR
+                                                                        $labno.desc2 LIKE '%$search%' OR
+                                                                        $labno.cost LIKE '%$search%')
+                                                                    LIMIT 1";
                                     $result_requested_equipment_fetch = mysqli_query($conn, $sql_requested_equipment_fetch);
                                     if(!$result_requested_equipment_fetch){
                                         echo "There is some problem in fetching lab equipment data.";

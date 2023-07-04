@@ -98,39 +98,67 @@
            Signout
         </button>
     </div>
+    <!-- Search bar -->
+    <div class="search-container">
+        <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
+            <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter equipment which you want to search for">
+            <br>
+            <select id="filter" name="filter" placeholder="Select Filter" required>
+                <option value="0" selected>Select Filter</option>
+                <option value="1">Search from Lended Equipments</option>
+                <option value="2">Search from Requested Equipments</option>
+                <option value="3">Search from All Equipmenrs</option>
+            </select>
+            <br>
+            <button class="btn btn-primary" type="submit" value="Search">Submit</button>
+        </form>
+    </div>
     <?php
-        $result_table_display = mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$id'");
-        if(!$result_table_display)
+        $f_id = $_POST['filter'] ?? '';
+        if($f_id == '' || $f_id == '1' || $f_id == '3')
         {
-            echo "Error in fetching lending data";
-            return;
-        }
-        else
-        {
-            if(mysqli_num_rows($result_table_display)>0)
-            {
-                ?>
-                    <h4 style="text-align: center;">Equipment Lended</h4>
-                    <div class="row col-lg-12 card card-body table-responsive">
-                        <table class="table table-centered table-nowrap mb-0">
-                            <thead>
-                                <tr>
-                                    <!-- HEADINGS -->
-                                    <th scope="col">Name<br></th>
-                                    <th scope="col">Type<br></th>
-                                    <th scope="col">DSR No</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Desc1</th>
-                                    <th scope="col">Desc2</th>
-                                    <th scope="col">Lab</th>
-                                    <th scope="col">Return</th>
-                                    <!-- <th scope="col">View<br></th> -->
-                                </tr>
-                            </thead>
+            ?>
+                <h4 style="text-align: center;">Equipment Lended</h4>
+                <div class="row col-lg-12 card card-body table-responsive">
+                    <table class="table table-centered table-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <!-- HEADINGS -->
+                                <th scope="col">Name<br></th>
+                                <th scope="col">Type<br></th>
+                                <th scope="col">DSR No</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Desc1</th>
+                                <th scope="col">Desc2</th>
+                                <th scope="col">Lab</th>
+                                <th scope="col">Return</th>
+                                <!-- <th scope="col">View<br></th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
                             <?php
+                                if(isset($_POST['search'])) 
+                                {
+                                    $search = $_POST['search'];
+                                    $sql_table_display = "SELECT * 
+                                                            FROM lend
+                                                            WHERE lendto='$id' AND
+                                                                (dsrno LIKE '%$search%' OR
+                                                                lendquan LIKE '%$search%' OR
+                                                                lendfrom LIKE '%$search%')";
+                                    $result_table_display = mysqli_query($conn,$sql_table_display);
+                                    if(!$result_table_display){
+                                        echo "There is some problem in fetching equipment data.";
+                                        return;
+                                    }
+                                } else {
+                                    $result_table_display = mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$id'");
+                                    if(!$result_table_display){
+                                        echo "There is some problem in fetching equipment data.";
+                                        return;
+                                    }
+                                }
                                     // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
-                                    
-                                    
                                 while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
                                 {    
 
@@ -161,79 +189,91 @@
                                     <?php
                                 }
                             ?>
-                        </table>
-                    </div>
-                    
-                <?php
-            }
+                        </tbody>
+                    </table>
+                </div>
+                
+            <?php
         }
     ?>
     
     
     <?php
-        $result_table_display = mysqli_query($conn,"SELECT * FROM request WHERE id=$id");
-        if(!$result_table_display)
+        if($f_id == '' || $f_id == '2' || $f_id == '3')
         {
-            echo "Error in fetching requests data";
-            return;
-        }
-        else
-        {
-            if(mysqli_num_rows($result_table_display)>0)
-            {
-                ?>
-                <h4 style="text-align: center;">Requests</h4>
-                    <div class="row col-lg-12 card card-body table-responsive">
-                        <table class="table table-centered table-nowrap mb-0">
-                            <thead>
-                                <tr>
-                                    <!-- HEADINGS -->
-                                    <th scope="col">Name<br></th>
-                                    <th scope="col">Type<br></th>
-                                    <th scope="col">DSR No</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Desc1</th>
-                                    <th scope="col">Desc2</th>
-                                    <th scope="col">Lab</th>
-                                    <th scope="col">Return</th>
-                                    <!-- <th scope="col">View<br></th> -->
-                                </tr>
-                            </thead>
-                            <?php                                   
-                                    while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
-                                    {    
+            ?>
+            <h4 style="text-align: center;">Requests</h4>
+                <div class="row col-lg-12 card card-body table-responsive">
+                    <table class="table table-centered table-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <!-- HEADINGS -->
+                                <th scope="col">Name<br></th>
+                                <th scope="col">Type<br></th>
+                                <th scope="col">DSR No</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Desc1</th>
+                                <th scope="col">Desc2</th>
+                                <th scope="col">Lab</th>
+                                <th scope="col">Return</th>
+                                <!-- <th scope="col">View<br></th> -->
+                            </tr>
+                        </thead>
+                        <?php    
+                            if(isset($_POST['search'])) 
+                            {
+                                $search = $_POST['search'];
+                                $sql_table_display = "SELECT * 
+                                                        FROM request
+                                                        WHERE id='$id' AND
+                                                            (dsrno LIKE '%$search%' OR
+                                                            id LIKE '%$search%' OR
+                                                            quantity LIKE '%$search%')";
+                                $result_table_display = mysqli_query($conn,$sql_table_display);
+                                if(!$result_table_display){
+                                    echo "There is some problem in fetching equipment data.";
+                                    return;
+                                }
+                            } else {
+                                $result_table_display = mysqli_query($conn,"SELECT * FROM request WHERE id='$id'");
+                                if(!$result_table_display){
+                                    echo "There is some problem in fetching equipment data.";
+                                    return;
+                                }
+                            }                               
+                            while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
+                            {    
 
-                                        $dsrno=$row['dsrno']; 
-                                        $labno=$row['labno'];
-                                        $equ_details=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
-                                        $eqrow=mysqli_fetch_array($equ_details,MYSQLI_ASSOC);
-                                        ?>
-                                        <tr>
-                                                <td><?php echo $eqrow['eqname']?></td>
-                                                <td><?php echo $eqrow['eqtype']?></td>
-                                                <td><?php echo $row['dsrno']?></td>
-                                                <td><?php echo $row['quantity']?></td>
-                                                <td><?php echo $eqrow['desc1'] ?></td>
-                                                <td> <?php echo $eqrow['desc2'] ?> </td>
-                                                <td> <?php echo $row['labno'] ?> </td>
-                                                
-                                                <form action="equ.php" method="post">
-                                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                                <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                                <td>
-                                                    <button class="button1" type="submit" name="delete"> 
-                                                        Delete Request
-                                                    </button>
-                                                </td>  
-                                            </form>
-                                        </tr>
-                                        <?php
-                                    }
-                                    ?>
-                        </table>
-                    </div>
-                <?php
-            }
+                                $dsrno=$row['dsrno']; 
+                                $labno=$row['labno'];
+                                $equ_details=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
+                                $eqrow=mysqli_fetch_array($equ_details,MYSQLI_ASSOC);
+                                ?>
+                                <tr>
+                                        <td><?php echo $eqrow['eqname']?></td>
+                                        <td><?php echo $eqrow['eqtype']?></td>
+                                        <td><?php echo $row['dsrno']?></td>
+                                        <td><?php echo $row['quantity']?></td>
+                                        <td><?php echo $eqrow['desc1'] ?></td>
+                                        <td> <?php echo $eqrow['desc2'] ?> </td>
+                                        <td> <?php echo $row['labno'] ?> </td>
+                                        
+                                        <form action="equ.php" method="post">
+                                        <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                        <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                        <td>
+                                            <button class="button1" type="submit" name="delete"> 
+                                                Delete Request
+                                            </button>
+                                        </td>  
+                                    </form>
+                                </tr>
+                                <?php
+                            }
+                        ?>
+                    </table>
+                </div>
+            <?php
         }
     ?>
     
