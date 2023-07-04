@@ -22,6 +22,70 @@
 			}  
         }
 	}
+
+
+    //signup.php backend
+    if(isset($_POST['name'])&&isset($_POST['email'])&&isset($_POST['pass'])&&isset($_POST['cpass'])&&isset($_POST['role'])&&isset($_POST['dept'])&&isset($_POST['id'])){
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $pass = $_POST['pass'];
+        $cpass = $_POST['cpass'];
+        $role = $_POST['role'];
+        $dept = $_POST['dept'];
+        $id = $_POST['id'];
+
+        // Validate email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo "Invalid email address";
+            exit;
+        }
+
+        // Check if password and confirm password match
+        if ($pass !== $cpass) 
+        {
+            header("Location:signup_form.php?pass=false");
+            exit;
+        }
+
+        // Check if email already exists
+        $sql_email_check = "SELECT * FROM user where email='$email'";
+        $result_email_check = mysqli_query($conn, $sql_email_check);
+        if(!$result_email_check){
+            header("Location:signup_form.php?pass=false");
+            exit;
+        }
+
+        // Check if id already exists
+        $sql_id_check = "SELECT * FROM user where id='$id'";
+        $result_id_check = mysqli_query($conn, $sql_id_check);
+        if(!$result_id_check){
+            header("Location:signup_form.php?conn=false");
+            exit;
+        }
+
+        $row_count_email = mysqli_num_rows($result_email_check);
+        $row_count_id = mysqli_num_rows($result_id_check);
+        if($row_count_email > 0 || $row_count_id > 0)
+        {
+            header("Location:signup_form.php?error=true");
+        }
+        else 
+        {
+            //create a hashed password
+            $passhash = password_hash($pass, PASSWORD_DEFAULT);
+            
+            //insert into table query
+            $sql = "INSERT INTO user (name, email, password, role, dept, id) VALUES ('$name', '$email', '$passhash', '$role', '$dept', '$id')";
+            $result = mysqli_query($conn, $sql);
+            if(!$result){
+                header("Location:signup_form.php?conn=false");
+                exit;
+            }
+            header('Location: login_form.php');
+        }
+        // Close connection
+        mysqli_close($conn);
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,7 +110,7 @@
                     <h2>Welcome to</h2>
                     <h2 style="color: red; font-weight: bold;">KJSCE Lab Inventory Management</h2>
                     <hr>
-                    <form action="signup.php" method="POST">
+                    <form action="signup_form.php" method="POST">
                         <!-- <div class="input-group mb-6"> -->
                             <!-- <div class="input-group-prepend"> -->
                         <div class="mx-auto">
