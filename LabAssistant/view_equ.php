@@ -222,6 +222,7 @@
                 
                 //DELETE FROM TABLE OF RETURNING LAB
                 $remove_lendfrom = mysqli_query($conn," DELETE FROM $lendto WHERE dsrno='$dsrno'");
+                $requan=$lendquan;
             }
             else
             {
@@ -229,43 +230,48 @@
                 $reduce_lend_this_lab = mysqli_query($conn,"UPDATE $lendto SET quantity=(quantity-$requan) ,byquan=(byquan-$requan) WHERE dsrno='$dsrno'");
             }
             // UPDATE VALUES IN ORIGINAL TABLE
-            $remove_lendto = mysqli_query($conn,"  UPDATE $lendfrom SET toquan=(toquan-$requan), quantity=(quantity+$requan)WHERE dsrno='$dsrno'");
+            $remove_lendto = mysqli_query($conn,"UPDATE $lendfrom SET toquan=(toquan-$requan), quantity=(quantity+$requan)WHERE dsrno='$dsrno'");
             header("Location:view_equ.php");
 
         }
        
         
         if (isset($_POST['update'])) {
-            $eqname = $_POST['name'];
-            $eqtype = $_POST['type'];
-            $dsrno = $_POST['dsr'];
-            $quantity = $_POST['quant'];
-            $desc1 = $_POST['description1'];
-            $desc2 = $_POST['description2'];
-            $cost = $_POST['cost'];
-      
-            $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
-                    
-            $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
-            if(!$row1)
-            {
-                echo mysqli_error($conn);
-                die();
-            }
             
-            $labno=$row1['labno'];   //LAB-NUMBER
+            $dsrno = $_POST['dsrno'];
+            $quantity = $_POST['quan'];
+            $desc1 = $_POST['desc1'];
+            $desc2 = $_POST['desc2'];
+            $cost = $_POST['cost'];
+            $labno = $_POST['labno'];
+            echo $labno;
+            echo $dsrno;
+            echo $quantity;
+            echo $desc1;
+            echo $desc2;
+            echo $cost;
+            
       
-            $updateQuery = "UPDATE $labno SET eqname='$eqname', eqtype='$eqtype', dsrno='$dsrno', quantity='$quantity', desc1='$desc1', desc2='$desc2', cost='$cost' WHERE dsrno='$dsrno'";
+            $updateQuery = "UPDATE $labno SET quantity=$quantity,desc1='$desc1',desc2='$desc2',cost=$cost WHERE dsrno='$dsrno'";
             $result = mysqli_query($conn, $updateQuery);
       
             if ($result) {
                 // Update successful
                 echo "Update successful!";
+                $other_labno=mysqli_query($conn,"SELECT * FROM lend WHERE lendfrom='$labno' AND dsrno='$dsrno'");
+                if(mysqli_num_rows($other_labno)>0)
+                {
+                    while($lab_row=mysqli_fetch_array($other_labno,MYSQLI_ASSOC))
+                    {
+                        $lab_no=$lab_row['lendto'];
+                        $update_borrow_details=mysqli_query($conn,"UPDATE $lab_no SET quantity=$quantity,desc1='$desc1',desc2='$desc2',cost=$cost WHERE dsrno='$dsrno'");
+                    }
+                }
             } else {
                 // Update failed
                 echo "Update failed: " . mysqli_error($conn);
             }
-            header("Location:view_equ.php");
+            // header("Location:view_equ.php");
 
         }
 
@@ -507,7 +513,7 @@
                                     Lend
                                 </button>
                                 <div class="modal fade" id="staticBackdroplend<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                    <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="staticBackdropLabel">Lending</h5>
@@ -557,28 +563,99 @@
                                                         <input class="form-control" type="number" name="lendquan" id="lendquan" min ="1" max="<?php echo $quantity;?>" required>
                                                         <label class="label ms-2" for="lendquan">Lending Quantity</label>        
                                                     </div>
-                                                    <br>
+                                                    <p style='font-size: smaller; margin:0;'>Once lent, only the borrower can return.</p>
+
                                                             
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn alert-danger" data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="submit" name="lend" class="btn btn-outline-success">Lend</button>
-                                                                </form>
-                                                            </div>
-                                                            </div>
-                                                            </div>
-                                                            </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn alert-danger" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" name="lend" class="btn btn-outline-success">Lend</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                             <?php 
                             if($row['byquan']==0)
                             {
                                 ?>
-                                    <button class="btn btn-success" onclick="openPopup(<?php echo$v;?>)"> 
+                                    <button type="submit" style="width: 80px;" name="delete" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdropupdate<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>">
                                         Update
                                     </button>
+                                    <div class="modal fade" id="staticBackdropupdate<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Update</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <?php
+                                                        $dsrno=$row['dsrno'];
+                                                        $fetch_equipment=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
+                                                        
+                                                        $eqrow=mysqli_fetch_array($fetch_equipment,MYSQLI_ASSOC);
+                                                        $eqtype=$eqrow['eqtype'];
+                                                        $eqname=$eqrow['eqname'];
+                                                        $quantity=$eqrow['quantity'];
+                                                        
+                                                        
+                                                    
+                                                    ?>
+                                                    
+                                                    <form action="" method="post">  
+                                                        <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                                        <div class="form-floating col-12 mb-4">
+                                                            <input class="form-control" type="text" name="name" id="name" value="<?php echo $row['eqname']?>" disabled>
+                                                            <label class="label ms-2" for="name">Name</label>        
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-floating col-6 mb-4">
+                                                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">              
+                                                                <input class="form-control" type="text" name="dsr" id="dsr" value="<?php echo $row['dsrno']?>" disabled>
+                                                                <label class="label ms-2" for="dsr">DSR No</label>        
+                                                            </div>
+                                                            <div class="form-floating col-6 mb-4">
+                                                                <input class="form-control" type="text" name="eqtype" id="eqtype" value="<?php echo $row['eqtype']?>" disabled>
+                                                                <label class="label ms-2" for="eqtype">Type</label>        
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-floating col-6 mb-4">
+                                                                <input class="form-control" type="number" name="quan" id="quan" min="1" value=<?php echo $row['quantity']?>>
+                                                                <label class="label ms-2" for="eqtype">Quantity</label>        
+                                                            </div>
+                                                            <div class="form-floating col-6 mb-4">
+                                                                <input class="form-control" type="number" name="cost" id="cost" value=<?php echo $row['cost']?>>
+                                                                <label class="label ms-2" for="desc2">Cost</label>        
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-floating col-12 mb-4">
+                                                            <input class="form-control" type="textarea" name="desc1" id="desc1" value="<?php echo $row['desc1']?>">
+                                                            <label class="label ms-2" for="desc1">Description 1</label>        
+                                                        </div>
+                                                        <div class="form-floating col-12 mb-4">
+                                                            <input class="form-control" type="textarea" name="desc2" id="desc2" value="<?php echo $row['desc2']?>">
+                                                            <label class="label ms-2" for="desc2">Description 2</label>        
+                                                        </div>
+                                                        
+                                                        
+                                                
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn alert-danger" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" name="update" class="btn btn-outline-success">Update</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <!-- Button trigger modal -->
                                     
-                                    <button type="submit" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropdelete<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
+                                    <button type="submit" style="width: 80px;" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropdelete<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
                                         Delete
                                     </button>
 
@@ -594,12 +671,17 @@
                                             <?php
                                                 if($row['toquan']>0)
                                                 {
-                                                    echo "This equipment has been lent to other labs.<br>Are you sure you want to delete the equipment you have?<br>This action cannot be reversed<br>(This will not delete the equipments lent to others)";
+                                                    echo "This equipment has been lent to other labs.<br>Are you sure you want to delete the equipment you have?<br><br>";
+                                                    echo "<p style='font-size: smaller;margin:0;'>This will not delete the equipments lent to others.</p>";
+
+                                                    
                                                 }
                                                 else
                                                 {
-                                                    echo "Are you sure you want to permanently delete this equipment?<br>This action cannot be reversed";
+                                                    echo "Are you sure you want to permanently delete this equipment?<br><br>";
                                                 }
+                                                echo "<p style='font-size: smaller; margin:0;'>This action cannot be reversed.</p>";
+                                                    
                                                     
                                             ?>
                                         </div>
