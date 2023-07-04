@@ -51,6 +51,13 @@
            Signout
         </button>
     </div>
+    <div class="search-container">
+        <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
+            <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter lab which you want to search for">
+            <br>
+            <button class="btn btn-primary" type="submit" value="Search">Submit</button>
+        </form>
+    </div>
     <div class="row col-lg-12 card card-body table-responsive">
         <table class="table table-centered table-nowrap mb-0">
             <thead>
@@ -66,16 +73,30 @@
             </thead>
             <?php
                     // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
-                    
-                        $sql_table_display = "SELECT * 
-                                            FROM labs";
-                        $result_table_display = mysqli_query($conn, $sql_table_display);
-                        if(!$result_table_display){
-                            echo "There is some problem in the connection.";
-                            return;
-                        }
-                    
-                    $num = mysqli_num_rows($result_table_display);
+                if(isset($_POST['search'])) 
+                {
+                    $search = $_POST['search'];
+                    $sql_table_display = "SELECT * 
+                                            FROM labs
+                                            WHERE (labname LIKE '%$search%' OR
+                                                labno LIKE '%$search%' OR
+                                                dept LIKE '%$search%' OR
+                                                active LIKE '%$search%' OR
+                                                assistname LIKE '%$search%' OR
+                                                assistid LIKE '%$search%')";
+                    $result_table_display = mysqli_query($conn,$sql_table_display);
+                    if(!$result_table_display){
+                        echo "There is some problem in fetching equipment data.";
+                        return;
+                    }
+                } else {
+                    $result_table_display = mysqli_query($conn,"SELECT * FROM labs");
+                    if(!$result_table_display){
+                        echo "There is some problem in fetching equipment data.";
+                        return;
+                    }
+                }    
+
                     while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
                     {    
                         ?>
@@ -93,8 +114,8 @@
                                         View Lab
                                     </button>
                                 </td>
-                    </form>
-
+                            </form>
+                        </tr>
                  <?php
                     }
                  ?>
