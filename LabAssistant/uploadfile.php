@@ -13,9 +13,9 @@
     {
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:../Admin/dash.php');    
+			header('Location:../Admin/index.php');    
 		else if($role=='student')
-			header('Location:../Student/dash.php');    
+			header('Location:../Student/index.php');    
         else
             header('Location:../logout.php');
     }
@@ -31,13 +31,13 @@
 <body>
     <!-- TEMPORARY DASHBOARD -->
     <div>
-        <button onclick="window.location.href='dash.php'"> 
+        <button onclick="window.location.href='index.php'"> 
             Dashboard
         </button>
-        <button onclick="window.location.href='view_equ.php'"> 
+        <button onclick="window.location.href='view.php'"> 
             View Equipment
         </button>
-        <button onclick="window.location.href='lent_equ.php'"> 
+        <button onclick="window.location.href='lent.php'"> 
             Lent Equipment
         </button>
         <button onclick="window.location.href='../logout.php'"> 

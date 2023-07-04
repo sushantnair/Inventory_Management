@@ -56,9 +56,9 @@
     {
         $role=$_SESSION['role'];
         if($role=='admin')
-            header('Location:../Admin/dash.php'); 
+            header('Location:../Admin/index.php'); 
         else if($role=='lab-assistant')
-            header('Location:../LabAssistant/dash.php');    
+            header('Location:../LabAssistant/index.php');    
         else
             header('Location:../logout.php');
     }
@@ -85,7 +85,7 @@
         }
         </style>
     <div>
-        <button onclick="window.location.href='dash.php'"> 
+        <button onclick="window.location.href='index.php'"> 
             Dash
         </button>
         <button onclick="window.location.href='view.php'"> 
@@ -120,7 +120,7 @@
         if($f_id == '' || $f_id == '1' || $f_id == '3')
         {
             ?>
-                <h4 style="text-align: center;">Equipment Lended</h4>
+                <h4 style="text-align: center;">Equipment Lent</h4>
                 <div class="row col-lg-12 card card-body table-responsive">
                     <table class="table table-centered table-nowrap mb-0">
                         <thead>

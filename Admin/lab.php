@@ -5,15 +5,59 @@
     if (isset($_SESSION['logged']) && $_SESSION['role']=='admin') 
     {
         include '../connection.php';
+        if(isset($_POST['assist']))
+        //UPDATE ASSISTANTS
+        {  
+            $assistid=$_POST['assistant'];
+            $labno=$_POST['labno'];  
+            if($assistid!=0) 
+            {
+                $query1=mysqli_query($conn,"SELECT * from user where id=$assistid");
+                $row = mysqli_fetch_array($query1,MYSQLI_ASSOC);
+                $name=$row['name'];
+                mysqli_query($conn,"UPDATE labs SET assistid=$assistid, assistname='$name' WHERE labno='$labno'");
+            }
+            else 
+            {
+                mysqli_query($conn,"UPDATE labs SET assistid=0, assistname='' WHERE labno='$labno'");
+            }
+            header('Location:lab.php');
+
+            
+        }  
+        if(isset($_POST['lab']))
+        {    
+            // DELETE LAB
+            $labno=$_POST['labno']; // LAB-NUMBER
+            mysqli_query($conn,"DELETE FROM labs WHERE labno='$labno'"); // DELETE LAB FROM LABS TABLE
+            mysqli_query($conn,"DROP TABLE $labno");    //DROP LAB TABLE 
+            header('Location:lab.php');
+
+        }
+        if(isset($_POST['addlab']) && $_POST['dept']!='None')   // CREATE LAB
+        {
+            //FORM DATA
+            $labno=$_POST['labno']; 
+            $labname=$_POST['labname']; 
+            $dept=$_POST['dept']; 
+            $active=$_POST['active']; 
+            //INSERT LAB DETAILS IN LABS TABLE
+            $insert_lab=mysqli_query($conn,"INSERT INTO labs (labname,dept,labno,active,assistname,assistid) values('$labname','$dept','$labno','$active','',0)");
+            
+            //CREATE NEW TABLE FOR LAB USING LAB-NUMBER
+            $create_lab=mysqli_query($conn,"CREATE TABLE $labno (eqname VARCHAR(250), dsrno VARCHAR(250), eqtype VARCHAR(250), quantity INT(4), desc1 VARCHAR(250), desc2 VARCHAR(250), cost FLOAT(10),toquan INT DEFAULT 0,byquan INT DEFAULT 0,PRIMARY KEY (dsrno))");
+            header('Location:lab.php');
+
+        }    
     }
     //If a user is logged in and is not an admin
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='admin')
     {
 		$role=$_SESSION['role'];
 		if($role=='lab-assistant')
-			header('Location:../LabAssistant/dash.php');    
+			header('Location:../LabAssistant/index.php');    
 		else if($role=='student')
-			header('Location:../Student/dash.php');    
+			header('Location:../Student/index.php');    
         else
             header('Location:../logout.php');
     }
@@ -32,28 +76,13 @@
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
-    <!-- <link rel="stylesheet" href="CSS/styles.css"> -->
-    <style>
-        th,td {
-text-align:center;
-}
-        .button1{
-background-color: red;
-color: white;
-padding: 5px 20px;
-margin-right:10px;
-border: none;   
-border-radius: 4px;
-cursor: pointer;
-
-}
-
-    </style>
+    <link rel="stylesheet" href="CSS/styles.css">
+    
 </head>
 <body>
     <!-- TEMPORARY DASHBOARD -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-  <a class="navbar-brand" href="dash.php"><button onclick="window.location.href='dash.php'"> 
+  <a class="navbar-brand" href="index.php"><button onclick="window.location.href='index.php'"> 
             Dashboard
         </button></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,12 +93,12 @@ cursor: pointer;
     <ul class="navbar-nav mr-auto">
       
       <li class="nav-item">
-        <a class="nav-link" href="manage_assist.php"><button onclick="window.location.href='manage_assist.php'"> 
+        <a class="nav-link" href="assist.php"><button onclick="window.location.href='assist.php'"> 
             Manage Lab Assistants
         </button> </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="manage_lab.php"><button onclick="window.location.href='manage_lab.php'">
+        <a class="nav-link" href="lab.php"><button onclick="window.location.href='lab.php'">
             Manage Labs
         </button></a>
       </li>
@@ -104,19 +133,6 @@ cursor: pointer;
         <br><br>
         <input class="button1" type="submit" value="Search"><br><br>
     </form>
-    <?php 
-        // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
-        // if (isset($parts['query'])) 
-        // {
-        //     parse_str($parts['query'],$query);
-        //     $search=$query['search'];
-        //     $assign=$query['assigned'];
-        //     $active=$query['sta'];
-        //     echo $assign;
-        //     echo $active;
-        // }
-        
-    ?>
     <!-- TABLE DISPLAY  -->
     <div class="row col-lg-12 card card-body table-responsive">
         <table class="table table-centered table-nowrap mb-0">
@@ -134,7 +150,7 @@ cursor: pointer;
             
             <tbody>
             <tr>
-                    <form action="update_lab.php" method="post">
+                    <form action="" method="post">
                         <td><input type="text" name='labno' id='labno' required></td>
                         <td><input type="text" name='labname' id='labname' required></td>
                         <td>
@@ -176,10 +192,8 @@ cursor: pointer;
                 </tr>
                 <!-- EACH ROW IN WHILE LOOP DISPLAYING ALL LABS -->
                 <?php
-                    // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
                     if (isset($_POST['search'])) 
                     {
-                        // parse_str($parts['query'],$query);
                         $search=$_POST['search'];
                         $assign=$_POST['assigned'];
                         $active=$_POST['sta'];
@@ -211,12 +225,11 @@ cursor: pointer;
                             return;
                         }
                     }
-                    //$num = mysqli_num_rows($result_table_display);
                     while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
                     {    
                         ?>
                         <tr>
-                            <form action="update_lab.php" method="post">
+                            <form action="" method="post">
                                 <input type="text" value="<?php echo $row['labno']?>" style="display:none" name="labno" id="labno">
                                 <td><?php echo $row['labno']?></td>
                                 <td><?php echo $row['labname']?></td>

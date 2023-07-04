@@ -6,19 +6,19 @@
 	{
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:Admin/dash.php');    
+			header('Location:Admin/index.php');    
 		else if($role=='student')
-			header('Location:Student/dash.php');    
+			header('Location:Student/index.php');    
 		else if($role=='lab-assistant')
 		{
             if($_SESSION['status']==1)
             {
-			    header('Location:LabAssistant/dash.php');
+			    header('Location:LabAssistant/index.php');
 			}
 			else if($_SESSION['status']==0)
             {
 				unset($_SESSION['logged']);
-				header('Location:login_form.php');
+				header('Location:login.php');
 			}  
         }
 	}
@@ -43,7 +43,7 @@
         // Check if password and confirm password match
         if ($pass !== $cpass) 
         {
-            header("Location:signup_form.php?pass=false");
+            header("Location:signup.php?pass=false");
             exit;
         }
 
@@ -51,7 +51,7 @@
         $sql_email_check = "SELECT * FROM user where email='$email'";
         $result_email_check = mysqli_query($conn, $sql_email_check);
         if(!$result_email_check){
-            header("Location:signup_form.php?pass=false");
+            header("Location:signup.php?pass=false");
             exit;
         }
 
@@ -59,7 +59,7 @@
         $sql_id_check = "SELECT * FROM user where id='$id'";
         $result_id_check = mysqli_query($conn, $sql_id_check);
         if(!$result_id_check){
-            header("Location:signup_form.php?conn=false");
+            header("Location:signup.php?conn=false");
             exit;
         }
 
@@ -67,7 +67,7 @@
         $row_count_id = mysqli_num_rows($result_id_check);
         if($row_count_email > 0 || $row_count_id > 0)
         {
-            header("Location:signup_form.php?error=true");
+            header("Location:signup.php?error=true");
         }
         else 
         {
@@ -78,10 +78,10 @@
             $sql = "INSERT INTO user (name, email, password, role, dept, id) VALUES ('$name', '$email', '$passhash', '$role', '$dept', '$id')";
             $result = mysqli_query($conn, $sql);
             if(!$result){
-                header("Location:signup_form.php?conn=false");
+                header("Location:signup.php?conn=false");
                 exit;
             }
-            header('Location: login_form.php');
+            header('Location: login.php');
         }
         // Close connection
         mysqli_close($conn);
@@ -110,7 +110,7 @@
                     <h2>Welcome to</h2>
                     <h2 style="color: red; font-weight: bold;">KJSCE Lab Inventory Management</h2>
                     <hr>
-                    <form action="signup_form.php" method="POST">
+                    <form action="signup.php" method="POST">
                         <!-- <div class="input-group mb-6"> -->
                             <!-- <div class="input-group-prepend"> -->
                         <div class="mx-auto">
@@ -213,7 +213,7 @@
                         <button class="btn btn-danger col-lg-12 col-md-10 col-10 mb-4" type="submit" style="background-color: #D40000 ; color: white; height:45px;">Register</button>
                             </div>
                     </form>
-                    <p style="text-align:center;">Already have an account? <a href="login_form.php">Login</a></p>
+                    <p style="text-align:center;">Already have an account? <a href="login.php">Login</a></p>
 
                 </div>
             </div>

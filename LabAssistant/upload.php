@@ -112,7 +112,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
             echo '<div class="alert alert-success">Added to database!</div>';
             unlink($target_file);
-            header('Location: view_equ.php');
+            header('Location: view.php');
         }
         ?>
     </div>

@@ -60,7 +60,7 @@
                     mysqli_query($conn,"UPDATE $labno set quantity=($quantity+$qu) WHERE dsrno='$dsr'");
                 }
             }
-            header("Location:view_equ.php");
+            header("Location:view.php");
             
         }
         if(isset($_POST['lend']))
@@ -184,14 +184,14 @@
                 //UPDATE LENDER QUANTITIES
                 $update_lender_quantity=mysqli_query($conn,"UPDATE $curr_lab SET toquan=(toquan+$lendquan), quantity=(quantity-$lendquan) WHERE eqname='$eqname' AND dsrno='$dsrno'");                    
             }
-            header("Location:view_equ.php");
+            header("Location:view.php");
         }
         if(isset($_POST['delete'])) //IF DELETING EQUIPMENT
         {
             $dsrno=$_POST['dsrno'];
             $labno=$_POST['labno'];
             $sql1=mysqli_query($conn,"DELETE FROM $labno WHERE dsrno='$dsrno'");
-            header("Location:view_equ.php");
+            header("Location:view.php");
 
         }
         if(isset($_POST['delete_lend'])) //IF DELETING LENT EQUIPMENT
@@ -199,7 +199,7 @@
             $dsrno=$_POST['dsrno'];
             $labno=$_POST['labno'];
             $sql1=mysqli_query($conn,"UPDATE $labno SET quantity=0 WHERE dsrno='$dsrno'");
-            header("Location:view_equ.php");
+            header("Location:view.php");
 
         }
         
@@ -231,7 +231,7 @@
             }
             // UPDATE VALUES IN ORIGINAL TABLE
             $remove_lendto = mysqli_query($conn,"UPDATE $lendfrom SET toquan=(toquan-$requan), quantity=(quantity+$requan)WHERE dsrno='$dsrno'");
-            header("Location:view_equ.php");
+            header("Location:view.php");
 
         }
        
@@ -271,7 +271,7 @@
                 // Update failed
                 echo "Update failed: " . mysqli_error($conn);
             }
-            // header("Location:view_equ.php");
+            // header("Location:view.php");
 
         }
 
@@ -282,9 +282,9 @@
     {
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:../Admin/dash.php');    
+			header('Location:../Admin/index.php');    
 		else if($role=='student')
-			header('Location:../Student/dash.php');    
+			header('Location:../Student/index.php');    
         else
             header('Location:../logout.php');
     }
@@ -377,13 +377,13 @@
 <body>
     <!-- TEMPORARY DASHBOARD -->
     <div>
-        <button onclick="window.location.href='dash.php'"> 
+        <button onclick="window.location.href='index.php'"> 
             Dashboard
         </button>
-        <button onclick="window.location.href='view_equ.php'"> 
+        <button onclick="window.location.href='view.php'"> 
             View Equipment
         </button>
-        <button onclick="window.location.href='lent_equ.php'"> 
+        <button onclick="window.location.href='lent.php'"> 
             Lent Equipment
         </button>
         <button onclick="window.location.href='../logout.php'"> 
@@ -429,7 +429,7 @@
 
                 <tr>
                     <!-- FORM FOR INPUTTING EQUIPMENT  -->
-                    <form action="view_equ.php" method="post">
+                    <form action="view.php" method="post">
                         <!-- placeholder helps when the table headers are not visible without scrolling to the top -->
                     <td><input type="text" name='eqname' id='eqname' placeholder="Enter Equipment Name" required></td>
                     <td>

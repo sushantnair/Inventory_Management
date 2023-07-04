@@ -6,19 +6,19 @@
 	{
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:Admin/dash.php');    
+			header('Location:Admin/index.php');    
 		else if($role=='student')
-			header('Location:Student/dash.php');    
+			header('Location:Student/index.php');    
 		else if($role=='lab-assistant')
 		{
             if($_SESSION['status']==1)
             {
-			    header('Location:LabAssistant/dash.php');
+			    header('Location:LabAssistant/index.php');
 			}
 			else if($_SESSION['status']==0)
             {
 				unset($_SESSION['logged']);
-				header('Location:login_form.php');
+				header('Location:login.php');
 			}  
         }
 	}
@@ -45,7 +45,7 @@
 </head>
 <body>
 <?php 
-        header("Location:login_form.php");
+        header("Location:login.php");
     ?>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>	
 	<script type="text/javascript" src="js/jquery.js"></script>	

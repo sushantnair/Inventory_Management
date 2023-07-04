@@ -12,7 +12,6 @@
         // IF RETURNING EQUIPMENT
         if(isset($_POST['return'])||isset($_POST['returnall']))
         {
-
             //FORM DATA
             $lendto=$_POST['labno'];
             $dsrno=$_POST['dsrno'];
@@ -30,6 +29,7 @@
                 
                 //DELETE FROM TABLE OF RETURNING LAB
                 $remove_lendfrom = mysqli_query($conn," DELETE FROM $lendto WHERE dsrno='$dsrno'");
+                $requan=$lendquan;
             }
             else
             {
@@ -41,9 +41,9 @@
                 
             // UPDATE VALUES IN ORIGINAL TABLE
             $remove_lendto = mysqli_query($conn,"  UPDATE $lendfrom SET toquan=(toquan-$requan), quantity=(quantity+$requan)WHERE dsrno='$dsrno'");
-            
+            header('Location:lent.php');
         }
-        if(isset($_POST['lend']))
+        if(isset($_POST['lend']))   //LENDING TO STUDENT/PROFESSOR
         {
             //FETCH FORM DATA
             $lendfrom=$_POST['labno'];
@@ -81,99 +81,37 @@
                 {
                     $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
                     if(mysqli_num_rows($check_prev_lend)==0)    //STUDENT NOT LENT SAME EQUIPMENT FROM LAB-A
-                    {                        
                         $insert_transaction=mysqli_query($conn,"INSERT INTO lend(lendfrom,dsrno,lendquan,lendto) values('$orignal_labno','$dsrno',$lendquan,'$lendto')");
-                        $modify_old=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan-$lendquan) WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
-                    }                    
+                                       
                     else    //STUDENT PREVIOUSLY LENT SAME EQUIPMENT FROM LAB-A
-                    {
                         $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan+$lendquan) WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
-                        $modify_old=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan-$lendquan) WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
-                    }
+                    
+                    //MODIFY OLD LENDING BETWEEN LAB-A AND LAB-B
+                    $modify_old=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan-$lendquan) WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
                     //SUBTRACT FROM LAB-B
                     $update_old_lend=mysqli_query($conn,"UPDATE $lendfrom SET quantity=quantity-$lendquan, byquan=byquan-$lendquan WHERE dsrno='$dsrno'");
 
                 }
                 $delete_request=mysqli_query($conn,"DELETE FROM request WHERE (labno='$lendfrom' AND dsrno='$dsrno' AND id='$lendto') ");
-                if(!$delete_request)    //error in executing query
-                {
-                    echo "Error in inserting new lending transaction<br>";
-                    echo mysqli_error($conn);
-                    die();
-                }
+                
             }
             else    //OWNED BY THIS LAB
             {
+                
+                //CHECKING PREVIOUSLY LENDING
                 $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendfrom='$lendfrom' AND dsrno='$dsrno' AND lendto='$lendto'");
-                if(!$check_prev_lend)   //error in executing query
-                {
-                    echo "Error in checking previous lending transaction<br>";
-                    echo mysqli_error($conn);
-                    die();
-                }
-                else
-                {
-                    if(mysqli_num_rows($check_prev_lend)==1)
-                    {
-                        $lend_transaction=mysqli_query($conn,"UPDATE $lendfrom SET toquan=toquan+$lendquan,quantity=quantity-$lendquan WHERE dsrno='$dsrno'");
-                        if(!$lend_transaction)    //error in executing query
-                        {
-                            echo "Error in updating new lending transaction in lab table<br>";
-                            echo mysqli_error($conn);
-                            die();
-                        }
-                        $update_previous=mysqli_query($conn,"UPDATE lend SET lendquan=lendquan+$lendquan WHERE lendfrom='$lendfrom' AND dsrno='$dsrno' AND lendto='$lendto'");
-                        if(!$update_previous)    //error in executing query
-                        {
-                            echo "Error in updating new lending transaction in lend table<br>";
-                            echo mysqli_error($conn);
-                            die();
-                        }
-                        $delete_request=mysqli_query($conn,"DELETE FROM request WHERE (labno='$lendfrom' AND dsrno='$dsrno' AND id='$lendto') ");
-                        if(!$delete_request)    //error in executing query
-                        {
-                            echo "Error in inserting new lending transaction<br>";
-                            echo mysqli_error($conn);
-                            die();
-                        }
-                    }
-                    else
-                    {
-                        $lend_transaction=mysqli_query($conn,"UPDATE $lendfrom SET toquan=toquan+$lendquan,quantity=quantity-$lendquan WHERE dsrno='$dsrno'");
-                        if(!$lend_transaction)    //error in executing query
-                        {
-                            echo "Error in updating new lending transaction in lab table<br>";
-                            echo mysqli_error($conn);
-                            die();
-                        }
-                        $insert_transaction=mysqli_query($conn,"INSERT INTO lend(lendfrom,dsrno,lendto,lendquan) VALUES('$lendfrom','$dsrno',$lendto,$lendquan) ");
-                        if(!$insert_transaction)    //error in executing query
-                        {
-                            echo "Error in inserting new lending transaction<br>";
-                            echo mysqli_error($conn);
-                            die();
-                        }
-                        else
-                        {
-                            $delete_request=mysqli_query($conn,"DELETE FROM request WHERE (labno='$lendfrom' AND dsrno='$dsrno' AND id='$lendto') ");
-                            if(!$delete_request)    //error in executing query
-                            {
-                                echo "Error in inserting new lending transaction<br>";
-                                echo mysqli_error($conn);
-                                die();
-                            }
-                        }
-                    }
-                }
-            }            
-
-                //CHECK IF SAME EQUIPMENT HAS BEEN LENT TO SAME STUDENT/PROFESSOR
                 
+                if(mysqli_num_rows($check_prev_lend)==1)    //PREVIOUSLY LENT SAME EQUIPMENT TO THIS USER
+                    $update_previous=mysqli_query($conn,"UPDATE lend SET lendquan=lendquan+$lendquan WHERE lendfrom='$lendfrom' AND dsrno='$dsrno' AND lendto='$lendto'");                    
+                else    //NOT LENT SAME EQUIPMENT TO THIS USER
+                    $insert_transaction=mysqli_query($conn,"INSERT INTO lend(lendfrom,dsrno,lendto,lendquan) VALUES('$lendfrom','$dsrno',$lendto,$lendquan) ");
                 
-
-            
-                
-
+                //UPDATE CURRENT LAB TABLE
+                $lend_transaction=mysqli_query($conn,"UPDATE $lendfrom SET toquan=toquan+$lendquan,quantity=quantity-$lendquan WHERE dsrno='$dsrno'");
+                //DELETE FROM 'request' TABLE
+                $delete_request=mysqli_query($conn,"DELETE FROM request WHERE (labno='$lendfrom' AND dsrno='$dsrno' AND id='$lendto') ");
+            }                            
+            header('Location:lent.php');
         }
         if(isset($_POST['deny']))
         {
@@ -181,12 +119,6 @@
             $dsrno=$_POST['dsrno'];
             $lendto=$_POST['lendto'];
             $deny_request=mysqli_query($conn,"DELETE FROM request WHERE labno='$lendfrom' AND dsrno='$dsrno' AND id='$lendto'");
-            if(!$deny_request)    //error in executing query
-            {
-                echo "Error in inserting new lending transaction<br>";
-                echo mysqli_error($conn);
-                die();
-            }
         }
         
     }
@@ -195,9 +127,9 @@
     {
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:../Admin/dash.php');    
+			header('Location:../Admin/index.php');    
 		else if($role=='student')
-			header('Location:../Student/dash.php');    
+			header('Location:../Student/index.php');    
         else
             header('Location:../logout.php');
     }
@@ -225,13 +157,13 @@
 <body>
     <!-- TEMPORARY DASHBOARD -->
     <div>
-        <button onclick="window.location.href='dash.php'"> 
+        <button onclick="window.location.href='index.php'"> 
             Dashboard
         </button>
-        <button onclick="window.location.href='view_equ.php'"> 
+        <button onclick="window.location.href='view.php'"> 
             View Equipment
         </button>
-        <button onclick="window.location.href='lent_equ.php'"> 
+        <button onclick="window.location.href='lent.php'"> 
             Lent Equipment
         </button>
         <button onclick="window.location.href='../logout.php'"> 
@@ -279,7 +211,7 @@
     <?php
         if($filter == '' || $filter == '1' || $filter == '4' || $filter == '5' || $filter == '7'){
             ?>
-            <h4 style="text-align: center;">EQUIPMENTS LENT TO OTHERS</h4>
+            <h4 style="text-align: center;">EQUIPMENTS LENT</h4>
             <div class="row col-lg-12 card card-body table-responsive">
                 <table class="table table-centered table-nowrap mb-0">
                     <thead>
@@ -355,7 +287,7 @@
         }
          if ($filter == '' || $filter == '2' || $filter == '4' || $filter == '6' || $filter == '7') {
         ?>
-            <h4 style="text-align: center;">EQUIPMENTS LENT FROM OTHERS</h4>
+            <h4 style="text-align: center;">EQUIPMENTS BORROWED</h4>
             <div class="row col-lg-12 card card-body table-responsive">
                 <table class="table table-centered table-nowrap mb-0">
                     <thead>
@@ -561,7 +493,7 @@
                                         <td><?php echo $eqrow['desc2'];?></td>
                                         <td><?php echo $row['id'];?></td>
                                         <td>
-                                            <form action="lent_equ.php" method="post" >
+                                            <form action="lent.php" method="post" >
                                                 <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                                                 <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                                 <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
@@ -570,7 +502,7 @@
                                                     Lend
                                                 </button>
                                             </form>
-                                            <form action="lent_equ.php" method="post">
+                                            <form action="lent.php" method="post">
                                                 <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                                                 <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                                 <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">

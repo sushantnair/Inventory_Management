@@ -5,15 +5,40 @@
     if (isset($_SESSION['logged']) && $_SESSION['role']=='admin') 
     {
         include '../connection.php';
+        if(isset($_POST['btn-send'])){
+            $id=$_POST['tid'];
+            $status=$_POST['status'];
+    
+            if($status=="approved"){
+                $ns=1;
+            }
+            elseif($status=="revoked"){
+                $ns=0;
+            }
+    
+            $sql = "UPDATE user SET status='$ns' WHERE id='$id'";
+            $result=mysqli_query($conn,$sql);
+            header('Location:assist.php');
+    
+        }
+    
+        if(isset($_POST['delete'])){
+            $id=$_POST['tid'];
+            $status=$_POST['status'];
+    
+            $sq="DELETE FROM user WHERE id='$id'";
+            mysqli_query($conn,$sq);
+            header('Location:assist.php');
+        }
     }
     //If a user is logged in and is not an admin
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='admin')
     {
 		$role=$_SESSION['role'];
 		if($role=='lab-assistant')
-			header('Location:../LabAssistant/dash.php');    
+			header('Location:../LabAssistant/index.php');    
 		else if($role=='student')
-			header('Location:../Student/dash.php');    
+			header('Location:../Student/index.php');    
         else
             header('Location:../logout.php');
     }
@@ -25,28 +50,7 @@
 
      
 
-    if(isset($_POST['btn-send'])){
-        $id=$_POST['tid'];
-        $status=$_POST['status'];
-
-        if($status=="approved"){
-            $ns=1;
-        }
-        elseif($status=="revoked"){
-            $ns=0;
-        }
-
-        $sql = "UPDATE user SET status='$ns' WHERE id='$id'";
-        $result=mysqli_query($conn,$sql);
-    }
-
-    if(isset($_POST['delete'])){
-        $id=$_POST['tid'];
-        $status=$_POST['status'];
-
-        $sq="DELETE FROM user WHERE id='$id'";
-        mysqli_query($conn,$sq);
-    }
+    
 
 
 ?>
@@ -75,7 +79,7 @@ cursor: pointer;
 </head>
  	<body>
      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="dash.php"><button onclick="window.location.href='dash.php'"> 
+  <a class="navbar-brand" href="index.php"><button onclick="window.location.href='index.php'"> 
             Dashboard
         </button></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,12 +90,12 @@ cursor: pointer;
     <ul class="navbar-nav mr-auto">
       
       <li class="nav-item">
-        <a class="nav-link" href="manage_assist.php"><button onclick="window.location.href='manage_assist.php'"> 
+        <a class="nav-link" href="assist.php"><button onclick="window.location.href='assist.php'"> 
             Manage Lab Assistants
         </button> </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="manage_lab.php"><button onclick="window.location.href='manage_lab.php'">
+        <a class="nav-link" href="lab.php"><button onclick="window.location.href='lab.php'">
             Manage Labs
         </button></a>
       </li>

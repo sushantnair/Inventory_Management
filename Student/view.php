@@ -11,9 +11,9 @@
     {
         $role=$_SESSION['role'];
         if($role=='admin')
-            header('Location:../Admin/dash.php'); 
+            header('Location:../Admin/index.php'); 
         else if($role=='lab-assistant')
-            header('Location:../LabAssistant/dash.php');    
+            header('Location:../LabAssistant/index.php');    
         else
             header('Location:../logout.php');
     }
@@ -38,7 +38,7 @@
     
 <div>
         
-        <button onclick="window.location.href='dash.php'"> 
+        <button onclick="window.location.href='index.php'"> 
             Dash
         </button>
         <button onclick="window.location.href='view.php'"> 
