@@ -40,8 +40,7 @@
             .sidebar {
                 width: 20%;
                 float: left;
-                background-color: azure; /* Add the background color */
-
+                background-color: red; /* Updated background color */
             }
             .content {
                 width: 80%;
@@ -53,8 +52,7 @@
         @media (max-width: 767px) {
             .sidebar {
                 display: none;
-                background-color: azure; /* Add the background color */
-
+                background-color: red; /* Updated background color */
             }
             .content {
                 width: 100%;
@@ -68,26 +66,41 @@
             position: absolute;
             top: 10px; /* Adjust the top value to position the logo vertically */
             left: 10px; /* Adjust the left value to position the logo horizontally */
-        
         }
 
+        .sidebar p {
+            display: none; /* Hide the text "Please select an option suitable for the operation you want to undertake" */
+        }
+
+        .sidebar button {
+            margin: 5px 0; /* Less spacing between buttons */
+            margin-bottom: 5px;
+            background-color: red; /* Set button color to red */
+        }
+        
+
+        .sidebar h6 {
+            margin-bottom: 3px; /* Less spacing below User ID and Role */
+        }
+
+        .sidebar h6:last-child {
+            margin-top: 0; /* No spacing below the last h6 element (Role) */
+        }
         
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-    <img src="SomaiyaLogo.jpg" alt="Logo" class="logo">
+        <img src="SomaiyaLogo.jpg" alt="Logo" class="logo">
+
+
+        <button class="btn btn-primary btn-block" onclick="window.location.href='view.php'">View Labs</button>
+        <button class="btn btn-primary btn-block" onclick="window.location.href='equ.php'">View Equipment and Requests</button>
+        <button class="btn btn-primary btn-block" onclick="window.location.href='../logout.php'">Signout</button><br><br>
 
         <h6><u>User ID:</u> <?php echo $id; ?></h6>
         <h6><u>Role:</u> Student</h6>
-        <br>
-        <p>Please select an option suitable for the operation you want to undertake</p>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='view.php'">View Labs</button>
-        <br><br>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='equ.php'">View Equipment and Requests</button>
-        <br><br><br><br><br><br>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='../logout.php'">Signout</button>
     </div>
 
     <div class="content">
