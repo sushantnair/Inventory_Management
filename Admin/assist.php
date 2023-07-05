@@ -65,75 +65,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
-    <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
-    <link rel="stylesheet" href="./CSS/styles.css">
-    <!-- <style>
-        .button1{
-background-color: red;
-color: white;
-padding: 5px 20px;
-margin-right:10px;
-border: none;   
-border-radius: 4px;
-cursor: pointer;
-
-}
-    </style> -->
-</head>
- 	<body style="overflow-x: hidden;">
-     <?php include('../Components/sidebar.php') ?>
-     <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="index.php"><button onclick="window.location.href='index.php'"> 
-            Dashboard
-        </button></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      
-      <li class="nav-item">
-        <a class="nav-link" href="assist.php"><button onclick="window.location.href='assist.php'"> 
-            Manage Lab Assistants
-        </button> </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="lab.php"><button onclick="window.location.href='lab.php'">
-            Manage Labs
-        </button></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="../logout.php"><button onclick="window.location.href='../logout.php'">
-            Signout
-        </button></a>
-      </li>
-      
-    </ul>
+    <link rel="stylesheet" href="CSS/styles.css">
     
-  </div>
-</nav> -->
+</head>
+<body style="overflow-x: hidden;">
+    <?php include('../Components/sidebar.php') ?>     
  	<div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; z-index:100; width: calc(100% - 100px);">
-    <form action="" method="post" style="text-align:center;">
-        <input type="text" name="search" id="search" style="text-align:center;" placeholder="Search">
-        <br><br>
-        <!-- <label for="assigned">Lab Assistant Assigned?</label>
-        <select id="assigned" name="assigned">
-            <option value="">Any</option>
-            <option value="and assistname!=NULL">Yes</option>
-            <option value="and assistname=NULL">No</option>
-        </select>
-        <br> -->
-        <label for="sta">Status</label>
-        <select id="sta" name="sta">
-            <option value="">Any</option>
-            <option value="and status=1">Yes</option>
-            <option value="and status=0">No</option>
-        </select>
-        <br><br>
-        <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
-    </form>
-	<div class="row col-lg-12 card card-body">
+        <form action="" method="post" style="text-align:center;">
+            <br>
+            <input type="text" name="search" id="search" style="text-align:center;" placeholder="Search">
+            <br>
+            <label for="sta">Status</label>
+            <select id="sta" name="sta">
+                <option value="">Any</option>
+                <option value="and status=1">Yes</option>
+                <option value="and status=0">No</option>
+            </select>
+            <br><br>
+            <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
+        </form>
+        <div class="row col-lg-12 card card-body">
                     <!-- <div class="table-responsive"> -->
                         <table class="mb-0">
                             <thead>

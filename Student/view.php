@@ -29,28 +29,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IM-KJSCE</title>
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
     <!-- <link rel="stylesheet" href="CSS/styles.css"> -->
 </head>
-<body>
-    
-<div>
-        
-        <button onclick="window.location.href='index.php'"> 
-            Dash
-        </button>
-        <button onclick="window.location.href='view.php'"> 
-            View Labs
-        </button>
-        <button onclick="window.location.href='equ.php'"> 
-            View Equipment and Requests
-        </button>
-        <button onclick="window.location.href='../logout.php'"> 
-           Signout
-        </button>
-    </div>
+<body style="background-color: #f8f9fc;">
+    <?php include('../Components/sidebar.php') ?>
+    <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
+
     <div class="search-container">
         <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
             <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter lab which you want to search for">
@@ -86,13 +73,13 @@
                                                 assistid LIKE '%$search%')";
                     $result_table_display = mysqli_query($conn,$sql_table_display);
                     if(!$result_table_display){
-                        echo "There is some problem in fetching equipment data.";
+                        echo "There is some problem in fetching equipment ddata.";
                         return;
                     }
                 } else {
                     $result_table_display = mysqli_query($conn,"SELECT * FROM labs");
                     if(!$result_table_display){
-                        echo "There is some problem in fetching equipment data.";
+                        echo "There is some problem in fetching equipment daata.";
                         return;
                     }
                 }    
@@ -119,7 +106,10 @@
                  <?php
                     }
                  ?>
-            <tbody>
+        </table>
+    </div>
+    </div>
+    
 
     </body>
 </html>

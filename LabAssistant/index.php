@@ -9,6 +9,26 @@
         $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
         $labno=$row1['labno'];
         $labname=$row1['labname'];
+        
+        $fetch_equipment=mysqli_query($conn,"SELECT COUNT(quantity) AS num_equ, SUM(quantity) AS sum_equ, SUM(cost*quantity) AS total_cost FROM $labno");
+        $fetch=mysqli_fetch_assoc($fetch_equipment);
+        $num_equ=$fetch['num_equ'];
+        $sum_equ=$fetch['sum_equ'];
+        $total_cost=$fetch['total_cost'];
+
+        $lending_data=mysqli_query($conn,"SELECT SUM(lendquan) AS sum_lend FROM lend WHERE lendfrom='$labno'");
+        $fetch_lend=mysqli_fetch_assoc($lending_data);
+        $sum_lend=$fetch_lend['sum_lend'];
+        
+        $borrowing_data=mysqli_query($conn,"SELECT SUM(lendquan) AS sum_borrow FROM lend WHERE lendto='$labno'");
+        $fetch_borrow=mysqli_fetch_assoc($borrowing_data);
+        $sum_borrow=$fetch_borrow['sum_borrow'];
+        
+        $requesting_data=mysqli_query($conn,"SELECT COUNT(labno) AS sum_request FROM request WHERE labno='$labno'");
+        $fetch_request=mysqli_fetch_assoc($requesting_data);
+        $sum_request=$fetch_request['sum_request'];
+        
+
     }
     //If a user is logged in and is not a lab-assistant
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='lab-assistant')
@@ -40,7 +60,6 @@
     <title>IM-KJSCE</title>
 </head>
 <body style="background-color: #f8f9fc;">
-    
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
         <div class="h2 mt-4">B201 - <u>Microprocessor Laboratory</u></div>
@@ -53,7 +72,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Equipment Variety</div>
-                            <div class="h4 card-content mb-0 text-dark">32</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php echo $num_equ ;?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
@@ -69,7 +88,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Equipment Quantity</div>
-                            <div class="h4 card-content mb-0 text-dark">675</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php echo $sum_equ ;?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
@@ -85,7 +104,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Total Inventory Cost</div>
-                            <div class="h4 card-content mb-0 text-dark">&#8377; 3,99,999</div>
+                            <div class="h4 card-content mb-0 text-dark">&#8377; <?php echo $total_cost;?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
@@ -102,7 +121,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
                                 Lent Equipment</div>
-                            <div class="h4 card-content mb-0 text-dark">11</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($sum_lend>0) echo $sum_lend; else echo 0;?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
@@ -118,7 +137,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
                                 Borrowed Equipment</div>
-                            <div class="h4 card-content mb-0 text-dark">10</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($sum_borrow>0) echo $sum_borrow; else echo 0;?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
@@ -134,7 +153,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
                                 Lend Requests</div>
-                            <div class="h4 card-content mb-0 text-dark">5</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($sum_request>0) echo $sum_request; else echo 0;?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>

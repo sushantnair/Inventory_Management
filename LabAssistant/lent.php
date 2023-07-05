@@ -154,22 +154,10 @@
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
 
 </head>
-<body>
-    <!-- TEMPORARY DASHBOARD -->
-    <div>
-        <button onclick="window.location.href='index.php'"> 
-            Dashboard
-        </button>
-        <button onclick="window.location.href='view.php'"> 
-            View Equipment
-        </button>
-        <button onclick="window.location.href='lent.php'"> 
-            Lent Equipment
-        </button>
-        <button onclick="window.location.href='../logout.php'"> 
-            Sign Out
-        </button>        
-    </div>
+<body style="background-color: #f8f9fc;">
+    
+    <?php include('../Components/sidebar.php') ?>
+    <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
 
     <!-- Search bar -->
     <div class="search-container">
@@ -524,5 +512,7 @@
         <?php 
         }
         ?>
+    </div>
+
 </body>
 </html>

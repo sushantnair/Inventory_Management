@@ -78,7 +78,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
-    <link rel="stylesheet" href="./CSS/styles.css">
+    <link rel="stylesheet" href="CSS/styles.css">
 </head>
 <body style="overflow-x: hidden;">
      <?php include('../Components/sidebar.php') ?>
@@ -117,22 +117,22 @@
     
 <div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; z-index:100; width: calc(100% - 100px);">
     <form action="" method="post" style="text-align:center;">
-        <input type="text" name="search" id="search" style="text-align:center;" placeholder="Search">
-        <br><br>
+    <br><input type="text" name="search" id="search" style="text-align:center;" placeholder="Search">
+        <br>
         <label for="assigned">Lab Assistant Assigned?</label>
         <select id="assigned" name="assigned">
             <option value="">Any</option>
             <option value="and assistname!=''">Yes</option>
             <option value="and assistname=''">No</option>
         </select>
-        <br><br>
+        <br>
         <label for="sta">Active</label>
         <select id="sta" name="sta">
             <option value="">Any</option>
             <option value="and active='yes'">Yes</option>
             <option value="and active='no'">No</option>
         </select>
-        <br><br>
+        <br>
         <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
     </form>
     <!-- TABLE DISPLAY  -->
@@ -235,7 +235,7 @@
                                 <input type="text" value="<?php echo $row['labno']?>" style="display:none" name="labno" id="labno">
                                 <td><?php echo $row['labno']?></td>
                                 <td class="lname"><?php echo $row['labname']?></td>
-                                <td><?php echo $row['dept']?></td>
+                                <td class="lname"><?php echo $row['dept']?></td>
                                 <td><?php echo $row['active'] ?></td>
                                 <?php if($row['assistname']=='')
                                 {

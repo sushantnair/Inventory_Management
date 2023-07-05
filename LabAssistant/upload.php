@@ -134,29 +134,22 @@
 
 <!DOCTYPE html>
 <html>
-<body>
-    <!-- TEMPORARY DASHBOARD -->
-    <div>
-        <button onclick="window.location.href='index.php'"> 
-            Dashboard
-        </button>
-        <button onclick="window.location.href='view.php'"> 
-            View Equipment
-        </button>
-        <button onclick="window.location.href='lent.php'"> 
-            Lent Equipment
-        </button>
-        <button onclick="window.location.href='../logout.php'"> 
-            Sign Out
-        </button>        
-    </div>
+<body style="background-color: #f8f9fc;">
+    
+    <?php include('../Components/sidebar.php') ?>
+    <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
     <?php
     $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
     $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
     $labno=$row1['labno'];
     $dept=$row1['dept'];
     ?>
-
+<br>
+<br>
+<br>
+<hr>
+<hr>
+<br>
 <form action="upload.php" method="post" enctype="multipart/form-data">
   Select excel file to upload:
   <input type="file" name="fileToUpload" id="fileToUpload">
@@ -164,6 +157,9 @@
   <input type="text" name="dept" id="dept" value="<?php echo $dept; ?>" hidden>
   <input type="submit" value="Upload Excel file" name="submit">
 </form>
-
+<br>
+<br>
+<hr>
+    </div>
 </body>
 </html>

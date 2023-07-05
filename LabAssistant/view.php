@@ -374,23 +374,11 @@
     }
   </style>
 </head>
-<body>
-    <!-- TEMPORARY DASHBOARD -->
-    <div>
-        <button onclick="window.location.href='index.php'"> 
-            Dashboard
-        </button>
-        <button onclick="window.location.href='view.php'"> 
-            View Equipment
-        </button>
-        <button onclick="window.location.href='lent.php'"> 
-            Lent Equipment
-        </button>
-        <button onclick="window.location.href='../logout.php'"> 
-            Sign Out
-        </button>        
-    </div>
-    <!-- Search bar -->
+<body style="background-color: #f8f9fc;">
+    
+    <?php include('../Components/sidebar.php') ?>
+    <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
+        <!-- Search bar -->
     <div class="search-container">
         <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
             <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter equipment which you want to search for">
@@ -803,44 +791,8 @@
     }
     
     ?>
-    
-    <div id="popup" class="popup">
-    <h2>Update Form</h2>
-    <form action="" method="post" id="updateForm">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
-      </div>
-      <div class="form-group">
-        <label for="type">Type:</label>
-        <input type="text" id="type" name="type">
-      </div>
-      <div class="form-group">
-        <label for="dsr">DSR No.:</label>
-        <input type="text" id="dsr" name="dsr">
-      </div>
-      <div class="form-group">
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quant" name="quant">
-      </div>
-      <div class="form-group">
-        <label for="description1">Description 1:</label>
-        <textarea id="description1" name="description1"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="description2">Description 2:</label>
-        <textarea id="description2" name="description2"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="cost">Cost:</label>
-        <input type="number" id="costin" name="cost">
-      </div>
-      <div class="form-group">
-        <input type="submit" name="update" value="update">
-      </div>
-    </form>
-    <button onclick="closePopup()">Close</button>
-  </div>
+    </div>
+  
 
   <script>
 function openPopup(rowId) {

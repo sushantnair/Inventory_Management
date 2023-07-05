@@ -77,26 +77,10 @@
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
 </head>
-<body>
-    <style>
-        table{
-            text-align: center;
-        }
-        </style>
-    <div>
-        <button onclick="window.location.href='index.php'"> 
-            Dash
-        </button>
-        <button onclick="window.location.href='view.php'"> 
-            View Labs
-        </button>
-        <button onclick="window.location.href='equ.php'"> 
-            View Equipment and Requests
-        </button>
-        <button onclick="window.location.href='../logout.php'"> 
-           Signout
-        </button>
-    </div>
+<body style="background-color: #f8f9fc;">
+    <?php include('../Components/sidebar.php') ?>
+    <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
+
     <div class="search-container">
         <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
             <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter equipment which you want to search for">
@@ -212,6 +196,8 @@
             </tbody>
         </table>
     </div>
+    </div>
+    
 </body>
 </html>
 
