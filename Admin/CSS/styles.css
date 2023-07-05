@@ -11,9 +11,6 @@ th,td,tr,h4{
 }
 .card {
     cursor: pointer;
-    width: 4000px;
-    /* width:auto; */
-    overflow-x: scroll;
     /* box-shadow: rgba(0, 71, 21, 0.638) 0px 2px 4px 0px, rgba(0, 71, 21, 0.655) 0px 2px 16px 0px; */
 }
 #reportlink {
@@ -25,6 +22,11 @@ th,td,tr,h4{
 .buttontext1 {
     transition: all 1s linear;
     display: none;
+}
+.table-card {
+    width: 1800x;
+    /* width:auto; */
+    overflow-x: scroll;
 }
 table {
     border-collapse: separate!important;

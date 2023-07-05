@@ -84,7 +84,7 @@
             <br><br>
             <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
         </form>
-        <div class="row col-lg-12 card card-body">
+        <div class="row col-lg-12 card card-body table-card">
                     <!-- <div class="table-responsive"> -->
                         <table class="mb-0">
                             <thead>

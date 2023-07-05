@@ -38,8 +38,11 @@ p, h6{
 
 .nav {
     width: 300px;
-    overflow-y: hidden;
-    position: absolute;
+    overflow-y:visible;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
     /* height: auto !important; */
     z-index: 1000;
 }

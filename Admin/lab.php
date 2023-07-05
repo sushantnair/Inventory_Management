@@ -136,7 +136,7 @@
         <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
     </form>
     <!-- TABLE DISPLAY  -->
-    <div class="row col-lg-12 card card-body">
+    <div class="row col-lg-12 card card-body table-card">
         <table class="mb-0">
             <thead>
                 <tr>
@@ -156,12 +156,13 @@
                         <td><input type="text" name='labno' id='labno' required></td>
                         <td><input type="text" name='labname' id='labname' required></td>
                         <td>
-                            <select id="dept" name="dept" required>
+                            <div class="form-floating">
+                            <select id="dept" name="dept" required class="form-select">
                                 <option value="" disabled selected>None</option>
                                 <?php 
                                 if($dept1!=NULL){
                                     ?>
-                                    <option value=<?php echo $dept1; ?>><?php echo $dept1; ?></option>
+                                    <option value="<?php echo $dept1; ?>"><?php echo $dept1; ?></option>
                                     <?php
                                 }
                                 else{
@@ -169,12 +170,14 @@
                                 while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
                                 {
                                     ?>
-                                    <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
+                                    <option value="<?php echo $dept_row['dept']; ?>"><?php echo $dept_row['dept']; ?></option>
                                     <?php
                                 }
                             }
                                 ?>
                             </select>
+                            <label for="dept" class="select-label">Department</label>
+                            </div>
                         </td>
                         <td> 
                             <select id="active" name="active" required>

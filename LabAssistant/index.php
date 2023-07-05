@@ -61,6 +61,29 @@
 </head>
 <body style="background-color: #f8f9fc;">
     <?php include('../Components/sidebar.php') ?>
+    <?php
+        function moneyFormatIndia($num) {
+            $explrestunits = "" ;
+            if(strlen($num)>3) {
+                $lastthree = substr($num, strlen($num)-3, strlen($num));
+                $restunits = substr($num, 0, strlen($num)-3); // extracts the last three digits
+                $restunits = (strlen($restunits)%2 == 1)?"0".$restunits:$restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
+                $expunit = str_split($restunits, 2);
+                for($i=0; $i<sizeof($expunit); $i++) {
+                    // creates each of the 2's group and adds a comma to the end
+                    if($i==0) {
+                        $explrestunits .= (int)$expunit[$i].","; // if is first value , convert into integer
+                    } else {
+                        $explrestunits .= $expunit[$i].",";
+                    }
+                }
+                $thecash = $explrestunits.$lastthree;
+            } else {
+                $thecash = $num;
+            }
+            return $thecash; // writes the final format where $currency is the currency symbol.
+        }
+    ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
         <div class="h2 mt-4">B201 - <u>Microprocessor Laboratory</u></div>
         <div style="font-size:17px">Electronics & Telecommunications</div>
@@ -104,7 +127,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Total Inventory Cost</div>
-                            <div class="h4 card-content mb-0 text-dark">&#8377; <?php echo $total_cost;?></div>
+                            <div class="h4 card-content mb-0 text-dark">&#8377; <?php echo moneyFormatIndia($total_cost); ?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
