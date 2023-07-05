@@ -1,12 +1,13 @@
 <?php 
     $role = $_SESSION['role'];
-    // if($role=='student'){
-    //     $role = 'Student';
-    // } else if ($role=='lab-assistant'){
-    //     $role = 'Lab Assistant';
-    // } else if($role=='admin') {
-    //     $role = 'Admin';
-    // }
+    $id=$_SESSION['id'];
+    $dept=$_SESSION['dept'];
+    if ($role=='lab-assistant'){
+        $lab_row=mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id"),MYSQLI_ASSOC);
+        $labno=$lab_row['labno'];
+        $labname=$lab_row['labname'];
+    }
+    
  ?>
 <head>
     <link rel="stylesheet" href="../css/bootstrap.css">
@@ -94,13 +95,13 @@
         <?php if($role=='Lab Assistant'){ ?>
             <span><b>User ID:</b> <?php echo $id; ?></span>
             <span><b>Role:</b> <?php echo $role; ?></span>
-            <span><b>Lab No:</b> <?php echo "B201"; ?></span>
-            <span><b>Lab Name:</b> <?php echo "Microprocessor Laboratory"; ?></span>
+            <span><b>Lab No:</b> <?php echo $labno; ?></span>
+            <span><b>Lab Name:</b> <?php echo $labname; ?></span>
             <?php } else {
                 ?> <br>
                 <span><b>User ID:</b> <?php echo $id; ?></span>
                 <span><b>Role:</b> <?php echo $role; ?></span>
-                <span><b>Dept:</b> <?php echo "COMPS" ?></b></span>
+                <span><b>Dept:</b> <?php echo $dept ?></b></span>
                 <br> <?php
             } ?>
         </div>

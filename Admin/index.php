@@ -5,6 +5,10 @@
     {
         include '../connection.php';
         $id=$_SESSION['id'];
+        $fetch_name=mysqli_query($conn,"SELECT * FROM user WHERE id=$id");
+        $row=mysqli_fetch_array($fetch_name,MYSQLI_ASSOC);
+        $name=$row['name'];
+        $dept=$row['dept'];
     }
     //If a user is logged in and is not an admin
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='admin')
@@ -41,8 +45,8 @@
 <body style="background-color: #f8f9fc;">
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
-        <div class="h2 mt-4">1001600532 - <u>Praneel Bora</u></div>
-        <div style="font-size:17px">Computer Science Engineering</div>
+        <div class="h2 mt-4"><?php echo $id;?> - <u><?php echo $name;?></u></div>
+        <div style="font-size:17px"><?php echo $dept;?></div>
         <!-- <hr class="mt-4 shadow mx-5"> -->
         <div class="col-xl-3 col-md-6 mt-4 mb-2" onclick="window.open('view_equ.php','_self')">
             <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
