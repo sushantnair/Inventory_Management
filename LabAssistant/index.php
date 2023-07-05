@@ -186,7 +186,7 @@
             </div>
         </div>
     </div>
-    <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem;" onmouseenter="butExp()" onmouseleave="butCol()">
+    <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem; z-index: 1000;;" onmouseenter="butExp()" onmouseleave="butCol()">
         <a href="#" id="reportlink" class="btn btn-danger rounded-circle shadow p-3">
         <span class="buttontext buttontext1" style="float:left; padding-right: 0.75em; font-weight: bold;">Generate<br>Report</span>
         <span style="float:right;">

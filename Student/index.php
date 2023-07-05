@@ -5,6 +5,19 @@
     {
         include('../connection.php');
         $id=$_SESSION['id'];
+        $fetch_user=mysqli_fetch_assoc(mysqli_query($conn,"SELECT * FROM user where id=$id"));
+        $name=$fetch_user['name'];
+        $dept=$fetch_user['dept'];
+
+        $fetch_dept=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(dept) AS sum FROM departments"));
+        $num_dept=$fetch_dept['sum'];
+
+        $fetch_labs=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(labno) AS sum FROM labs"));
+        $num_labs=$fetch_labs['sum'];
+
+        $fetch_active_labs=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(labno) AS sum FROM labs WHERE active='yes'"));
+        $num_a_labs=$fetch_active_labs['sum'];
+
     }
     //If a user is logged in and is not a student
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='student')
@@ -40,8 +53,8 @@
 <body style="background-color: #f8f9fc;">
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
-        <div class="h2 mt-4">1001600532 - <u>Praneel Bora</u></div>
-        <div style="font-size:17px">Computer Science Engineering</div>
+        <div class="h2 mt-4"><?php echo $id ?> - <u> <?php echo $name ?></u></div>
+        <div style="font-size:17px"><?php echo $dept ?></div>
         <!-- <hr class="mt-4 shadow mx-5"> -->
         <div class="col-xl-3 col-md-6 mt-4 mb-2" onclick="window.open('view_equ.php','_self')">
             <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
@@ -50,7 +63,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Departments</div>
-                            <div class="h4 card-content mb-0 text-dark">8</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php echo $num_dept ?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
@@ -66,7 +79,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Total No. of Labs</div>
-                            <div class="h4 card-content mb-0 text-dark">80</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php echo $num_labs ?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
@@ -82,7 +95,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 No. of Active Labs</div>
-                            <div class="h4 card-content mb-0 text-dark">68</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php echo $num_a_labs ?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
@@ -141,7 +154,7 @@
             </div>
         </div>
     </div>
-    <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem;" onmouseenter="butExp()" onmouseleave="butCol()">
+    <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem; z-index:1000;" onmouseenter="butExp()" onmouseleave="butCol()">
         <a href="#" id="reportlink" class="btn btn-danger rounded-circle shadow p-3">
         <span class="buttontext buttontext1" style="float:left; padding-right: 0.75em; font-weight: bold;">Request<br>Equipment</span>
         <span style="float:right;">
