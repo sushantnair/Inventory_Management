@@ -17,7 +17,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
-<body>
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
     <div class="container">
         <h2>Upload File</h2>
 

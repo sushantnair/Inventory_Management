@@ -8,12 +8,12 @@
         $id=$_SESSION['id'];
         if(isset($_POST['btn-send'])){
             $tid=$_POST['tid'];
-            $status=$_POST['status'];
+            $status=$_POST['btn-send'];
     
-            if($status=="approved"){
+            if($status==1){
                 $ns=1;
             }
-            elseif($status=="revoked"){
+            elseif($status==0){
                 $ns=0;
             }
     
@@ -65,26 +65,39 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="./CSS/styles.css">
     
 </head>
-<body style="overflow-x: hidden;">
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>     
  	<div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; z-index:100; width: calc(100% - 100px);">
         <form action="" method="post" style="text-align:center;">
             <br>
-            <input type="text" name="search" id="search" style="text-align:center;" placeholder="Search">
-            <br>
-            <label for="sta">Status</label>
-            <select id="sta" name="sta">
-                <option value="">Any</option>
-                <option value="and status=1">Yes</option>
-                <option value="and status=0">No</option>
-            </select>
-            <br><br>
-            <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-1 pe-0 mt-1">
+                    <label for="search">Search</label>
+                </div>
+                <div class="col-md-2 ps-0">
+                    <input type="text" class="form-control" id="search" name="search">
+                </div>
+                <div class="col-md-1 pe-0 mt-1">
+                    <label for="sta" class="form-label">Status</label>
+                </div>
+                <div class="col-md-2 ps-0">
+                    <select id="sta" name="sta" class="form-select">
+                        <option value="">Any</option>
+                        <option value="and status=1">Yes</option>
+                        <option value="and status=0">No</option>
+                    </select>            
+                </div>
+                <div class="col-md-1 pe-0">
+                    <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
+                </div>
+            </div>
         </form>
-        <div class="row col-lg-12 card card-body table-card">
+        <div class="row col-lg-12 card table-card card-body">
                     <!-- <div class="table-responsive"> -->
                         <table class="mb-0">
                             <thead>
@@ -94,7 +107,6 @@
                                     <th scope="col">Email Id</th>
                                     <th scope="col">Department</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Options</th>
                                     <th scope="col">Update<br></th>
                                 </tr>
                             </thead>
@@ -143,41 +155,50 @@
                                     elseif($row['status']==0){
                                         $sta="Pending";
                                     }
-                                    echo 
-                                        '<tr>          
+                                    ?>
+                                        <tr>          
                                         <form action="" method="post">     
-                                            <input name="tid" style="display:none;" type="text" value='.$row['id'].' />
+                                            <input name="tid" style="display:none;" type="text" value="<?php echo $row['id']?>">
                                             <td>
-                                                '.$row['id'].'
+                                               <?php echo $row['id']; ?>
                                             </td>
                                             <td class="lname">
-                                                '.$ben_name.' 
+                                               <?php echo $ben_name; ?> 
                                             </td>
                                             <td class="lname">
-                                            '.$row['email'].'
+                                           <?php echo $row['email']; ?>
+                                            </td>
+                                            <td class="lname">
+                                           <?php echo $row['dept']; ?>
                                             </td>
                                             <td>
-                                            '.$row['dept'].'
+                                               <?php echo $sta; ?> 
                                             </td>
-                                            <td>
-                                                '.$sta.' 
-                                            </td>
-                                            <td>
-                                                <select id="status" name="status" required>
-                                                    <option value="default">None</option>
-                                                    <option value="approved">Grant Access</option>
-                                                    <option value="revoked">Revoke Access</option>
-                                                </select>
-                                            </td>
+                                    
                                             
                                             <td>
-                                                <button class="btn btn-outline-dark" type="submit" name="btn-send">Update</button>
-                                                <button class="btn btn-outline-danger" type="submit" name="delete">Delete</button>
+                                                <?php 
+                                                if($row['status']==0)
+                                                {
+                                                    ?>
+                                                        <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1">Grant Access</button>
+                                                    <?php 
+                                                }
+                                                else if($row['status']==1) 
+                                                {
+                                                    ?>
+                                                        <button class="btn btn-outline-dark" type="submit" name="btn-send" value="0">Revoke Access</button>
+
+                                                    <?php 
+                                                } 
+                                                ?>
+                                                    <button class="btn btn-outline-danger" type="submit" name="delete">Delete Account</button>
+
                                                 </form>
                                             </td>
                                             
                                         </tr>
-                                    ';
+                                    <?php
                                 } 
                                 
                             ?>

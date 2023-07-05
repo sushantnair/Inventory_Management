@@ -29,22 +29,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IM-KJSCE</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
-    <!-- <link rel="stylesheet" href="CSS/styles.css"> -->
+    <link rel="stylesheet" href="./CSS/styles.css">
 </head>
-<body style="background-color: #f8f9fc;">
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
-
-    <div class="search-container">
-        <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
-            <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter lab which you want to search for">
+    <form action="" method="post" style="text-align:center;">
             <br>
-            <button class="btn btn-primary" type="submit" value="Search">Submit</button>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-1 pe-0 mt-1">
+                    <label for="search">Search</label>
+                </div>
+                <div class="col-md-2 ps-0">
+                    <input type="text" class="form-control" id="search" name="search">
+                </div>
+                <div class="col-md-1 pe-0">
+                <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
+                </div>
+            </div>
         </form>
-    </div>
+    
     <div class="row col-lg-12 card card-body table-responsive">
         <table class="table table-centered table-nowrap mb-0">
             <thead>
@@ -91,13 +102,13 @@
                             <form action="lab.php" method="post">
                                 <input type="text" value="<?php echo $row['labno']?>" style="display:none" name="labno" id="labno">
                                 <td><?php echo $row['labno']?></td>
-                                <td><?php echo $row['labname']?></td>
-                                <td><?php echo $row['dept']?></td>
+                                <td class="lname"><?php echo $row['labname']?></td>
+                                <td class="lname"><?php echo $row['dept']?></td>
                                 <td><?php echo $row['active'] ?></td>
-                                <td> <?php echo $row['assistname'] ?> </td>
+                                <td class="lname"> <?php echo $row['assistname'] ?> </td>
                                 <td>
                                     
-                                    <button class="button1" type="submit" name="lab">
+                                    <button class="btn btn-outline-dark" type="submit" name="lab">
                                         View Lab
                                     </button>
                                 </td>

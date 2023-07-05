@@ -185,7 +185,7 @@
                                         {
                                             
                                             ?>
-                                            <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
+                                            <option value="<?php echo $dept_row['dept']; ?>"><?php echo $dept_row['dept']; ?></option>
                                             <?php
                                         }
                                     ?>

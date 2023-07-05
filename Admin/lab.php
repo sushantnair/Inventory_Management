@@ -80,113 +80,98 @@
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
     <link rel="stylesheet" href="CSS/styles.css">
 </head>
-<body style="overflow-x: hidden;">
-     <?php include('../Components/sidebar.php') ?>
-    <!-- TEMPORARY DASHBOARD -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-  <a class="navbar-brand" href="index.php"><button onclick="window.location.href='index.php'"> 
-            Dashboard
-        </button></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      
-      <li class="nav-item">
-        <a class="nav-link" href="assist.php"><button onclick="window.location.href='assist.php'"> 
-            Manage Lab Assistants
-        </button> </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="lab.php"><button onclick="window.location.href='lab.php'">
-            Manage Labs
-        </button></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="../logout.php"><button onclick="window.location.href='../logout.php'">
-            Signout
-        </button></a>
-      </li>
-      
-    </ul>
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
+    <?php include('../Components/sidebar.php') ?>
+    <div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; z-index:100; width: calc(100% - 100px);">
     
-  </div>
-</nav> -->
-    
-<div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; z-index:100; width: calc(100% - 100px);">
-    <form action="" method="post" style="text-align:center;">
-    <br><input type="text" name="search" id="search" style="text-align:center;" placeholder="Search">
-        <br>
-        <label for="assigned">Lab Assistant Assigned?</label>
-        <select id="assigned" name="assigned">
-            <option value="">Any</option>
-            <option value="and assistname!=''">Yes</option>
-            <option value="and assistname=''">No</option>
-        </select>
-        <br>
-        <label for="sta">Active</label>
-        <select id="sta" name="sta">
-            <option value="">Any</option>
-            <option value="and active='yes'">Yes</option>
-            <option value="and active='no'">No</option>
-        </select>
-        <br>
-        <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
-    </form>
+        <form action="" method="post" style="text-align:center;">
+            <br>
+            <div class="row">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-1 pe-0 mt-1">
+                    <label for="search">Search</label>
+                </div>
+                <div class="col-sm-2 ps-0">
+                    <input type="text" class="form-control" id="search" name="search">
+                </div>
+                <div class="col-sm-2 pe-0 mt-1">
+                    <label for="assigned">Assistant Assigned?</label>
+                </div>
+                <div class="col-sm-1 ps-0">
+                    <select id="assigned" name="assigned" class="form-select">
+                        <option value="">Any</option>
+                        <option value="and assistname!=''">Yes</option>
+                        <option value="and assistname=''">No</option>
+                    </select>           
+                </div>
+                <!-- <div class="col-sm-1 pe-0 mt-1">
+                    <label for="sta">Active</label>
+                </div>
+                <div class="col-sm-1 ps-0">
+                <select id="sta" name="sta" class="form-select">
+                    <option value="">Any</option>
+                    <option value="and active='yes'">Yes</option>
+                    <option value="and active='no'">No</option>
+                </select>        
+                </div> -->
+                <div class="col-sm-1 pe-0">
+                    <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
+                </div>
+            </div>
+        </form>
+        
     <!-- TABLE DISPLAY  -->
-    <div class="row col-lg-12 card card-body table-card">
+    <div class="row col-lg-12 card table-card card-body">
         <table class="mb-0">
             <thead>
                 <tr>
                     <!-- HEADINGS -->
-                    <th scope="col">Lab Num<br></th>
-                    <th scope="col">Lab Name</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Active</th>
-                    <th scope="col">Lab Assistant</th>
-                    <th scope="col">Update<br></th>
+                    <th>Lab Num<br></th>
+                    <th>Lab Name</th>
+                    <th>Department</th>
+                    <th>Active</th>
+                    <th>Lab Assistant</th>
+                    <th>Update<br></th>
                 </tr>
             </thead>
             
             <tbody>
             <tr>
                     <form action="" method="post">
-                        <td><input type="text" name='labno' id='labno' required></td>
-                        <td><input type="text" name='labname' id='labname' required></td>
+                        <td style="width:80px;"><input class="form-control" type="text" name='labno' id='labno' required></td>
+                        <td><input class="form-control" type="text" name='labname' id='labname' required></td>
                         <td>
-                            <div class="form-floating">
-                            <select id="dept" name="dept" required class="form-select">
-                                <option value="" disabled selected>None</option>
+                            <select id="dept" name="dept" class="form-select" required style="text-align: center;">
                                 <?php 
                                 if($dept1!=NULL){
                                     ?>
-                                    <option value="<?php echo $dept1; ?>"><?php echo $dept1; ?></option>
+                                    <option value="<?php echo $dept1; ?>"selected><?php echo $dept1; ?></option>
                                     <?php
                                 }
                                 else{
+                                    ?>                                
+                                    <option value="" disabled selected>None</option>
+                                <?php
                                 $fetch_departments=mysqli_query($conn,"SELECT * FROM departments");
                                 while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
                                 {
                                     ?>
-                                    <option value="<?php echo $dept_row['dept']; ?>"><?php echo $dept_row['dept']; ?></option>
+                                    <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
                                     <?php
                                 }
                             }
                                 ?>
                             </select>
-                            <label for="dept" class="select-label">Department</label>
-                            </div>
                         </td>
                         <td> 
-                            <select id="active" name="active" required>
+                            <select id="active" name="active" class="form-select" required style="text-align: center;">
                                 <option selected value="yes">Yes</option>
                                 <option value="no">No</option>
                             </select>
                         </td>
                         <td>
-                            <i>(Assign assistant after creating lab)</i>
+                            <i>(After creating lab)</i>
                         </td>
                         <td>
                             <button class="btn btn-outline-dark" type="submit" name="addlab" style="font-weight: bold; border-width: 2px;"> 
@@ -202,12 +187,22 @@
                         $search=$_POST['search'];
                         $assign=$_POST['assigned'];
                         $active=$_POST['sta'];
+                        
+                        if($dept1=='')
                         $sql_table_display = "SELECT * 
                                             FROM labs 
-                                            where dept='$dept1' and (labno like '%$search%' OR 
+                                            where (labno like '%$search%' OR 
                                                     labname like '%$search%' OR 
-                                                    assistname like '%$search%' ) 
-                                            $assign $active";
+                                                    dept like '%$search%' OR 
+                                                    assistname like '%$search%') $assign  
+                                            ";
+                        else
+                        $sql_table_display = "SELECT * 
+                                            FROM labs 
+                                            where dept='$dept1' AND (labno like '%$search%' OR 
+                                                    labname like '%$search%' OR 
+                                                    assistname like '%$search%') $assign  
+                        ";
                         $result_table_display = mysqli_query($conn, $sql_table_display);
                         if(!$result_table_display){
                             echo "There is some problem in the connection or search error";
@@ -257,7 +252,7 @@
                                     }
                                     ?>
                                     <td class="lname">
-                                        <select id="assistant" name="assistant" required>
+                                        <select id="assistant" class="form-select" name="assistant" required style="text-align: center;">
                                             <option value="0">None</option>';
                                             <?php 
                                                 while($row = mysqli_fetch_array($result_labassist_fetch, MYSQLI_ASSOC)) {

@@ -74,29 +74,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IM-KJSCE</title>
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
+    <link rel="stylesheet" href="./CSS/styles.css">
 </head>
-<body style="background-color: #f8f9fc;">
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
 
     <!-- Search bar -->
     <div class="search-container">
-        <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
-            <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter equipment which you want to search for">
+    <form action="" method="post" style="text-align:center;">
             <br>
-            <em>Enter only DSR No. or an integer for search</em>
-            <br>
-            <select id="filter" name="filter" placeholder="Select Filter" required>
-                <option value="0" selected>Select Filter</option>
-                <option value="1">Search from Lended Equipments</option>
-                <option value="2">Search from Requested Equipments</option>
-                <option value="3">Search from All Equipmenrs</option>
-            </select>
-            <br>
-            <button class="btn btn-primary" type="submit" value="Search">Submit</button>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-1 pe-0 mt-1">
+                    <label for="search">Search</label>
+                </div>
+                <div class="col-md-2 ps-0">
+                    <input type="text" class="form-control" id="search">
+                </div>
+                <div class="col-md-1 pe-0 mt-1">
+                    <label for="filter" class="form-label">Filter</label>
+                </div>
+                <div class="col-md-2 ps-0">
+                    <select id="filter" name="filter" class="form-select" required>
+                        <option value="0" selected>None</option>
+                        <option value="1">Search from Lended Equipments</option>
+                        <option value="2">Search from Requested Equipments</option>
+                        <option value="3">Search from All Equipmenrs</option>
+                    </select>         
+                </div>
+                <div class="col-md-1 pe-0">
+                <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
+                </div>
+            </div>
         </form>
     </div>
     <?php
@@ -104,7 +120,7 @@
         if($f_id == '' || $f_id == '1' || $f_id == '3')
         {
             ?>
-                <h4 style="text-align: center;">Equipment Lent</h4>
+                <h4 style="text-align: center; margin-right:50px;">Equipment Borrowed</h4>
                 <div class="row col-lg-12 card card-body table-responsive">
                     <table class="table table-centered table-nowrap mb-0">
                         <thead>
@@ -117,6 +133,7 @@
                                 <th scope="col">Desc1</th>
                                 <th scope="col">Desc2</th>
                                 <th scope="col">Lab</th>
+                                <th scope="col">Return Quantity</th>
                                 <th scope="col">Return</th>
                                 <!-- <th scope="col">View<br></th> -->
                             </tr>
@@ -165,10 +182,11 @@
                                             <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                                             <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                             <td>
-                                                <input type="number" name="requan" id="requan" min ="1" max="<?php echo $row['lendquan'];?>" style="width:150px;" placeholder="Return quantity" required>                                
-                                                <button class="button1" type="submit" name="return"> 
-                                                    Return
-                                                </button>
+                                                <input type="number" class="col-sm-1 form-control" name="requan" id="requan" min ="1" max="<?php echo $row['lendquan'];?>"required>                                
+                                            </td>
+                                            <td>
+                                                <input class="col-sm-1 btn btn-outline-dark form-control" type="submit" name="return" value="Return"> 
+                                                </div>
                                             </td>
                                         </form>
                                     </tr>
@@ -188,7 +206,7 @@
         if($f_id == '' || $f_id == '2' || $f_id == '3')
         {
             ?>
-            <h4 style="text-align: center;">Requests</h4>
+            <h4 style="text-align: center; margin-right:50px;">Requests</h4>
                 <div class="row col-lg-12 card card-body table-responsive">
                     <table class="table table-centered table-nowrap mb-0">
                         <thead>
@@ -201,7 +219,7 @@
                                 <th scope="col">Desc1</th>
                                 <th scope="col">Desc2</th>
                                 <th scope="col">Lab</th>
-                                <th scope="col">Return</th>
+                                <th scope="col">Delete</th>
                                 <!-- <th scope="col">View<br></th> -->
                             </tr>
                         </thead>
@@ -248,9 +266,8 @@
                                         <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                                         <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                         <td>
-                                            <button class="button1" type="submit" name="delete"> 
-                                                Delete Request
-                                            </button>
+                                            <input class="btn btn-outline-dark" type="submit" name="delete" value="Delete"> 
+                                                
                                         </td>  
                                     </form>
                                 </tr>

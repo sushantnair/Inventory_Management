@@ -13,10 +13,20 @@
         $num_dept=$fetch_dept['sum'];
 
         $fetch_labs=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(labno) AS sum FROM labs"));
-        $num_labs=$fetch_labs['sum'];
+        $labs=$fetch_labs['sum'];
 
         $fetch_active_labs=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(labno) AS sum FROM labs WHERE active='yes'"));
-        $num_a_labs=$fetch_active_labs['sum'];
+        $a_labs=$fetch_active_labs['sum'];
+
+        $fetch_borrow=mysqli_fetch_assoc(mysqli_query($conn,"SELECT SUM(lendquan) AS sum FROM lend where lendto='$id'"));
+        $borrow=$fetch_borrow['sum'];
+
+        $fetch_borrow_labs=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(lendquan) AS sum FROM lend where lendto='$id'"));
+        $borrow_lab=$fetch_borrow_labs['sum'];
+
+        $fetch_request=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(labno) AS sum FROM request where id=$id"));
+        $request=$fetch_request['sum'];
+
 
     }
     //If a user is logged in and is not a student
@@ -50,20 +60,20 @@
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
     <link rel="stylesheet" href="./CSS/styles.css">
 </head>
-<body style="background-color: #f8f9fc;">
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
-        <div class="h2 mt-4"><?php echo $id ?> - <u> <?php echo $name ?></u></div>
-        <div style="font-size:17px"><?php echo $dept ?></div>
+        <div class="h2 mt-4"><?php if($id!=NULL) echo $id; else echo "ERROR"; ?> - <u> <?php if($name!=NULL) echo $name; else echo "ERROR"; ?></u></div>
+        <div style="font-size:17px"><?php if($dept!='') echo $dept; else echo "ERROR"; ?></div>
         <!-- <hr class="mt-4 shadow mx-5"> -->
-        <div class="col-xl-3 col-md-6 mt-4 mb-2" onclick="window.open('view_equ.php','_self')">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2">
             <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Departments</div>
-                            <div class="h4 card-content mb-0 text-dark"><?php echo $num_dept ?></div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($num_dept>0) echo $num_dept; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
                         <i class="fa-solid fa-building-columns fa-2x text-success"></i>
@@ -72,14 +82,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('view.php','_self')">
             <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Total No. of Labs</div>
-                            <div class="h4 card-content mb-0 text-dark"><?php echo $num_labs ?></div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($labs>0) echo $labs; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
                         <i class="fa-solid fa-building fa-2x text-success"></i>
@@ -88,14 +98,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('view.php','_self')">
             <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 No. of Active Labs</div>
-                            <div class="h4 card-content mb-0 text-dark"><?php echo $num_a_labs ?></div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($a_labs>0) echo $a_labs; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
                         <i class="fa-solid fa-building-circle-check fa-2x text-success"></i>
@@ -105,14 +115,14 @@
             </div>
         </div>
         <hr class="mt-4 shadow mx-4">
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('equ.php','_self')">
             <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
                                 Equipment Borrowed</div>
-                            <div class="h4 card-content mb-0 text-dark">8</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($borrow>0) echo $borrow; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-cart-arrow-down fa-2x text-primary"></i>
@@ -121,14 +131,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('equ.php','_self')">
             <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
                                 Labs Borrowed From</div>
-                            <div class="h4 card-content mb-0 text-dark">3</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($borrow_lab>0) echo $borrow_lab; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-building-circle-arrow-right fa-2x text-primary"></i>
@@ -137,14 +147,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('equ.php','_self')">
             <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
                                 Pending Requests</div>
-                            <div class="h4 card-content mb-0 text-dark">4</div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($request>0) echo $request; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-cart-plus fa-2x text-primary"></i>

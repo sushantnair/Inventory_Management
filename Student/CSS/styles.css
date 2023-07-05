@@ -23,3 +23,39 @@ th,td,tr,h4{
     transition: all 1s linear;
     display: none;
 }
+.table-card {
+    width: 1800x;
+    /* width:auto; */
+    overflow-x: scroll;
+}
+table {
+    border-collapse: separate!important;
+    border-spacing: 7.5px!important;
+    width: 100%;
+    /* display: flex;
+    flex-direction: column; */
+}
+thead {
+    font-size: 1.25rem;
+}
+tbody {
+    font-size: 1.1rem;
+}
+td,th {
+    /* border: 0.25rem solid white; */
+    padding: 0.6rem;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+.lname {
+    white-space:normal;
+}
+.btn {
+    border-width: 10px;
+}
+tbody >tr:nth-child(even) > td {
+    background-color: rgb(216, 112, 147, 0.3);
+}
+tbody > tr:nth-child(odd) > td {
+    background-color: rgb(169, 169, 169, 0.3);
+}

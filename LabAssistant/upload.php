@@ -134,7 +134,7 @@
 
 <!DOCTYPE html>
 <html>
-<body style="background-color: #f8f9fc;">
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
     
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">

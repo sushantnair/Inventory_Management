@@ -154,30 +154,45 @@
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
 
 </head>
-<body style="background-color: #f8f9fc;">
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
     
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
 
     <!-- Search bar -->
-    <div class="search-container">
-        <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
-            <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter equipment which you want to search for">
+    <form action="" method="post" style="text-align:center;">
             <br>
-            <select id="filter" name="filter" placeholder="Select Filter" required>
-                <option value="0" selected>Select Filter</option>
-                <option value="1">Search only from Lent equipments</option>
-                <option value="2">Search only from Borrowed equipments</option>
-                <option value="3">Search only from Requested equipments</option>
-                <option value="4">Search from Lent and Borrowed equipments</option>
-                <option value="5">Search from Lent and Requested equipments</option>
-                <option value="6">Search from Borrowed and Requested equipments</option>
-                <option value="7">Search from all equipments</option>
-            </select>
-            <br>
-            <button class="btn btn-primary" type="submit" value="Search">Submit</button>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-1 pe-0 mt-1">
+                    <label for="search">Search</label>
+                </div>
+                <div class="col-md-2 ps-0">
+                <input type="text" class="form-control" name="search" id="search">
+                </div>
+                <div class="col-md-1 ps-1 mt-1">
+                    <label for="filter" class="form-label">Select Filter</label>
+                </div>
+                <div class="col-md-3 ps-0">
+                    <select id="filter" name="filter" class="form-select" placeholder="Select Filter" required>
+                        <option value="0" selected>None</option>
+                        <option value="1">Search only from Lent equipments</option>
+                        <option value="2">Search only from Borrowed equipments</option>
+                        <option value="3">Search only from Requested equipments</option>
+                        <option value="4">Search from Lent and Borrowed equipments</option>
+                        <option value="5">Search from Lent and Requested equipments</option>
+                        <option value="6">Search from Borrowed and Requested equipments</option>
+                        <option value="7">Search from all equipments</option>
+                    </select>      
+                </div>
+                <div class="col-md-1 pe-0">
+                <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
+                </div>
+            </div>
         </form>
-    </div>
+        
+    
 
     <!-- MAIN TABLE  -->
     <?php

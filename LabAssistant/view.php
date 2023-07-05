@@ -33,7 +33,9 @@
                 
                 $labno=$row1['labno'];   //LAB-NUMBER
                 $dept=$row1['dept'];
-                $dsr="KJSCE/".$dept."/".$labno."/".$dsrno;
+                $fetch_short_dept=mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM departments WHERE dept='$dept'"),MYSQLI_ASSOC);
+                $short=$fetch_short_dept['short'];
+                $dsr="KJSCE/".$short."/".$labno."/".$dsrno;
 
 
                 // echo $labno;
@@ -61,7 +63,6 @@
                 }
             }
             header("Location:view.php");
-            
         }
         if(isset($_POST['lend']))
         {
@@ -302,101 +303,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IM-KJSCE</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> --> 
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
     <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="./CSS/styles.css">
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
-    <style>
-    .popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 400px;
-      background-color: #f1f1f1;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: bold;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 5px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-    }
-
-    .form-group textarea {
-      height: 80px;
-    }
-
-    .form-group input[type="submit"] {
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-    }
-
-    .form-group input[type="submit"]:hover {
-      background-color: #45a049;
-    }
-
-    .form-group button {
-      background-color: #ccc;
-      color: black;
-      cursor: pointer;
-    }
-
-    .form-group button:hover {
-      background-color: #999;
-    }
-
-    .search-container{
-        display: flex;
-        justify-content: center;
-    }
-
-    #search{
-        width: 350px;
-    }
-  </style>
-</head>
-<body style="background-color: #f8f9fc;">
+   </head>
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
     
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
         <!-- Search bar -->
     <div class="search-container">
-        <form action="" method="post" style="text-align:center"> <!-- style aligns the two input elements to be centred relative to each other -->
-            <input type="text" name="search" id="search" style="text-align:center;" placeholder="Enter equipment which you want to search for">
+    <form action="" method="post" style="text-align:center;">
             <br>
-            <select id="filter" name="filter" placeholder="Select Filter" required>
-                <option value="0" selected>Select Filter</option>
-                <option value="quantity">Quantity</option>
-                <option value="type">Type</option>
-                <option value="cost">Cost</option>
-            </select>
-            <br>
-            <button class="btn btn-primary" type="submit" value="Search">Submit</button>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-1 pe-0 mt-1">
+                    <label for="search">Search</label>
+                </div>
+                <div class="col-md-2 ps-0">
+                <input type="text" class="form-control" name="search" id="search">
+                </div>
+                <div class="col-md-1 pe-0 mt-1">
+                    <label for="filter" class="form-label">Select Filter</label>
+                </div>
+                <div class="col-md-2 ps-0">
+                    <select id="filter" name="filter"class="form-select" required>
+                        <option value="0" selected>None</option>
+                        <option value="quantity">Quantity</option>
+                        <option value="type">Type</option>
+                        <option value="cost">Cost</option>
+                    </select>         
+                </div>
+                <div class="col-md-1 pe-0">
+                <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
+                </div>
+            </div>
         </form>
     </div>
 
     
     <!-- MAIN TABLE  -->
-    <div class="row col-lg-12 card card-body table-responsive">
+    <div class="row col-lg-12 card table-card card-body">
         <table class="table table-centered table-nowrap mb-0">
             <thead>
                 <tr>
@@ -419,24 +370,24 @@
                     <!-- FORM FOR INPUTTING EQUIPMENT  -->
                     <form action="view.php" method="post">
                         <!-- placeholder helps when the table headers are not visible without scrolling to the top -->
-                    <td><input type="text" name='eqname' id='eqname' placeholder="Enter Equipment Name" required></td>
+                    <td ><input style="text-align:center; min-width:210px" type="text" class="form-control" name='eqname' id='eqname' placeholder="Equipment Name" required></td>
                     <td>
-                        <select id="eqtype" name="eqtype" placeholder="Equipment Type" required>
+                        <select id="eqtype" style="text-align:center; min-width:120px" class="form-select" name="eqtype" placeholder="Equipment Type" required>
                             <option value="0" selected>None</option>
                             <option value="Software">Software</option>
                             <option value="Hardware">Hardware</option>
                             <option value="Furniture">Furniture</option>
                         </select>
                     </td>
-                    <td><input type="text" name='dsrno' id='dsrno' placeholder="DSR No." required></td>
-                    <td><input type="number" name='quantity' id='quantity' placeholder="Quantity" required min="1"></td>
-                    <td></td>
-                    <td><input type="text" name='desc1' placeholder="Description 1" id='desc1'></td>
-                    <td><input type="text" name='desc2' placeholder="Description 2" id='desc2'></td>
-                    <td><input type="number" step="0.01" name='cost' placeholder="Cost" id='cost'></td>
+                    <td><input style="text-align:center; min-width:250px" type="text" class="form-control" name='dsrno' id='dsrno' placeholder="DSR No." required></td>
+                    <td><input style="text-align:center; min-width:120px" type="number"  class="form-control" name='quantity' id='quantity' placeholder="Quantity" required min="1"></td>
+                    <td style="text-align:center;">-</td>
+                    <td><input style="text-align:center; min-width:220px" type="text"  class="form-control" name='desc1' placeholder="Description 1" id='desc1'></td>
+                    <td><input style="text-align:center; min-width:220px" type="text"  class="form-control" name='desc2' placeholder="Description 2" id='desc2'></td>
+                    <td><input style="text-align:center; min-width:120px" type="number"  class="form-control" step="0.01" name='cost' placeholder="Cost" id='cost'></td>
 
                     <td>
-                        <button class="btn btn-outline-success" style="width: 80px;" type="submit" name="addeq"> 
+                        <button class="btn btn-outline-dark" style="width: 80px;" type="submit" name="addeq"> 
                             Add
                         </button>
                     </td>
@@ -497,7 +448,7 @@
                             <td><?php echo $row['desc2'];?></td>
                             <td><?php echo $row['cost'];?></td>
                             <td>
-                            <button type="submit" name="delete" style="width: 80px;" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdroplend<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
+                            <button type="submit" name="delete" style="width: 80px;" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdroplend<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
                                     Lend
                                 </button>
                                 <div class="modal fade" id="staticBackdroplend<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -568,7 +519,7 @@
                             if($row['byquan']==0)
                             {
                                 ?>
-                                    <button type="submit" style="width: 80px;" name="delete" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdropupdate<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>">
+                                    <button type="submit" style="width: 80px;" name="delete" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropupdate<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>">
                                         Update
                                     </button>
                                     <div class="modal fade" id="staticBackdropupdate<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -643,7 +594,7 @@
 
                                     <!-- Button trigger modal -->
                                     
-                                    <button type="submit" style="width: 80px;" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropdelete<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
+                                    <button type="submit" style="width: 80px;" name="delete" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropdelete<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
                                         Delete
                                     </button>
 
@@ -691,7 +642,7 @@
                             else 
                             {
                                 ?>
-                                <button name="return" style="width: 80px;" class="btn btn-outline-danger alert-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropreturn<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>">
+                                <button name="return" style="width: 80px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropreturn<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>">
                                             Return
                                         </button>
                                         <div class="modal fade" id="staticBackdropreturn<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

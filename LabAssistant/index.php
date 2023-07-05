@@ -59,7 +59,7 @@
     <link rel="stylesheet" href="./CSS/styles.css">
     <title>IM-KJSCE</title>
 </head>
-<body style="background-color: #f8f9fc;">
+<body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>
     <?php
         function moneyFormatIndia($num) {
@@ -88,7 +88,7 @@
         <div class="h2 mt-4">B201 - <u>Microprocessor Laboratory</u></div>
         <div style="font-size:17px">Electronics & Telecommunications</div>
         <!-- <hr class="mt-4 shadow mx-5"> -->
-        <div class="col-xl-3 col-md-6 mt-4 mb-2" onclick="window.open('view_equ.php','_self')">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('view.php','_self')">
             <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -104,7 +104,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('view.php','_self')">
             <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -120,7 +120,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('view.php','_self')">
             <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -137,7 +137,7 @@
             </div>
         </div>
         <hr class="mt-4 shadow mx-4">
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('lent.php','_self')">
             <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -153,7 +153,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('lent.php','_self')">
             <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -169,7 +169,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+        <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('lent.php','_self')">
             <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -202,11 +202,11 @@
         <h6><span style="float: left;">Lab Name: <?php echo $labname; ?> </span><span style="float: right;">Lab No: <?php echo $labno; ?></span></h6><br>
         
         <p>Please select an option suitable for the operation you want to undertake</p>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='view_equ.php'"> 
+        <button class="btn btn-primary btn-block" onclick="window.location.href='view.php'"> 
             View equipment
         </button>
         <br>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='lent_equ.php'"> 
+        <button class="btn btn-primary btn-block" onclick="window.location.href='lent.php'"> 
             Lent equipment
         </button>
         <br>
