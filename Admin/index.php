@@ -58,7 +58,7 @@
                             <div class="h4 card-content mb-0 text-dark">8</div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                            <i class="fa-solid fa-building-columns fa-2x text-success"></i>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                             <div class="h4 card-content mb-0 text-dark">80</div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                            <i class="fa-solid fa-building fa-2x text-success"></i>
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                             <div class="h4 card-content mb-0 text-dark">68</div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                            <i class="fa-solid fa-building-circle-check fa-2x text-success"></i>
                         </div>
                     </div>
                 </div>
@@ -103,11 +103,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
-                                Equipment Borrowed</div>
+                                Lab Asst. Assigned</div>
                             <div class="h4 card-content mb-0 text-dark">8</div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                            <i class="fa-solid fa-person-circle-check fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -119,11 +119,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
-                                Labs Borrowed From</div>
+                            Lab Asst. Not Assigned</div>
                             <div class="h4 card-content mb-0 text-dark">3</div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                            <i class="fa-solid fa-person-circle-question fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -135,11 +135,27 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
-                                Pending Requests</div>
+                            Lab Asst. Revoked</div>
                             <div class="h4 card-content mb-0 text-dark">4</div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                            <i class="fa-solid fa-person-circle-xmark fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+            <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-head text-primary text-uppercase mb-1">
+                            Lab Asst. Requests</div>
+                            <div class="h4 card-content mb-0 text-dark">4</div>
+                        </div>
+                        <div class="col-auto me-2">
+                            <i class="fa-solid fa-person-circle-plus fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>

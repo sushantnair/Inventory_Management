@@ -66,7 +66,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php echo $num_dept ?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                        <i class="fa-solid fa-building-columns fa-2x text-success"></i>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php echo $num_labs ?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                        <i class="fa-solid fa-building fa-2x text-success"></i>
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php echo $num_a_labs ?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                        <i class="fa-solid fa-building-circle-check fa-2x text-success"></i>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                             <div class="h4 card-content mb-0 text-dark">8</div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                            <i class="fa-solid fa-cart-arrow-down fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                             <div class="h4 card-content mb-0 text-dark">3</div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                            <i class="fa-solid fa-building-circle-arrow-right fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
                             <div class="h4 card-content mb-0 text-dark">4</div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                            <i class="fa-solid fa-cart-plus fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>

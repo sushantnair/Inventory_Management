@@ -98,7 +98,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php echo $num_equ ;?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                            <i class="fa-solid fa-boxes-stacked fa-2x text-success"></i>
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php echo $sum_equ ;?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                            <i class="fa-solid fa-box-open fa-2x text-success"></i>
                         </div>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php if($sum_lend>0) echo $sum_lend; else echo 0;?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                            <i class="fa-solid fa-cart-shopping fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php if($sum_borrow>0) echo $sum_borrow; else echo 0;?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                            <i class="fa-solid fa-cart-arrow-down fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php if($sum_request>0) echo $sum_request; else echo 0;?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                            <i class="fa-solid fa-cart-plus fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
