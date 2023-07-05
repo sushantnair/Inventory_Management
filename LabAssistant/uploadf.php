@@ -1,94 +1,79 @@
-<?php 
-    session_start();
-    include('../Components/SimpleXLS.php');
-    include('../Components/SimpleXLSX.php');
-    use Shuchkin\SimpleXLS;
-    use Shuchkin\SimpleXLSX;
-    //If a user is logged in and is a lab-assistant
-    if (isset($_SESSION['logged']) && $_SESSION['role']=='lab-assistant') 
-    {
-        // CONNECT DATABASE
-        include('../connection.php');
-        // USER ID
-        $id=$_SESSION['id'];
-    }
-    //If a user is logged in and is not a lab-assistant
-    else if (isset($_SESSION['logged']) && $_SESSION['role']!='lab-assistant')
-    {
-		$role=$_SESSION['role'];
-		if($role=='admin')
-			header('Location:../Admin/index.php');    
-		else if($role=='student')
-			header('Location:../Student/index.php');    
-        else
-            header('Location:../logout.php');
-    }
-    //If a user is not logged in
-    else
-    {
-        header('Location:../logout.php');
-    }
+<?php
+include('../connection.php');
+include('../Components/SimpleXLS.php');
+include('../Components/SimpleXLSX.php');
+use Shuchkin\SimpleXLS;
+use Shuchkin\SimpleXLSX;
+$target_dir = "uploads/";
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+?>
 
-    if(isset($_FILES['fileToUpload'])){
-        // include('../connection.php');
-        $target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload File</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Upload File</h2>
 
-
+        <?php
         // Check if file already exists
         if (file_exists($target_file)) {
-            echo '<div class="alert alert-danger">Sorry, file already exists.</div>';
-            $uploadOk = 0;
+          echo '<div class="alert alert-danger">Sorry, file already exists.</div>';
+          $uploadOk = 0;
         }
 
         // Check file size
         if ($_FILES["fileToUpload"]["size"] > 500000) {
-            echo '<div class="alert alert-danger">Sorry, your file is too large.</div>';
-            $uploadOk = 0;
+          echo '<div class="alert alert-danger">Sorry, your file is too large.</div>';
+          $uploadOk = 0;
         }
 
         // Allow certain file formats
         if($imageFileType != "csv" && $imageFileType != "xlsx" && $imageFileType != "xls") {
-            echo '<div class="alert alert-danger">Sorry, only CSV, XLS, and XLSX files are allowed.</div>';
-            $uploadOk = 0;
+          echo '<div class="alert alert-danger">Sorry, only CSV, XLS, and XLSX files are allowed.</div>';
+          $uploadOk = 0;
         }
 
         // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
-            echo '<div class="alert alert-danger">Sorry, your file was not uploaded.</div>';
+          echo '<div class="alert alert-danger">Sorry, your file was not uploaded.</div>';
         } else {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+          if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
             echo '<div class="alert alert-success">The file '. htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . ' has been uploaded.</div>';
-            } else {
+          } else {
             echo '<div class="alert alert-danger">Sorry, there was an error uploading your file.</div>';
-            }
+          }
         }
 
         if ($uploadOk != 0) {
-            if($imageFileType == "csv"){
+          if($imageFileType == "csv"){
             if (($open = fopen($target_file, "r")) !== false) {
                 while (($data = fgetcsv($open, 1000, ",")) !== false) {
                     $array[] = $data;
                 }
                 fclose($open);
             }
-            } else if($imageFileType == "xlsx"){
+          } else if($imageFileType == "xlsx"){
 
             if ( $xlsx = SimpleXLSX::parse($target_file) ) {
                 $array = $xlsx->rows();
             } else {
-                echo SimpleXLSX::parseError();
+              echo SimpleXLSX::parseError();
             }
-            } else if($imageFileType == "xls"){
+          } else if($imageFileType == "xls"){
 
             if ( $xls = SimpleXLS::parse($target_file) ) {
                 $array = $xls->rows();
             } else {
-                echo SimpleXLS::parseError();
+              echo SimpleXLS::parseError();
             }
-            }
+          }
 
             for ($row = 1; $row < count($array); $row++) {
                 $dept = $_POST['dept'];
@@ -129,41 +114,10 @@
             unlink($target_file);
             header('Location: view.php');
         }
-    }
-?>
-
-<!DOCTYPE html>
-<html>
-<body>
-    <!-- TEMPORARY DASHBOARD -->
-    <div>
-        <button onclick="window.location.href='index.php'"> 
-            Dashboard
-        </button>
-        <button onclick="window.location.href='view.php'"> 
-            View Equipment
-        </button>
-        <button onclick="window.location.href='lent.php'"> 
-            Lent Equipment
-        </button>
-        <button onclick="window.location.href='../logout.php'"> 
-            Sign Out
-        </button>        
+        ?>
     </div>
-    <?php
-    $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
-    $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
-    $labno=$row1['labno'];
-    $dept=$row1['dept'];
-    ?>
 
-<form action="upload.php" method="post" enctype="multipart/form-data">
-  Select excel file to upload:
-  <input type="file" name="fileToUpload" id="fileToUpload">
-  <input type="text" name="labno" id="labno" value="<?php echo $labno; ?>" hidden>
-  <input type="text" name="dept" id="dept" value="<?php echo $dept; ?>" hidden>
-  <input type="submit" value="Upload Excel file" name="submit">
-</form>
-
+    <!-- Add Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

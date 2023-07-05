@@ -1,4 +1,24 @@
 
 th,td,tr,h4{
-text-align:center;
+    text-align:center;
+}
+.card-head {
+    font-size: smaller;
+    font-weight:700;
+}
+.card-content {
+    font-weight: bolder;
+}
+.card {
+    cursor: pointer;
+}
+#reportlink {
+    transition: all 0.2s linear;
+}
+.buttontext {
+    transition: all 1s linear;
+}
+.buttontext1 {
+    transition: all 1s linear;
+    display: none;
 }

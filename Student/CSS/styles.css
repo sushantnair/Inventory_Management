@@ -1,38 +1,25 @@
 
-th,td,tr{
-text-align:center;
+th,td,tr,h4{
+    text-align:center;
 }
-.button1{
-background-color: #4CAF50;
-color: white;
-padding: 5px 20px;
-margin-right:10px;
-border: none;   
-border-radius: 4px;
-cursor: pointer;
+.card-head {
+    font-size: smaller;
+    font-weight:700;
 }
-html, body{
-    height: 100%;
+.card-content {
+    font-weight: bolder;
 }
-/* the html and body elements are set to have a height of 100% using height: 100%;. This ensures that the body element will take up the full height of the viewport */
-body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.card {
+    cursor: pointer;
+    /* box-shadow: rgba(0, 71, 21, 0.638) 0px 2px 4px 0px, rgba(0, 71, 21, 0.655) 0px 2px 16px 0px; */
 }
-.dash_lab_box{
-    width: auto;
-    height: auto;
-    background-color: azure;
-    border: solid 2px black;
-    padding: 10px;
-    margin: 5vw;
+#reportlink {
+    transition: all 0.2s linear;
 }
-a{
-    font-size: 20px;
-    color: black;
+.buttontext {
+    transition: all 1s linear;
 }
-p, h6{
-    text-align: center;
-    padding: 5px;
+.buttontext1 {
+    transition: all 1s linear;
+    display: none;
 }

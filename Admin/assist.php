@@ -5,8 +5,9 @@
     if (isset($_SESSION['logged']) && $_SESSION['role']=='admin') 
     {
         include '../connection.php';
+        $id=$_SESSION['id'];
         if(isset($_POST['btn-send'])){
-            $id=$_POST['tid'];
+            $tid=$_POST['tid'];
             $status=$_POST['status'];
     
             if($status=="approved"){
@@ -16,17 +17,17 @@
                 $ns=0;
             }
     
-            $sql = "UPDATE user SET status='$ns' WHERE id='$id'";
+            $sql = "UPDATE user SET status='$ns' WHERE id='$tid'";
             $result=mysqli_query($conn,$sql);
             header('Location:assist.php');
     
         }
     
         if(isset($_POST['delete'])){
-            $id=$_POST['tid'];
+            $tid=$_POST['tid'];
             $status=$_POST['status'];
     
-            $sq="DELETE FROM user WHERE id='$id'";
+            $sq="DELETE FROM user WHERE id='$tid'";
             mysqli_query($conn,$sq);
             header('Location:assist.php');
         }
@@ -60,11 +61,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
-    <!-- <link rel="stylesheet" href="CSS/styles.css"> -->
-    <style>
+    <link rel="stylesheet" href="./CSS/styles.css">
+    <!-- <style>
         .button1{
 background-color: red;
 color: white;
@@ -75,10 +78,11 @@ border-radius: 4px;
 cursor: pointer;
 
 }
-    </style>
+    </style> -->
 </head>
- 	<body>
-     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+ 	<body style="overflow-x: hidden;">
+     <?php include('../Components/sidebar.php') ?>
+     <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="index.php"><button onclick="window.location.href='index.php'"> 
             Dashboard
         </button></a>
@@ -108,10 +112,8 @@ cursor: pointer;
     </ul>
     
   </div>
-</nav>
- 	<div >
- 		
-    </div>
+</nav> -->
+ 	<div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; z-index:100; width: calc(100% - 100px);">
     <form action="" method="post" style="text-align:center;">
         <input type="text" name="search" id="search" style="text-align:center;" placeholder="Search">
         <br><br>
@@ -129,14 +131,11 @@ cursor: pointer;
             <option value="and status=0">No</option>
         </select>
         <br><br>
-        <input class="button1" type="submit" value="Search"><br><br>
+        <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
     </form>
-	<div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-centered table-nowrap mb-0">
+	<div class="row col-lg-12 card card-body">
+                    <!-- <div class="table-responsive"> -->
+                        <table class="mb-0">
                             <thead>
                                 <tr>
                                     <th scope="col">ID Number<br></th>
@@ -200,10 +199,10 @@ cursor: pointer;
                                             <td>
                                                 '.$row['id'].'
                                             </td>
-                                            <td>
+                                            <td class="lname">
                                                 '.$ben_name.' 
                                             </td>
-                                            <td>
+                                            <td class="lname">
                                             '.$row['email'].'
                                             </td>
                                             <td>
@@ -221,8 +220,8 @@ cursor: pointer;
                                             </td>
                                             
                                             <td>
-                                                <button class="button1" type="submit" name="btn-send">Update</button>
-                                                <button class="button1" type="submit" name="delete">Delete</button>
+                                                <button class="btn btn-outline-dark" type="submit" name="btn-send">Update</button>
+                                                <button class="btn btn-outline-danger" type="submit" name="delete">Delete</button>
                                                 </form>
                                             </td>
                                             
@@ -234,9 +233,6 @@ cursor: pointer;
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
     </div>
     
     </body>

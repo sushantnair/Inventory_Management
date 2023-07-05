@@ -1,27 +1,59 @@
 
-th,td {
-text-align:center;
-}
-.button1{
-background-color: #4CAF50;
-color: white;
-padding: 5px 20px;
-margin-right:10px;
-border: none;   
-border-radius: 4px;
-cursor: pointer;
-
-}
-th,td {
+th,td,tr,h4{
     text-align:center;
-    }
-            .button1{
-    background-color: red;
-    color: white;
-    padding: 5px 20px;
-    margin-right:10px;
-    border: none;   
-    border-radius: 4px;
+}
+.card-head {
+    font-size: smaller;
+    font-weight:700;
+}
+.card-content {
+    font-weight: bolder;
+}
+.card {
     cursor: pointer;
-
-    }
+    width: 4000px;
+    /* width:auto; */
+    overflow-x: scroll;
+    /* box-shadow: rgba(0, 71, 21, 0.638) 0px 2px 4px 0px, rgba(0, 71, 21, 0.655) 0px 2px 16px 0px; */
+}
+#reportlink {
+    transition: all 0.2s linear;
+}
+.buttontext {
+    transition: all 1s linear;
+}
+.buttontext1 {
+    transition: all 1s linear;
+    display: none;
+}
+table {
+    border-collapse: separate!important;
+    border-spacing: 7.5px!important;
+    width: 100%;
+    /* display: flex;
+    flex-direction: column; */
+}
+thead {
+    font-size: 1.25rem;
+}
+tbody {
+    font-size: 1.1rem;
+}
+td,th {
+    /* border: 0.25rem solid white; */
+    padding: 0.6rem;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+.lname {
+    white-space:normal;
+}
+.btn {
+    border-width: 10px;
+}
+tbody >tr:nth-child(even) > td {
+    background-color: rgb(216, 112, 147, 0.3);
+}
+tbody > tr:nth-child(odd) > td {
+    background-color: rgb(169, 169, 169, 0.3);
+}

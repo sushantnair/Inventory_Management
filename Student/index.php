@@ -30,86 +30,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IM-KJSCE</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="CSS/styles.css">
-    <style>
-    
-        /* Desktop view */
-        @media (min-width: 768px) {
-            .sidebar {
-                width: 20%;
-                float: left;
-                background-color: red; /* Updated background color */
-            }
-            .content {
-                width: 80%;
-                float: right;
-            }
-        }
-
-        /* Mobile view */
-        @media (max-width: 767px) {
-            .sidebar {
-                display: none;
-                background-color: red; /* Updated background color */
-            }
-            .content {
-                width: 100%;
-            }
-            
-        }
-        /* Logo styles */
-        .logo {
-            width: 250px; /* Adjust the size as needed */
-            margin: 20px; /* Add margin to position the logo */
-            position: absolute;
-            top: 10px; /* Adjust the top value to position the logo vertically */
-            left: 10px; /* Adjust the left value to position the logo horizontally */
-        }
-
-        .sidebar p {
-            display: none; /* Hide the text "Please select an option suitable for the operation you want to undertake" */
-        }
-
-        .sidebar button {
-            margin: 5px 0; /* Less spacing between buttons */
-            margin-bottom: 5px;
-            background-color: red; /* Set button color to red */
-        }
-        
-
-        .sidebar h6 {
-            margin-bottom: 3px; /* Less spacing below User ID and Role */
-        }
-
-        .sidebar h6:last-child {
-            margin-top: 0; /* No spacing below the last h6 element (Role) */
-        }
-        
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
+    <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
+    <link rel="stylesheet" href="./CSS/styles.css">
 </head>
-<body>
-
-    <div class="sidebar">
-        <img src="SomaiyaLogo.jpg" alt="Logo" class="logo">
-
-
-        <button class="btn btn-primary btn-block" onclick="window.location.href='view.php'">View Labs</button>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='equ.php'">View Equipment and Requests</button>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='../logout.php'">Signout</button><br><br>
-
-        <h6><u>User ID:</u> <?php echo $id; ?></h6>
-        <h6><u>Role:</u> Student</h6>
+<body style="background-color: #f8f9fc;">
+    <?php include('../Components/sidebar.php') ?>
+    <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
+        <div class="h2 mt-4">1001600532 - <u>Praneel Bora</u></div>
+        <div style="font-size:17px">Computer Science Engineering</div>
+        <!-- <hr class="mt-4 shadow mx-5"> -->
+        <div class="col-xl-3 col-md-6 mt-4 mb-2" onclick="window.open('view_equ.php','_self')">
+            <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-head text-success text-uppercase mb-1">
+                                Departments</div>
+                            <div class="h4 card-content mb-0 text-dark">8</div>
+                        </div>
+                        <div class="col-auto me-2">
+                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+            <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-head text-success text-uppercase mb-1">
+                                Total No. of Labs</div>
+                            <div class="h4 card-content mb-0 text-dark">80</div>
+                        </div>
+                        <div class="col-auto me-2">
+                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+            <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-head text-success text-uppercase mb-1">
+                                No. of Active Labs</div>
+                            <div class="h4 card-content mb-0 text-dark">68</div>
+                        </div>
+                        <div class="col-auto me-2">
+                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="mt-4 shadow mx-4">
+        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+            <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-head text-primary text-uppercase mb-1">
+                                Equipment Borrowed</div>
+                            <div class="h4 card-content mb-0 text-dark">8</div>
+                        </div>
+                        <div class="col-auto me-2">
+                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+            <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-head text-primary text-uppercase mb-1">
+                                Labs Borrowed From</div>
+                            <div class="h4 card-content mb-0 text-dark">3</div>
+                        </div>
+                        <div class="col-auto me-2">
+                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mt-4 mb-2">
+            <div class="card border-primary border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-head text-primary text-uppercase mb-1">
+                                Pending Requests</div>
+                            <div class="h4 card-content mb-0 text-dark">4</div>
+                        </div>
+                        <div class="col-auto me-2">
+                            <i class="fa-solid fa-indian-rupee-sign fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="content">
-        <!-- Your content here -->
+    <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem;" onmouseenter="butExp()" onmouseleave="butCol()">
+        <a href="#" id="reportlink" class="btn btn-danger rounded-circle shadow p-3">
+        <span class="buttontext buttontext1" style="float:left; padding-right: 0.75em; font-weight: bold;">Request<br>Equipment</span>
+        <span style="float:right;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-file-earmark-bar-graph" viewBox="0 0 16 16">
+        <path d="M10 13.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-6a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z"/>
+        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+        </svg>
+        </span>
     </div>
-
-    <!-- Scripts -->
-    <!-- Include Bootstrap and other scripts here -->
-    <script src="../JS/bootstrap.min.js"></script>
 
 </body>
+<script>
+        // const button = document.getElementById("report")
+        const buttontext = document.getElementsByClassName("buttontext")
+        const reportlink = document.getElementById("reportlink")
+        function butExp(){
+            logo.src = "../Assets/logo.png";
+            reportlink.classList.remove('rounded-circle');
+            reportlink.classList.add('rounded-pill');
+            buttontext[0].classList.remove('buttontext1');
+        }
+        function butCol(){
+            reportlink.classList.add('rounded-circle');
+            reportlink.classList.remove('rounded-pill');
+            buttontext[0].classList.add('buttontext1');
+        }
+    </script>
 </html>
