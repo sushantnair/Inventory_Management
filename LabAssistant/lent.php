@@ -215,8 +215,8 @@
         if($filter == '' || $filter == '1' || $filter == '4' || $filter == '5' || $filter == '7'){
             ?>
             <h4 style="text-align: center;">EQUIPMENTS LENT</h4>
-            <div class="row col-lg-12 card card-body table-responsive">
-                <table class="table table-centered table-nowrap mb-0">
+            <div class="row col-lg-12 card card-body table-card table-responsive">
+                <table class="mb-0">
                     <thead>
                         <tr>
                             <!-- HEADINGS -->
@@ -291,8 +291,8 @@
          if ($filter == '' || $filter == '2' || $filter == '4' || $filter == '6' || $filter == '7') {
         ?>
             <h4 style="text-align: center;">EQUIPMENTS BORROWED</h4>
-            <div class="row col-lg-12 card card-body table-responsive">
-                <table class="table table-centered table-nowrap mb-0">
+            <div class="row col-lg-12 card card-body table-card table-responsive">
+                <table class="mb-0">
                     <thead>
                         <tr>
                             <!-- HEADINGS -->
@@ -356,7 +356,7 @@
                                     <td><?php echo $eqrow['desc1'];?></td>
                                     <td><?php echo $eqrow['desc2'];?></td>
                                     <td><?php echo $row['lendfrom'];?></td>
-                                    <td><button name="return" style="width: 80px;" class="btn btn-outline-danger alert-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropreturn<?php echo str_replace('/', '_', strtolower($eqrow['dsrno']));?>">
+                                    <td><button name="return" style="width: 80px;" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropreturn<?php echo str_replace('/', '_', strtolower($eqrow['dsrno']));?>">
                                         Return
                                     </button></td>
                                         <div class="modal fade" id="staticBackdropreturn<?php echo str_replace('/', '_', strtolower($eqrow['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -427,8 +427,8 @@
             //$request=mysqli_query($conn,"SELECT * FROM request WHERE labno='$labno'");
             ?>
                 <h4 style="text-align: center;">REQUESTS</h4>
-                <div class="row col-lg-12 card card-body table-responsive">
-                    <table class="table table-centered table-nowrap mb-0">
+                <div class="row col-lg-12 card card-body table-card table-responsive">
+                    <table class="mb-0">
                         <thead>
                             <tr>
                                 <!-- HEADINGS -->
@@ -495,25 +495,24 @@
                                         <td><?php echo $eqrow['desc1'];?></td>
                                         <td><?php echo $eqrow['desc2'];?></td>
                                         <td><?php echo $row['id'];?></td>
-                                        <td>
-                                            <form action="lent.php" method="post" >
-                                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                                <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                                <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
-                                                <input type="number" name="lendquan" id="lendquan" min ="1" max="<?php if($row['quantity']>$eqrow['quantity']) echo $eqrow['quantity']; else echo $row['quantity'];?>" style="width:150px;" placeholder="Lending Quantity" required>
-                                                <button class="button1" type="submit" name="lend"> 
-                                                    Lend
-                                                </button>
-                                            </form>
-                                            <form action="lent.php" method="post">
-                                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                                <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                                <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
-                                                
-                                                <button class="button1" type="submit" name="deny"> 
-                                                    Deny
-                                                </button>
-                                            </form>
+                                        <td style="width: 450px;">
+                                                <form action="lent.php" method="post" >
+                                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                                    <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                                    <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
+                                                    <input class="form-inline" style="width:100px;" type="number" name="lendquan" id="lendquan" min ="1" max="<?php if($row['quantity']>$eqrow['quantity']) echo $eqrow['quantity']; else echo $row['quantity'];?>" placeholder="Quantity" required>
+                                                    <input class="btn btn-outline-dark" type="submit" name="lend" value="Lend"> 
+                                                 
+                                                    <button class="btn btn-outline-danger" type="submit" name="deny"> 
+                                                        Deny
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            
+                                            
+
+                                        </div>
+                                            
                                         </td>
                                         </tr>
                                     <?php

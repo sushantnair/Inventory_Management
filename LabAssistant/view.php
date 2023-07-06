@@ -348,7 +348,7 @@
     
         <!-- MAIN TABLE  -->
         <div class="row col-lg-12 card table-card card-body">
-            <table class="table table-centered table-nowrap mb-0">
+            <table class="mb-0">
                 <thead>
                     <tr>
                         <!-- HEADINGS -->

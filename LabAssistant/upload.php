@@ -58,11 +58,15 @@
         // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
             echo '<div class="alert alert-danger">Sorry, your file was not uploaded.</div>';
-        } else {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-            echo '<div class="alert alert-success">The file '. htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . ' has been uploaded.</div>';
-            } else {
-            echo '<div class="alert alert-danger">Sorry, there was an error uploading your file.</div>';
+        } 
+        else 
+        {    
+            if (copy($_FILES["fileToUpload"]["tmp_name"], $target_file)) 
+            {
+                echo '<div class="alert alert-success">The file '. htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . ' has been uploaded.</div>';
+            } else 
+            {
+                echo '<div class="alert alert-danger">Sorryy, there was an error uploading your file.</div>';
             }
         }
 
@@ -95,7 +99,11 @@
                 $labno = $_POST['labno'];
                 $eqname = $array[$row][0];
                 $dsrno = $array[$row][1];
-                $dsr = "KJSCE/".$dept."/".$labno."/".$dsrno;
+                
+                $fetch_short_dept=mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM departments WHERE dept='$dept'"),MYSQLI_ASSOC);
+                $short=$fetch_short_dept['short'];
+                $dsr="KJSCE/".$short."/".$labno."/".$dsrno;
+                
                 $eqtype = $array[$row][2];
                 $quantity = $array[$row][3];
                 $desc1 = $array[$row][4];
@@ -134,6 +142,21 @@
 
 <!DOCTYPE html>
 <html>
+    <head>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IM-KJSCE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="CSS/styles.css">
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
+    <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
+
+</head>
+    </head>
 <body style="background-color: #f8f9fc;overflow-x: hidden;">
     
     <?php include('../Components/sidebar.php') ?>

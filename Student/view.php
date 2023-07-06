@@ -56,8 +56,8 @@
             </div>
         </form>
     
-    <div class="row col-lg-12 card card-body table-responsive">
-        <table class="table table-centered table-nowrap mb-0">
+    <div class="row col-lg-12 card card-body table-card table-responsive">
+        <table class="mb-0">
             <thead>
                 <tr>
                     <!-- HEADINGS -->
