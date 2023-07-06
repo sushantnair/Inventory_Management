@@ -1,13 +1,13 @@
 <?php 
     session_start();
-    //If a user is logged in and is a student
-    if (isset($_SESSION['logged']) && $_SESSION['role']=='student') 
+    //If a user is logged in and is a User
+    if (isset($_SESSION['logged']) && $_SESSION['role']=='User') 
     {
         include('../connection.php');
         $id=$_SESSION['id'];
     }
-    //If a user is logged in and is not a student
-    else if (isset($_SESSION['logged']) && $_SESSION['role']!='student')
+    //If a user is logged in and is not a User
+    else if (isset($_SESSION['logged']) && $_SESSION['role']!='User')
     {
         $role=$_SESSION['role'];
         if($role=='admin')

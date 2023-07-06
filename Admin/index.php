@@ -69,8 +69,8 @@
 		$role=$_SESSION['role'];
 		if($role=='lab-assistant')
 			header('Location:../LabAssistant/index.php');    
-		else if($role=='student')
-			header('Location:../Student/index.php');    
+		else if($role=='User')
+			header('Location:../User/index.php');    
         else
             header('Location:../logout.php');
     }

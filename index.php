@@ -7,8 +7,8 @@
 		$role=$_SESSION['role'];
 		if($role=='admin')
 			header('Location:Admin/index.php');    
-		else if($role=='student')
-			header('Location:Student/index.php');    
+		else if($role=='User')
+			header('Location:User/index.php');    
 		else if($role=='lab-assistant')
 		{
             if($_SESSION['status']==1)

@@ -43,7 +43,7 @@
             $remove_lendto = mysqli_query($conn,"  UPDATE $lendfrom SET toquan=(toquan-$requan), quantity=(quantity+$requan)WHERE dsrno='$dsrno'");
             header('Location:lent.php');
         }
-        if(isset($_POST['lend']))   //LENDING TO STUDENT/PROFESSOR
+        if(isset($_POST['lend']))   //LENDING TO User/PROFESSOR
         {
             //FETCH FORM DATA
             $lendfrom=$_POST['labno'];
@@ -60,15 +60,15 @@
                 $orignal_lend_quan=$fetch_owner['lendquan'];
 
 
-                if($orignal_lend_quan==$lendquan)   //ALL EQUIPMENTS BEING LEND FROM LAB-B TO Student (OWNED BY LAB-A)
+                if($orignal_lend_quan==$lendquan)   //ALL EQUIPMENTS BEING LEND FROM LAB-B TO User (OWNED BY LAB-A)
                 {
                     $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
-                    if(mysqli_num_rows($check_prev_lend)==0)    //STUDENT NOT LENT SAME EQUIPMENT FROM LAB-A
+                    if(mysqli_num_rows($check_prev_lend)==0)    //User NOT LENT SAME EQUIPMENT FROM LAB-A
                     {
-                        //SHIFT 'lend' TRANSACTION 'lendto' FROM LAB-B TO Student
+                        //SHIFT 'lend' TRANSACTION 'lendto' FROM LAB-B TO User
                         $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendto='$lendto' WHERE lendto='$lendfrom' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
                     }
-                    else    //STUDENT PREVIOUSLY LENT SAME EQUIPMENT FROM LAB-A
+                    else    //User PREVIOUSLY LENT SAME EQUIPMENT FROM LAB-A
                     {
                         $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan+$lendquan) WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
                         $delete_old_transaction=mysqli_query($conn,"DELETE FROM lend WHERE lendto='$lendfrom' AND dsrno='$dsrno'");
@@ -80,10 +80,10 @@
                 else
                 {
                     $check_prev_lend=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
-                    if(mysqli_num_rows($check_prev_lend)==0)    //STUDENT NOT LENT SAME EQUIPMENT FROM LAB-A
+                    if(mysqli_num_rows($check_prev_lend)==0)    //User NOT LENT SAME EQUIPMENT FROM LAB-A
                         $insert_transaction=mysqli_query($conn,"INSERT INTO lend(lendfrom,dsrno,lendquan,lendto) values('$orignal_labno','$dsrno',$lendquan,'$lendto')");
                                        
-                    else    //STUDENT PREVIOUSLY LENT SAME EQUIPMENT FROM LAB-A
+                    else    //User PREVIOUSLY LENT SAME EQUIPMENT FROM LAB-A
                         $insert_transaction=mysqli_query($conn,"UPDATE lend SET lendquan=(lendquan+$lendquan) WHERE lendto='$lendto' AND dsrno='$dsrno' AND lendfrom='$orignal_labno'");
                     
                     //MODIFY OLD LENDING BETWEEN LAB-A AND LAB-B
@@ -128,8 +128,8 @@
 		$role=$_SESSION['role'];
 		if($role=='admin')
 			header('Location:../Admin/index.php');    
-		else if($role=='student')
-			header('Location:../Student/index.php');    
+		else if($role=='User')
+			header('Location:../User/index.php');    
         else
             header('Location:../logout.php');
     }
