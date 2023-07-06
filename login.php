@@ -49,9 +49,11 @@
             $_SESSION['role']=$row['role'];
             $_SESSION['logged']=true;
             $_SESSION['status']=$row['status'];
+            $_SESSION['vs']=$row['vstatus'];
             $role=$_SESSION['role'];
             
             //Redirect user to respective dashboards
+        if($_SESSION['vs']==1){
             if($role=='admin')
                 header('Location:Admin/index.php');    
             else if($role=='student')
@@ -73,9 +75,12 @@
                 header("Location:login.php?conn=false");
                 exit;
             }
+        }else{
+            unset($_SESSION['logged']);
+            header('Location:login.php');
         }
-        else
-        {
+        }
+        else{
         	header("Location:login.php?error=false");
             exit;
         }
@@ -132,7 +137,7 @@
                         <button class="btn btn-danger col-lg-12 col-md-10 col-10 mb-4" type="submit" style="background-color: #D40000 ; color: white; height:45px;">Login</button>
                             </div>
                     </form>
-                    <p style="text-align:center;">Don't have an account? <a href="signup.php">Signup</a></p>
+                    <p style="text-align:center;">Don't have an account? <a href="OTP/signup.php">Signup</a></p>
 
                 </div>
             </div>

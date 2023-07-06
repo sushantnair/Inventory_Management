@@ -4,7 +4,7 @@
     $dept=$_SESSION['dept'];
     if($dept!=NULL){
     $dept_row=mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM departments WHERE dept='$dept'"),MYSQLI_ASSOC);
-    $short=$dept_row['short'];
+    $short=$dept_row['dept'];
     } else {
         $short = "Master Admin";
     }
