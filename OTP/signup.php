@@ -156,9 +156,8 @@
     
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-5 col-md-6 col-12 ms-0 ps-0 pt-0" style="height:100vh;">
-            <img src="../Assets/Signup.png" class="position-absolute img-fluid ms-0 ps-0 h-100">
-            </div>
+        <?php include('../Components/section2.php') ?>
+
             <div class="col-lg-6 col-md-6 col-12 mt-3">
                 <div class="container ">
                     <h2>Welcome to</h2>
