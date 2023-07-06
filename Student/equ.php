@@ -36,6 +36,11 @@
             {
                 $delete_lend_transaction=mysqli_query($conn,"DELETE FROM lend WHERE lendfrom='$labno' AND lendto='$id' AND dsrno='$dsrno'");
             }
+            $_SESSION['returned_data'] = $_POST;
+            
+            // Redirect back to the page with the modal
+            header('Location: your_page_with_modal.php');
+            exit(); // Important to prevent further code execution
         }
         if(isset($_POST['delete']))
         {
@@ -66,6 +71,7 @@
     else
     {
         header('Location:../logout.php');
+        exit(); // Important to prevent further code execution
     }
 ?>
 <!DOCTYPE html>
@@ -283,10 +289,26 @@
     
     </body>
 </html>
+<!-- Your modal dialog box -->
+<div class="modal" id="returnModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <!-- Display the returned form data here -->
+                <?php if (isset($_SESSION['returned_data'])): ?>
+                    <p>Returned Data:</p>
+                    <pre><?php print_r($_SESSION['returned_data']); ?></pre>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-
-
-
-
-
+<!-- JavaScript code to show the modal when necessary -->
+<script>
+    // Show the modal if the session variable is set
+    if (<?php echo isset($_SESSION['returned_data']) ? 'true' : 'false'; ?>) {
+        // Assuming you're using Bootstrap's modal component
+        $('#returnModal').modal('show');
+    }
+</script>
