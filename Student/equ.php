@@ -96,14 +96,14 @@
                     <label for="search">Search</label>
                 </div>
                 <div class="col-md-2 ps-0">
-                    <input type="text" class="form-control" id="search">
+                    <input type="text" class="form-control" id="search" name="search">
                 </div>
                 <div class="col-md-1 pe-0 mt-1">
                     <label for="filter" class="form-label">Filter</label>
                 </div>
                 <div class="col-md-2 ps-0">
-                    <select id="filter" name="filter" class="form-select" required>
-                        <option value="0" selected>None</option>
+                    <select id="filter" name="filter" class="form-select">
+                        <option value="" selected>None</option>
                         <option value="1">Search from Lended Equipments</option>
                         <option value="2">Search from Requested Equipments</option>
                         <option value="3">Search from All Equipmenrs</option>

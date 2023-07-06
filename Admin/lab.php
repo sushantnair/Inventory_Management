@@ -186,7 +186,8 @@
                     {
                         $search=$_POST['search'];
                         $assign=$_POST['assigned'];
-                        $active=$_POST['sta'];
+                        // FOR LATER IF NEEDED
+                        // $active=$_POST['sta'];
                         
                         if($dept1=='')
                         $sql_table_display = "SELECT * 

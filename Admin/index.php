@@ -163,7 +163,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php if($reg_assist>0) echo $reg_assist; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-person-circle-check fa-2x text-primary"></i>
+                            <i class="fa-solid fa-users fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php if($a_assist>0) echo $a_assist; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-person-circle-check fa-2x text-primary"></i>
+                            <i class="fa-solid fa-user-check fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php if($na_assist>0) echo $na_assist; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-person-circle-question fa-2x text-primary"></i>
+                            <i class="fa-solid fa-user-gear fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -211,7 +211,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php if($r_assist>0) echo $r_assist; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-person-circle-xmark fa-2x text-primary"></i>
+                            <i class="fa-solid fa-user-xmark fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -227,7 +227,7 @@
                             <div class="h4 card-content mb-0 text-dark"><?php if($r_assist>0) echo $r_assist; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
-                            <i class="fa-solid fa-person-circle-plus fa-2x text-primary"></i>
+                            <i class="fa-solid fa-user-plus fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>

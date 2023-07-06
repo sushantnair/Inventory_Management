@@ -2,6 +2,12 @@
     $role = $_SESSION['role'];
     $id=$_SESSION['id'];
     $dept=$_SESSION['dept'];
+    if($dept!=NULL){
+    $dept_row=mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM departments WHERE dept='$dept'"),MYSQLI_ASSOC);
+    $short=$dept_row['short'];
+    } else {
+        $short = "Master Admin";
+    }
     if ($role=='lab-assistant'){
         $lab_row=mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id"),MYSQLI_ASSOC);
         $labno=$lab_row['labno'];
@@ -101,7 +107,7 @@
                 ?> <br>
                 <span><b>User ID:</b> <?php echo $id; ?></span>
                 <span><b>Role:</b> <?php echo $role; ?></span>
-                <span><b>Dept:</b> <?php echo $dept ?></b></span>
+                <span><b>Dept:</b> <?php echo $short ?></b></span>
                 <br> <?php
             } ?>
         </div>
