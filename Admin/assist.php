@@ -10,11 +10,11 @@
             $tid=$_POST['tid'];
             $status=$_POST['btn-send'];
     
-            if($status==1){
+            if($status>=1){
                 $ns=1;
             }
-            elseif($status==0){
-                $ns=0;
+            elseif($status<=0){
+                $ns=-1;
             }
     
             $sql = "UPDATE user SET status='$ns' WHERE id='$tid'";
@@ -149,11 +149,14 @@
                                     $result_ben_name = mysqli_query($conn, $query_for_ben_name);
                                     $ben_name = mysqli_fetch_array($result_ben_name)[0];
                                     
-                                    if($row['status']==1){
+                                    if($row['status']>=1){
                                         $sta="Granted";
                                     }
                                     elseif($row['status']==0){
                                         $sta="Pending";
+                                    }
+                                    elseif($row['status']==-1){
+                                        $sta="Revoked";
                                     }
                                     ?>
                                         <tr>          
@@ -178,16 +181,16 @@
                                             
                                             <td>
                                                 <?php 
-                                                if($row['status']==0)
+                                                if($row['status']<=0)
                                                 {
                                                     ?>
                                                         <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1">Grant Access</button>
                                                     <?php 
                                                 }
-                                                else if($row['status']==1) 
+                                                else if($row['status']>=1) 
                                                 {
                                                     ?>
-                                                        <button class="btn btn-outline-dark" type="submit" name="btn-send" value="0">Revoke Access</button>
+                                                        <button class="btn btn-outline-dark" type="submit" name="btn-send" value="-1">Revoke Access</button>
 
                                                     <?php 
                                                 } 

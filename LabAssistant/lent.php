@@ -8,6 +8,7 @@
 
         // USER ID
         $id=$_SESSION['id'];
+        $labno=$_SESSION['labno'];
 
         // IF RETURNING EQUIPMENT
         if(isset($_POST['return'])||isset($_POST['returnall']))
@@ -197,13 +198,12 @@
     <!-- MAIN TABLE  -->
     <?php
 
-    $result_lab_fetch = mysqli_query($conn,"SELECT * FROM labs WHERE assistid = $id");
+    $result_lab_fetch = mysqli_query($conn,"SELECT * FROM labs WHERE labno = '$labno'");
     if(!$result_lab_fetch){
         echo "Lab details could not be fetched.";
         return;
     }
     $row = mysqli_fetch_array($result_lab_fetch, MYSQLI_ASSOC);
-    $labno = $row['labno'];
     $filter = $_POST['filter'] ?? '';
     //  '   ??''    ' is added so that warning message is not shown before user selects a filter value.
 

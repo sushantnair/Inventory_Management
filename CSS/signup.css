@@ -17,14 +17,13 @@ html,body{
   border: none;
 }
 .randomimg{
-  margin-top: 30vh;
+  margin-top: 32vh;
   position: relative;
   float: right;
   mix-blend-mode:multiply;
-  z-index: -2;
-  margin-right: 1vw;
-  height: 62vh;
-  width: auto;
+  margin-right: 0;
+  margin-left: 0;
+  
   
 }
 .logoimg{

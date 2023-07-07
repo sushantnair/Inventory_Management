@@ -29,12 +29,12 @@
             $num_assist=$fetch_assist['sum'];
             $na_assist=$num_assist-$a_assist;
 
-            $fetch_revoked_assist=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(id) AS sum FROM user WHERE role='lab-assistant' AND status=0"));
+            $fetch_revoked_assist=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(id) AS sum FROM user WHERE role='lab-assistant' AND status=-1"));
             $r_assist=$fetch_revoked_assist['sum'];
 
             //TO BE EDITED FOR PENDING AND REVOKED ASSISTANTS
-            $fetch_revoked_assist=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(id) AS sum FROM user WHERE role='lab-assistant' AND status=0"));
-            $r_assist=$fetch_revoked_assist['sum'];
+            $fetch_pending_assist=mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(id) AS sum FROM user WHERE role='lab-assistant' AND status=0"));
+            $p_assist=$fetch_pending_assist['sum'];
         }
         else
         {
@@ -224,7 +224,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-primary text-uppercase mb-1">
                             Lab Asst. Requests</div>
-                            <div class="h4 card-content mb-0 text-dark"><?php if($r_assist>0) echo $r_assist; else echo 0; ?></div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($p_assist>0) echo $p_assist; else echo 0; ?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-user-plus fa-2x text-primary"></i>

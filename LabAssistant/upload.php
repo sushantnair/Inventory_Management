@@ -11,6 +11,8 @@
         include('../connection.php');
         // USER ID
         $id=$_SESSION['id'];
+        $labno=$_SESSION['labno'];
+
     }
     //If a user is logged in and is not a lab-assistant
     else if (isset($_SESSION['logged']) && $_SESSION['role']!='lab-assistant')
@@ -162,7 +164,7 @@
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
     <?php
-    $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+    $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE labno = '$labno'");
     $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
     $labno=$row1['labno'];
     $dept=$row1['dept'];

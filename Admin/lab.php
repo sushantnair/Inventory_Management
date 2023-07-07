@@ -16,10 +16,15 @@
                 $row = mysqli_fetch_array($query1,MYSQLI_ASSOC);
                 $name=$row['name'];
                 mysqli_query($conn,"UPDATE labs SET assistid=$assistid, assistname='$name' WHERE labno='$labno'");
+                mysqli_query($conn,"UPDATE user SET status=status+1 WHERE id='$assistid'");
             }
             else 
             {
+                $fetch_id=mysqli_fetch_assoc(mysqli_query($conn,"SELECT * from labs where labno='$labno'"));
+                $assistid=$fetch_id['assistid'];
                 mysqli_query($conn,"UPDATE labs SET assistid=0, assistname='' WHERE labno='$labno'");
+                mysqli_query($conn,"UPDATE user SET status=status-1 WHERE id='$assistid'");
+
             }
             header('Location:lab.php');
 
@@ -105,16 +110,6 @@
                         <option value="and assistname=''">No</option>
                     </select>           
                 </div>
-                <!-- <div class="col-sm-1 pe-0 mt-1">
-                    <label for="sta">Active</label>
-                </div>
-                <div class="col-sm-1 ps-0">
-                <select id="sta" name="sta" class="form-select">
-                    <option value="">Any</option>
-                    <option value="and active='yes'">Yes</option>
-                    <option value="and active='no'">No</option>
-                </select>        
-                </div> -->
                 <div class="col-sm-1 pe-0">
                     <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
                 </div>
@@ -242,9 +237,7 @@
                                     $sql_labassist_fetch = "SELECT * 
                                                             FROM user
                                                             WHERE role='lab-assistant' AND 
-                                                                name NOT IN (SELECT assistname 
-                                                                            from labs) AND 
-                                                                status = 1 AND 
+                                                                (status = 1 OR status=2) AND 
                                                                 dept='$dept'";
                                     $result_labassist_fetch = mysqli_query($conn, $sql_labassist_fetch);
                                     if(!$result_labassist_fetch){

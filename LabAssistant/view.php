@@ -7,6 +7,7 @@
         include('../connection.php');
         // USER ID
         $id=$_SESSION['id'];
+        $labno=$_SESSION['labno'];
         // IF ADDING EQUIPMENT
         if(isset($_POST['addeq']))
         {
@@ -22,7 +23,7 @@
             if($eqtype!=0)
             {
                 //GET LAB-NUMBER FROM LAB TABLE USING SESSION ID (ASSISTANT ID)
-                $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+                $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE labno='$labno'");
                 
                 $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
                 if(!$row1)
@@ -31,7 +32,6 @@
                     die();
                 }
                 
-                $labno=$row1['labno'];   //LAB-NUMBER
                 $dept=$row1['dept'];
                 $fetch_short_dept=mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM departments WHERE dept='$dept'"),MYSQLI_ASSOC);
                 $short=$fetch_short_dept['short'];
@@ -394,14 +394,9 @@
                         </form>
                     </tr>
                     <?php
-                        $sql_lab_fetch = "SELECT *
-                                        FROM labs
-                                        WHERE assistid = $id";
+                        $sql_lab_fetch = "SELECT * FROM labs WHERE labno = '$labno'";
                         $result_lab_fetch = mysqli_query($conn, $sql_lab_fetch);
-                        if(!$result_lab_fetch){
-                            echo "Lab details could not be fetched.";
-                            return;
-                        }
+                        
                         $lab_data = mysqli_fetch_array($result_lab_fetch, MYSQLI_ASSOC);
                         $labno = $lab_data['labno'];
                         if(isset($_POST['search']))

@@ -5,10 +5,27 @@
     {
         include '../connection.php';
         $id=$_SESSION['id'];
-        $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
-        $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
-        $labno=$row1['labno'];
-        $labname=$row1['labname'];
+        $status=$_SESSION['status'];
+        $labno=$_SESSION['labno'];
+
+        if($labno==$_SESSION['labno2'])
+            $lab2=$_SESSION['labno1'];
+        else
+            $lab2=$_SESSION['labno2'];
+            
+        if(isset($_POST['switch']))
+        {
+            if($labno==$_SESSION['labno2'])
+                $_SESSION['labno']=$_SESSION['labno1'];
+            else
+                $_SESSION['labno']=$_SESSION['labno2'];
+
+            $labno=$_SESSION['labno'];
+            header("Location:index.php");
+        }
+        $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE labno='$labno'");
+        $row = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+        $labname=$row['labname'];
         
         $fetch_equipment=mysqli_query($conn,"SELECT COUNT(quantity) AS num_equ, SUM(quantity) AS sum_equ, SUM(cost*quantity) AS total_cost FROM $labno");
         $fetch=mysqli_fetch_assoc($fetch_equipment);
@@ -60,7 +77,9 @@
     <title>IM-KJSCE</title>
 </head>
 <body style="background-color: #f8f9fc;overflow-x: hidden;">
-    <?php include('../Components/sidebar.php') ?>
+    <?php 
+    include('../Components/sidebar.php') 
+    ?>
     <?php
         function moneyFormatIndia($num) {
             $explrestunits = "" ;
@@ -85,8 +104,8 @@
         }
     ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
-        <div class="h2 mt-4">B201 - <u>Microprocessor Laboratory</u></div>
-        <div style="font-size:17px">Electronics & Telecommunications</div>
+        <div class="h2 mt-4"><?php echo $labno ;?> - <u><?php echo $labname ;?></u></div>
+        <div style="font-size:17px"><?php echo $dept; ?></div>
         <!-- <hr class="mt-4 shadow mx-5"> -->
         <div class="col-lg-4 col-md-6 mt-4 mb-2" onclick="window.open('view.php','_self')">
             <div class="card border-success border-5 border-end-0 border-top-0 border-bottom-0 rounded shadow-lg h-100 py-2">
@@ -95,7 +114,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Equipment Variety</div>
-                            <div class="h4 card-content mb-0 text-dark"><?php echo $num_equ ;?></div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($num_equ>0) echo $num_equ ; else echo 0;?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-boxes-stacked fa-2x text-success"></i>
@@ -111,7 +130,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Equipment Quantity</div>
-                            <div class="h4 card-content mb-0 text-dark"><?php echo $sum_equ ;?></div>
+                            <div class="h4 card-content mb-0 text-dark"><?php if($sum_equ>0) echo $sum_equ ; else echo 0;?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-box-open fa-2x text-success"></i>
@@ -127,7 +146,7 @@
                         <div class="col mr-2">
                             <div class="card-head text-success text-uppercase mb-1">
                                 Total Inventory Cost</div>
-                            <div class="h4 card-content mb-0 text-dark">&#8377; <?php echo moneyFormatIndia($total_cost); ?></div>
+                            <div class="h4 card-content mb-0 text-dark">&#8377; <?php if($total_cost>0) echo moneyFormatIndia($total_cost); else echo 0;?></div>
                         </div>
                         <div class="col-auto me-2">
                             <i class="fa-solid fa-indian-rupee-sign fa-2x text-success"></i>
@@ -186,7 +205,19 @@
             </div>
         </div>
     </div>
-    <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem; z-index: 1000;;" onmouseenter="butExp()" onmouseleave="butCol()">
+    <?php 
+        if($status>2)
+        {
+        ?>
+            <div class="position-absolute" style="top: 2rem; right: 3rem; z-index: 1000;">
+                <form action="" method="post">
+                    <button class="btn btn-outline-danger" type="submit" name="switch">SWITCH TO: <?php echo $lab2; ?></button>
+                </form>
+            </div>
+            <?php 
+        } 
+    ?>
+    <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem; z-index: 1000;;" onmouseenter="butExp()" onmouseleave="butCol() " onclick="window.print()">
         <a href="#" id="reportlink" class="btn btn-danger rounded-circle shadow p-3">
         <span class="buttontext buttontext1" style="float:left; padding-right: 0.75em; font-weight: bold;">Generate<br>Report</span>
         <span style="float:right;">
@@ -196,28 +227,7 @@
         </svg>
         </span>
     </div>
-    <!-- <div class="dash_lab_box">
-        
-        <h6><span style="float: left; text-decoration: underline;">User ID: <?php echo $id; ?></span><span style="float: right;">Role: Lab Assistant</span></h6><br>
-        <h6><span style="float: left;">Lab Name: <?php echo $labname; ?> </span><span style="float: right;">Lab No: <?php echo $labno; ?></span></h6><br>
-        
-        <p>Please select an option suitable for the operation you want to undertake</p>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='view.php'"> 
-            View equipment
-        </button>
-        <br>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='lent.php'"> 
-            Lent equipment
-        </button>
-        <br>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='uploadfile.php'"> 
-           Upload Excel file
-        </button>
-        <br>
-        <button class="btn btn-primary btn-block" onclick="window.location.href='../logout.php'"> 
-           Signout
-        </button>
-    </div> -->
+    
     <script>
         // const button = document.getElementById("report")
         const buttontext = document.getElementsByClassName("buttontext")
