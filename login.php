@@ -7,7 +7,7 @@
 		$role=$_SESSION['role'];
 		if($role=='admin')
 			header('Location:Admin/index.php');    
-		else if($role=='User')
+		else if($role=='user')
 			header('Location:User/index.php');    
 		else if($role=='lab-assistant')
 		{
@@ -51,7 +51,7 @@
             $_SESSION['status']=$row['status'];
             $role=$_SESSION['role'];
             $id=$_SESSION['id'];
-            
+            echo "WORKS";
             //Redirect user to respective dashboards
             
             if($role=='admin'){
@@ -62,7 +62,7 @@
                 }
             }
                     
-            else if($role=='User')
+            else if($role=='user')
                 header('Location:User/index.php');    
             else if($role=='lab-assistant')
             {
@@ -153,6 +153,7 @@
                     </form>
                     <p style="text-align:center;">Don't have an account? <a href="signup.php">Signup</a></p>
 
+                    
                 </div>
             </div>
         </div>

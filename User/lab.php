@@ -1,7 +1,7 @@
 <?php 
     session_start();
     //If a user is logged in and is a User
-    if (isset($_SESSION['logged']) && $_SESSION['role']=='User') 
+    if (isset($_SESSION['logged']) && $_SESSION['role']=='user') 
     {
         include('../connection.php');
         $id=$_SESSION['id'];
@@ -48,7 +48,7 @@
 
     }
     //If a user is logged in and is not a User
-    else if (isset($_SESSION['logged']) && $_SESSION['role']!='User')
+    else if (isset($_SESSION['logged']) && $_SESSION['role']!='user')
     {
         $role=$_SESSION['role'];
         if($role=='admin')

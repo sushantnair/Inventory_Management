@@ -17,7 +17,7 @@
 		$role=$_SESSION['role'];
 		if($role=='admin')
 			header('Location:./Admin/index.php');    
-		else if($role=='User')
+		else if($role=='user')
 			header('Location:./User/index.php');    
 		else if($role=='lab-assistant')
 		{
@@ -222,9 +222,8 @@
                             <div class="col-6 form-floating">
                                 <select class="form-select" id="role" name="role" required>
                                     <option value="" disabled selected>Choose a role</option>
-                                    <option value="User">User</option>
+                                    <option value="user">User</option>
                                     <option value="lab-assistant">Lab Assistant</option>
-                                    <option value="faculty">Faculty</option>
                                 </select>
                                 <label for="role" class="select-label ms-3">Role</label>
                             </div>

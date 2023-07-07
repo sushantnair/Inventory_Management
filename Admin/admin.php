@@ -33,7 +33,7 @@
 		$role=$_SESSION['role'];
 		if($role=='lab-assistant')
 			header('Location:../LabAssistant/index.php');    
-		else if($role=='User')
+		else if($role=='user')
 			header('Location:../User/index.php');    
         else
             header('Location:../logout.php');
