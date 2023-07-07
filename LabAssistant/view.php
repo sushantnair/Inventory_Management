@@ -443,7 +443,7 @@
                                 <td><?php echo $row['desc2'];?></td>
                                 <td><?php echo $row['cost'];?></td>
                                 <td>
-                                <button type="submit" name="delete" style="width: 80px;" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdroplend<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
+                                <button type="submit" name="lend" style="width: 80px;" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdroplend<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
                                         Lend
                                     </button>
                                     <div class="modal fade" id="staticBackdroplend<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -740,30 +740,6 @@
     </div>
   
 
-  <script>
-function openPopup(rowId) {
-  var popup = document.getElementById("popup");
-  popup.style.display = "block";
 
-  // Get the data from the table row
-  var tableRows = document.getElementsByTagName("tr");
-  var targetRow = tableRows[rowId + 1]; // Add 1 to skip the form row
-  var cells = targetRow.getElementsByTagName("td");
-
-  // Populate the form fields with the data
-  document.getElementById("name").value = cells[0].innerHTML;
-  document.getElementById("type").value = cells[1].innerHTML;
-  document.getElementById("dsr").value = cells[2].innerHTML;
-  document.getElementById("quant").value = cells[3].innerText;
-  document.getElementById("description1").value = cells[5].innerHTML;
-  document.getElementById("description2").value = cells[6].innerHTML;
-  document.getElementById("costin").value = cells[7].innerHTML;
-}
-
-function closePopup() {
-      var popup = document.getElementById("popup");
-      popup.style.display = "none";
-    }
-  </script>
 </body>
 </html>
