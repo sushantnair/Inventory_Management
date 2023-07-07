@@ -1,11 +1,11 @@
 <?php
 	session_start();
-	include('../connection.php');
+	include('connection.php');
 
     //Include required PHPMailer files
-	require 'includes/PHPMailer.php';
-	require 'includes/SMTP.php';
-	require 'includes/Exception.php';
+	require './OTP/includes/PHPMailer.php';
+	require './OTP/includes/SMTP.php';
+	require './OTP/includes/Exception.php';
 //Define name spaces
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\SMTP;
@@ -16,19 +16,19 @@
 	{
 		$role=$_SESSION['role'];
 		if($role=='admin')
-			header('Location:../Admin/index.php');    
+			header('Location:./Admin/index.php');    
 		else if($role=='User')
-			header('Location:../User/index.php');    
+			header('Location:./User/index.php');    
 		else if($role=='lab-assistant')
 		{
             if($_SESSION['status']==1)
             {
-			    header('Location:../LabAssistant/index.php');
+			    header('Location:./LabAssistant/index.php');
 			}
 			else if($_SESSION['status']==0)
             {
 				unset($_SESSION['logged']);
-				header('Location:../login.php');
+				header('Location:login.php');
 			}  
         }
 	}
@@ -134,7 +134,7 @@
 //Closing smtp connection
 	$mail->smtpClose();
 
-            header('Location: index.php');
+            header('Location: ./OTP/index.php');
 
         }
         // Close connection
@@ -146,17 +146,17 @@
     <head>
         <title>Signup Page</title>
         <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> --> 
         
-        <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
-        <link rel="stylesheet" href="../CSS/signup.css">
+        <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="CSS/signup.css">
     </head>
 <body>
     
     <div class="container-fluid">
         <div class="row">
-        <?php include('../Components/section2.php') ?>
+        <?php include('Components/section2.php') ?>
 
             <div class="col-lg-6 col-md-6 col-12 mt-3">
                 <div class="container ">
@@ -266,7 +266,7 @@
                         <button class="btn btn-danger col-lg-12 col-md-10 col-10 mb-4" type="submit" style="background-color: #D40000 ; color: white; height:45px;">Register</button>
                             </div>
                     </form>
-                    <p style="text-align:center;">Already have an account? <a href="../login.php">Login</a></p>
+                    <p style="text-align:center;">Already have an account? <a href="login.php">Login</a></p>
 
                 </div>
             </div>

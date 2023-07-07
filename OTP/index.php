@@ -27,7 +27,7 @@ if($sn>0){
     $sa=mysqli_fetch_array($st);
     $email=$sa['email'];
 
-    $sql1="UPDATE user SET vstatus='1' WHERE vcode='$e'";
+    $sql1="UPDATE user SET status='0' WHERE vcode='$e'";
     $ro=mysqli_query($conn,$sql1);
     //Create instance of PHPMailer
 	  $mail = new PHPMailer();

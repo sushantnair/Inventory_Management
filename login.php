@@ -11,14 +11,14 @@
 			header('Location:User/index.php');    
 		else if($role=='lab-assistant')
 		{
-            if($_SESSION['status']==1)
+            if($_SESSION['status']>1)
             {
 			    header('Location:LabAssistant/index.php');
 			}
-			else if($_SESSION['status']==0)
+			else
             {
 				unset($_SESSION['logged']);
-				header('Location:login.php');
+				header('Location:login.php?error=false');
 			}  
         }
 	}
@@ -42,29 +42,46 @@
         $row = mysqli_fetch_array($result_fetch_user_data);
 
         //if email registered, check if password matches
-        if((is_array($row))&&(password_verify($pass,$row['password'])))
+        if((is_array($row))&&(password_verify($pass,$row['password'])) && $row['status']>=0)
         {
             $_SESSION['id']=$row['id'];
             $_SESSION['dept']=$row['dept'];
             $_SESSION['role']=$row['role'];
             $_SESSION['logged']=true;
             $_SESSION['status']=$row['status'];
-            $_SESSION['vs']=$row['vstatus'];
             $role=$_SESSION['role'];
+            $id=$_SESSION['id'];
             
             //Redirect user to respective dashboards
-        if($_SESSION['vs']==1){
-            if($role=='admin')
-                header('Location:Admin/index.php');    
+            
+            if($role=='admin'){
+                if($_SESSION['status']==1){
+                    header('Location:Admin/index.php');
+                } else{
+                    header('Location:login.php');
+                }
+            }
+                    
             else if($role=='User')
                 header('Location:User/index.php');    
             else if($role=='lab-assistant')
             {
-                if($_SESSION['status']==1)
+
+                if($_SESSION['status']>1)
                 {
+                    $sql1=mysqli_query($conn,"SELECT * FROM labs WHERE assistid=$id");
+                    $row1 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+                    $_SESSION['labno']=$row1['labno'];
+                    $_SESSION['labno1']=$row1['labno'];
+                    if($_SESSION['status']>2)
+                    {
+                        $row2 = mysqli_fetch_array($sql1,MYSQLI_ASSOC);
+                        $_SESSION['labno2']=$row2['labno'];
+                    }
+        
                     header('Location:LabAssistant/index.php');
                 }
-                elseif($_SESSION['status']==0)
+                else
                 {
                     unset($_SESSION['logged']);
                     header('Location:login.php');
@@ -79,11 +96,7 @@
             unset($_SESSION['logged']);
             header('Location:login.php');
         }
-        }
-        else{
-        	header("Location:login.php?error=false");
-            exit;
-        }
+        
     }
 
 ?>
@@ -138,7 +151,7 @@
                         <button class="btn btn-danger col-lg-12 col-md-10 col-10 mb-4" type="submit" style="background-color: #D40000 ; color: white; height:45px;">Login</button>
                             </div>
                     </form>
-                    <p style="text-align:center;">Don't have an account? <a href="OTP/signup.php">Signup</a></p>
+                    <p style="text-align:center;">Don't have an account? <a href="signup.php">Signup</a></p>
 
                 </div>
             </div>
