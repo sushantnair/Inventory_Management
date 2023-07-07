@@ -152,7 +152,7 @@
                                 while($dept_row=mysqli_fetch_array($fetch_departments,MYSQLI_ASSOC))
                                 {
                                     ?>
-                                    <option value=<?php echo $dept_row['dept']; ?>><?php echo $dept_row['dept']; ?></option>
+                                    <option value="<?php echo $dept_row['dept']; ?>"><?php echo $dept_row['dept']; ?></option>
                                     <?php
                                 }
                             }
