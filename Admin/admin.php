@@ -62,13 +62,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <link rel="stylesheet" href="./CSS/styles.css">
     
 </head>
 <body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>     
- 	<div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; z-index:100; width: calc(100% - 100px);">
+ 	<div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; width: calc(100% - 100px);">
         <form action="" method="post" style="text-align:center;">
             <br>
             <div class="row">
@@ -171,17 +171,19 @@
                                     else if($row['status']==1) 
                                     {
                                         ?>
-                                        <form>
                                             <button  class="btn btn-outline-dark" type="submit" value="-1" data-bs-toggle="modal" data-bs-target="#staticBackdroprevoke<?php echo $row['id'];?>">
                                                 Revoke Access
                                             </button>
-                                        </form>
                                             
-                                            
+                                        <?php 
+                                    } 
+                                    ?>
+                                        <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdropAdmindelete<?php echo str_replace('/', '_', strtolower($row['id']));?>" name="delete">Delete Account</button>
 
-                                            <!-- Modal -->
-                                            <div class="modal fade" id= data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
+                                </td>
+                                <!-- Modal -->
+                                <div class="modal fade" id="staticBackdropAdmindelete<?php echo str_replace('/', '_', strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
                                                 <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title text-danger" id="staticBackdropLabel">Warning</h5>
@@ -189,42 +191,32 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <?php
-                                                        echo "Assistant Name: <strong>".$row['name']."</strong><br>";
-                                                        echo "Assistant ID: <strong>".$row['id']."</strong><br>";
-                                                        echo "Assistant Dept: <strong>".$row['dept']."</strong><br>";
-                                                        if($row['status']==1)
-                                                        {
-                                                            echo "Are you sure you want to remove access of this assistant?<br>";                                                        
-                                                        }
-                                                        else if($row['status']>1)
-                                                        {
+                                                    if($row['status']==1)
+                                                    {
+                                                        echo "Are you sure you want to remove this administrator?<br><br>";                                                        
+                                                    }
+                                                    else if($row['status']>1)
+                                                    {
 
-                                                            echo "This assistant has been appointed to one or more labs, remove them before revoking access.<br><br>";
-                                                        }
-                                                        // echo "<p style='font-size: smaller; margin:0;'>This action cannot be reversed.</p>";
+                                                        echo "This assistant has been appointed to one or more labs, remove them before revoking access.<br><br>";
+                                                    }
+                                                        echo "Admin Name: <strong>".$row['name']."</strong><br>";
+                                                        echo "Admin ID: <strong>".$row['id']."</strong><br>";
+                                                        echo "Admin Dept: <strong>".$row['dept']."</strong><br><br>";
+                                                        
+                                                        echo "<p style='font-size: x-small; margin:0;'>This action cannot be reversed.</p>";
                                                             
                                                             
                                                     ?>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn alert-danger" data-bs-dismiss="modal">Cancel</button>
-                                                    <form action="" method="post">  
-                                                        <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                                        <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">              
-                                                        <button type="submit" name="<?php if($row['toquan']>0) echo "delete_lend"; else echo "delete";?>" class="btn btn-danger">Delete</button>
-                                                    </form>
+                                                    <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
+                                                        <button class="btn btn-outline-danger" type="submit" name="delete">Yes, Delete Admin</button>
+                                                </div>
                                                 </div>
                                                 </div>
                                             </div>
-                                            </div>
-                                        <?php 
-                                    } 
-                                    ?>
-                                        <button class="btn btn-outline-danger" type="submit" name="delete">Delete Account</button>
-
-                                    </form>
-                                </td>
-                                
+                                </form>
                             </tr>
                         <?php
                     } 
