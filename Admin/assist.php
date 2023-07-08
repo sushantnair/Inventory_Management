@@ -60,9 +60,11 @@
  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Assist</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../js/bootstrap.bundle.js"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <link rel="stylesheet" href="./CSS/styles.css">
@@ -70,7 +72,7 @@
 </head>
 <body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>     
- 	<div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; z-index:100; width: calc(100% - 100px);">
+ 	<div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; width: calc(100% - 100px);">
         <form action="" method="post" style="text-align:center;">
             <br>
             <div class="row">
@@ -180,25 +182,107 @@
                                     
                                             
                                             <td>
+                                            <button type="button" name="return" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstupdate<?php echo str_replace('/', '_', strtolower($row['id']));?>">
                                                 <?php 
                                                 if($row['status']<=0)
                                                 {
                                                     ?>
-                                                        <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1">Grant Access</button>
+                                                        Grant Access
+                                                        <!-- <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1">Grant Access</button> -->
                                                     <?php 
                                                 }
                                                 else if($row['status']>=1) 
                                                 {
                                                     ?>
-                                                        <button class="btn btn-outline-dark" type="submit" name="btn-send" value="-1">Revoke Access</button>
-
+                                                        <!-- <button class="btn btn-outline-dark" type="submit" name="btn-send" value="-1">Revoke Access</button> -->
+                                                        Revoke Access
                                                     <?php 
                                                 } 
                                                 ?>
-                                                    <button class="btn btn-outline-danger" type="submit" name="delete">Delete Account</button>
+                                            </button>
+                                            <button type="button" name="return" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstdelete<?php echo str_replace('/', '_', strtolower($row['id']));?>">
+                                                Delete Account
+                                            </button>
+                                            
 
-                                                </form>
+                                                
                                             </td>
+                                            <div class="modal fade" id="staticBackdropAsstupdate<?php echo str_replace('/', '_', strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="staticBackdropLabel">Update Lab Asst.</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <?php
+                                                                $lab_id=$row['id'];
+                                                                if($row['status']<=0)
+                                                                    echo "Are you sure you want to grant access to the following Lab Assistant?<br>";
+                                                                else if($row['status']>=1)
+                                                                    echo "Are you sure you want to revoke access from the following Lab Assistant?<br>";
+                                                                echo "Name: <strong>".$ben_name."</strong><br>";
+                                                                echo "Email: <strong>".$row['email']."</strong><br>";
+                                                                echo "Dept: <strong>".$row['dept']."</strong><br><br>";
+                                                                
+                                                            ?>
+                                                                <?php if($row['status']<=0){ ?>
+                                                                <p style="font-size: x-small; margin:0;">Clicking 'Grant Access' will grant this user Lab Assistant privileges.</p>
+                                                                <?php } else if($row['status']>=1) { ?>
+                                                                <p style="font-size: x-small; margin:0;">Clicking 'Revoke Access' will revoke Lab Assistant privileges from this user.</p>
+                                                                <?php } ?>
+                                                                <p style="font-size: x-small;">Click 'Cancel' to dismiss the popup for now.</p>
+                                                        </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
+                                                        <?php 
+                                                        if($row['status']<=0)
+                                                        {
+                                                            ?>
+                                                                
+                                                                <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1">Yes, Grant Access</button>
+                                                            <?php 
+                                                        }
+                                                        else if($row['status']>=1) 
+                                                        {
+                                                            ?>
+                                                                <button class="btn btn-outline-dark" type="submit" name="btn-send" value="-1">Yes, Revoke Access</button>
+                                                                
+                                                            <?php 
+                                                        } 
+                                                        ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="staticBackdropAsstdelete<?php echo str_replace('/', '_', strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="staticBackdropLabel">Delete Lab Asst.</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <?php
+                                                                $lab_id=$row['id'];
+                                                                echo "Are you sure you want to delete the following Lab Assistant?<br>";
+                                                                echo "Name: <strong>".$ben_name."</strong><br>";
+                                                                echo "Email: <strong>".$row['email']."</strong><br>";
+                                                                echo "Dept: <strong>".$row['dept']."</strong><br><br>";
+                                                                
+                                                            ?>
+                                                                <p style="font-size: x-small; margin:0;">This action cannot be reversed!</p>
+                                                        </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
+                                                        <button class="btn btn-outline-danger" type="submit" name="delete">Delete Account</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                             
                                         </tr>
                                     <?php

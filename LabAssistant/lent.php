@@ -155,7 +155,7 @@
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
 
 </head>
-<body style="background-color: #f8f9fc;overflow-x: hidden;">
+<body style="background-color: #f8f9fc; overflow-x: hidden;">
     
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px;">
@@ -391,7 +391,7 @@
                                                                 <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                                                 <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">              
                                                                 <div class="form-floating col-12">
-                                                                    <input class="form-control" type="number" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" required>
+                                                                    <input class="form-control" type="number" name="requan" id="requan" min="1" max="<?php echo $eqroww['quantity'];?>" required>
                                                                     <label class="label ms-2" for="lendquan">Returning Quantity</label>        
                                                                 </div>
                                                                 <p style="font-size: x-small; margin:0;">Click 'Return All' to return all quantity of the equipment</p>
@@ -411,7 +411,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                        </div>
                                     
                                     </tr>
                                 <?php
@@ -496,23 +496,77 @@
                                         <td><?php echo $eqrow['desc2'];?></td>
                                         <td><?php echo $row['id'];?></td>
                                         <td style="width: 450px;">
-                                                <form action="lent.php" method="post" >
-                                                    <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
-                                                    <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
-                                                    <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
-                                                    <input class="form-inline" style="width:100px;" type="number" name="lendquan" id="lendquan" min ="1" max="<?php if($row['quantity']>$eqrow['quantity']) echo $eqrow['quantity']; else echo $row['quantity'];?>" placeholder="Quantity" required>
-                                                    <input class="btn btn-outline-dark" type="submit" name="lend" value="Lend"> 
-                                                 
-                                                    <button class="btn btn-outline-danger" type="submit" name="deny"> 
-                                                        Deny
-                                                    </button>
-                                                </form>
-                                            </div>
-                                            
-                                            
+                                        <button name="return" style="width: 100px;" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdroprespond<?php echo str_replace('/', '_', strtolower($eqrow['dsrno']));?>">
+                                        Respond
+                                    </button></td>
+                                        <div class="modal fade" id="staticBackdroprespond<?php echo str_replace('/', '_', strtolower($eqrow['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="staticBackdropLabel">Returning</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <?php
+                                                                $dsrno=$eqrow['dsrno'];
+                                                                // echo $dsrno;
+                                                                $fetch_equipment=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
+                                                                $fetch_student_id=mysqli_query($conn,"SELECT * FROM request WHERE labno='$labno'");
+                                                                
+                                                                $student_row=mysqli_fetch_array($fetch_student_id,MYSQLI_ASSOC);
+                                                                $studentrequest=$student_row['id'];
+                                                                $requestquantity=$student_row['quantity'];
 
+                                                                $fetch_student=mysqli_query($conn,"SELECT * FROM user WHERE id='$studentrequest'");
+                                                                $student_details=mysqli_fetch_array($fetch_student,MYSQLI_ASSOC);
+                                                                $studentname=$student_details['name'];
+                                                                $studentemail=$student_details['email'];
+                                                                $studentdept=$student_details['dept'];
+
+                                                                $eqroww=mysqli_fetch_array($fetch_equipment,MYSQLI_ASSOC);
+                                                                $eqtype=$eqroww['eqtype'];
+                                                                $eqname=$eqroww['eqname'];
+                                                                $quantity=$eqroww['quantity'];
+                                                                echo "Equipment DSR: <strong>".$dsrno."</strong><br>";
+                                                                echo "Equipment Name: <strong>".$eqname."</strong><br>";
+                                                                echo "Equipment Type: <strong>".$eqtype."</strong><br>";
+                                                                echo "Equipment Quantity: <strong>".$quantity."</strong><br>";
+                                                                echo "Request Quantity: <strong>".$requestquantity."</strong><br>";
+                                                                echo "<u>Requesting User</u>: <br>";
+                                                                echo "Name: <strong>".$studentname."</strong><br>";
+                                                                echo "Email: <strong>".$studentemail."</strong><br>";
+                                                                echo "Dept: <strong>".$studentdept."</strong><br><br>";
+                                                                
+                                                            ?>
+                                                            <form action="" method="post">  
+                                                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                                                <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                                                <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
+                                                                <div class="form-floating col-12 mb-2">
+                                                                    <input class="form-control" type="number" name="lendquan" id="lendquan" min ="1" max="<?php if($row['quantity']>$eqrow['quantity']) echo $eqrow['quantity']; else echo $row['quantity'];?>" placeholder="Quantity" required>                                                                    <label class="label ms-2" for="lendquan">Returning Quantity</label>        
+                                                                </div>
+                                                                <p style="font-size: x-small; margin:0;">Click 'Lend' to lend the specified quantity of the equipment.</p>
+                                                                <p style="font-size: x-small; margin:0;">Click 'Deny  Request' to remove the request.</p>
+                                                                <p style="font-size: x-small;">Click 'Cancel' to dismiss the popup for now.</p>
+                                                        </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn alert-danger" data-bs-dismiss="modal">Cancel</button>
+                                                            <input class="btn btn-outline-dark" type="submit" name="lend" value="Lend Equipment"> 
+                                                            </form>
+
+                                                            <form action="" method="post">  
+                                                                <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
+                                                                <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
+                                                                <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
+                                                                <button class="btn btn-outline-danger" type="submit" name="deny"> 
+                                                                    Deny Request
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
-                                            
                                         </td>
                                         </tr>
                                     <?php
