@@ -178,11 +178,11 @@
                                         <?php 
                                     } 
                                     ?>
-                                        <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdropAdmindelete<?php echo str_replace('/', '_', strtolower($row['id']));?>" name="delete">Delete Account</button>
+                                        <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdropAdmindelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>" name="delete">Delete Account</button>
 
                                 </td>
                                 <!-- Modal -->
-                                <div class="modal fade" id="staticBackdropAdmindelete<?php echo str_replace('/', '_', strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal fade" id="staticBackdropAdmindelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                 <div class="modal-content">
                                                 <div class="modal-header">

@@ -36,7 +36,7 @@ p, h6{
     padding: 5px;
 } */
 
-.nav {
+.nav1 {
     width: 300px;
     overflow-y:visible;
     position: fixed;
@@ -67,7 +67,7 @@ p, h6{
     height: 125px;
 }
 
-.nav-link {
+.nav-link1 {
     width: 100%;
     margin: 0;
     padding: 1.5rem;
@@ -77,13 +77,13 @@ p, h6{
     font-weight: bolder;
     /* background-color: brown; */
 }
-.nav-link:hover {
+.nav-link1:hover {
     color:white;
     box-shadow: 
         inset 0px 11px 8px -10px rgb(186, 18, 51),
         inset 0px -11px 8px -10px rgb(186, 18, 51);
 }
-.nav-link > svg {
+.nav-link1 > svg {
     margin: auto;
     margin-right: 1em;
     margin-top:-0.25em;

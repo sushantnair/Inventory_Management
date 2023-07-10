@@ -303,10 +303,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IM-KJSCE</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
-    <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../js/bootstrap.bundle.js"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="./CSS/styles.css">
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
    </head>
@@ -342,7 +342,7 @@
                     <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
                     </div>
                 </div>
-            </form>
+        </form>
         </div>
 
     
@@ -443,10 +443,10 @@
                                 <td><?php echo $row['desc2'];?></td>
                                 <td><?php echo $row['cost'];?></td>
                                 <td>
-                                <button type="submit" name="lend" style="width: 80px;" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdroplend<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
+                                <button type="submit" name="lend" style="width: 80px;" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdroplend<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
                                         Lend
                                     </button>
-                                    <div class="modal fade" id="staticBackdroplend<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal fade" id="staticBackdroplend<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -514,10 +514,10 @@
                                 if($row['byquan']==0)
                                 {
                                     ?>
-                                        <button type="submit" style="width: 80px;" name="delete" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropupdate<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>">
+                                        <button type="submit" style="width: 80px;" name="delete" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropupdate<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>">
                                             Update
                                         </button>
-                                        <div class="modal fade" id="staticBackdropupdate<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal fade" id="staticBackdropupdate<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -589,12 +589,12 @@
 
                                         <!-- Button trigger modal -->
                                         
-                                        <button type="submit" style="width: 80px;" name="delete" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropdelete<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
+                                        <button type="submit" style="width: 80px;" name="delete" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropdelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>" <?php if($row['quantity']==0) echo "disabled";?>>
                                             Delete
                                         </button>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="staticBackdropdelete<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal fade" id="staticBackdropdelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                             <div class="modal-header">
@@ -637,10 +637,10 @@
                                 else 
                                 {
                                     ?>
-                                    <button name="return" style="width: 80px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropreturn<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>">
+                                    <button name="return" style="width: 80px;" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropreturn<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>">
                                                 Return
                                             </button>
-                                            <div class="modal fade" id="staticBackdropreturn<?php echo str_replace('/', '_', strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal fade" id="staticBackdropreturn<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">

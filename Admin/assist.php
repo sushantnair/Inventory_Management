@@ -182,7 +182,7 @@
                                     
                                             
                                             <td>
-                                            <button type="button" name="return" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstupdate<?php echo str_replace('/', '_', strtolower($row['id']));?>">
+                                            <button type="button" name="return" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstupdate<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>">
                                                 <?php 
                                                 if($row['status']<=0)
                                                 {
@@ -200,14 +200,14 @@
                                                 } 
                                                 ?>
                                             </button>
-                                            <button type="button" name="return" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstdelete<?php echo str_replace('/', '_', strtolower($row['id']));?>">
+                                            <button type="button" name="return" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstdelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>">
                                                 Delete Account
                                             </button>
                                             
 
                                                 
                                             </td>
-                                            <div class="modal fade" id="staticBackdropAsstupdate<?php echo str_replace('/', '_', strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal fade" id="staticBackdropAsstupdate<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -256,7 +256,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="modal fade" id="staticBackdropAsstdelete<?php echo str_replace('/', '_', strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal fade" id="staticBackdropAsstdelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
