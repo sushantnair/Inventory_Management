@@ -257,7 +257,7 @@
                                         <td><?php echo $eqrow['eqname']?></td>
                                         <td><?php echo $eqrow['eqtype']?></td>
                                         <td><?php echo $row['dsrno']?></td>
-                                        <td><?php echo $row['quantity']?></td>
+                                        <td><?php echo $row['requan']?></td>
                                         <td><?php echo $eqrow['desc1'] ?></td>
                                         <td> <?php echo $eqrow['desc2'] ?> </td>
                                         <td> <?php echo $row['labno'] ?> </td>

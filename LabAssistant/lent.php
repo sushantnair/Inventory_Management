@@ -313,8 +313,7 @@
                                     $sql_borrowed_equipment_fetch = "SELECT *
                                                                     FROM lend NATURAL JOIN $labno
                                                                     WHERE lendto = '$labno' AND
-                                                                        (lend.dsrno LIKE '%$search%' OR 
-                                                                        lend.lendto LIKE '%$search%' OR
+                                                                        (lend.dsrno LIKE '%$search%' OR
                                                                         lend.lendquan LIKE '%$search%' OR
                                                                         $labno.eqname LIKE '%$search%' OR
                                                                             $labno.eqtype LIKE '%$search%' OR
@@ -443,21 +442,24 @@
                             <tbody>
                                 <?php 
                                     //FETCH LENDING DATA FOR THIS LAB
-                                    if(isset($_POST['search']))
+                                    if(isset($_POST['search']) && $_POST['search']!='')
                                     {
                                         $search = $_POST['search'];
                                         $sql_requested_equipment_fetch = "SELECT *
-                                                                        FROM request NATURAL JOIN $labno
-                                                                        WHERE labno = '$labno' AND
-                                                                            (request.dsrno LIKE '%$search%' OR 
-                                                                            request.id LIKE '%$search%' OR
-                                                                            request.quantity LIKE '%$search%' OR
-                                                                            $labno.eqname LIKE '%$search%' OR
-                                                                            $labno.desc1 LIKE '%$search%' OR
-                                                                            $labno.desc2 LIKE '%$search%')";
+                                                                        FROM request JOIN $labno USING (dsrno)
+                                                                        WHERE request.labno='$labno'
+                                                                        AND (
+                                                                        request.id LIKE '%$search%' OR
+                                                                        request.dsrno LIKE '%$search%' OR
+                                                                        request.requan LIKE '%$search%' OR                                                                        
+                                                                        $labno.eqname LIKE '%$search%' OR
+                                                                        $labno.desc1 LIKE '%$search%' OR
+                                                                        $labno.desc2 LIKE '%$search%' OR
+                                                                        $labno.quantity LIKE '%$search%'
+                                                                        )";
                                         $result_requested_equipment_fetch = mysqli_query($conn, $sql_requested_equipment_fetch);
                                         if(!$result_requested_equipment_fetch){
-                                            echo "There is some problem in fetching lab equipment data.";
+                                            echo mysqli_error($conn);
                                             return;
                                         }
                                     } else {
@@ -478,12 +480,10 @@
                                         $eqrow=mysqli_fetch_array($equ_details,MYSQLI_ASSOC);
                                         ?>
                                             
-
-                                            
                                             <tr>
                                             <td><?php echo $eqrow['eqname'];?></td>
                                             <td><?php echo $eqrow['dsrno'];?></td>
-                                            <td><?php echo $row['quantity'];?></td>
+                                            <td><?php echo $row['requan'];?></td>
                                             <td><?php echo $eqrow['quantity'];?></td>
                                             <td><?php echo $eqrow['desc1'];?></td>
                                             <td><?php echo $eqrow['desc2'];?></td>

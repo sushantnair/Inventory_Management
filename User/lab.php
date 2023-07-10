@@ -28,7 +28,7 @@
             {
                 if(mysqli_num_rows($fetch_equipment)==0)
                 {
-                    $insert_request=mysqli_query($conn,"INSERT INTO request(labno,id,dsrno,quantity) values('$labno',$id,'$dsrno',$quantity)");
+                    $insert_request=mysqli_query($conn,"INSERT INTO request(labno,id,dsrno,requan) values('$labno',$id,'$dsrno',$quantity)");
                 }
                 
             }
@@ -168,12 +168,12 @@
                                 <td> <?php echo $row['desc2'] ?> </td>
                                 <td> <?php echo $row['cost'] ?> </td>
                                 <?php
-                                    $fetch_requested=mysqli_query($conn,"SELECT quantity FROM request WHERE dsrno='$dsrno' AND labno='$labno' AND id=$id");
+                                    $fetch_requested=mysqli_query($conn,"SELECT requan FROM request WHERE dsrno='$dsrno' AND labno='$labno' AND id=$id");
                                     $quan=mysqli_fetch_array($fetch_requested,MYSQLI_ASSOC);
                                     if(mysqli_num_rows($fetch_requested)==1)
                                     {
                                         ?>
-                                        <td><?php echo $quan['quantity'];?></td>
+                                        <td><?php echo $quan['requan'];?></td>
                                         <td>
                                             <button class="btn btn-outline-dark" name="delrequest" style="width:85px;">
                                                 Delete
