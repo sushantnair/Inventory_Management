@@ -22,7 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="../CSS/styles.css">
 </head>
-<nav class="nav nav2 flex-column vh-100 top-0 start-0 bg-danger" onmouseenter="navExp()" onmouseleave="navCol()">
+<nav class="position-fixed nav nav2 flex-column top-0 start-0 p-0 m-0 bg-danger" onmouseenter="navExp()" onmouseleave="navCol()" style="height:100vh; overflow-y:hidden;">
     <a class="navbar-brand" href="./"><img id="logo" src="../Assets/imagelogo.png" class="position-relative img-fluid logo logo1 mt-2 mb-3 w-100"></a>
     <a class="nav-link link2 active"  aria-current="page" href="./">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-speedometer2" viewBox="0 0 16 16">
