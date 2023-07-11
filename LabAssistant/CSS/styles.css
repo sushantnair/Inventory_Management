@@ -60,16 +60,10 @@ tbody > tr:nth-child(odd) > td {
     background-color: rgb(169, 169, 169, 0.3);
 }
 button.nav-link {
-    color: rgba(255, 52, 52, 0.759);
+    color: rgba(0, 0, 0, 0.426);
+    /* color: rgba(255, 52, 52, 0.759); */
     font-weight: bold;
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
-button.nav-link:hover {
-    color:red;
-}
-/* button:focus {
-    color: black;
-    text-decoration: underline;
 
-} */
