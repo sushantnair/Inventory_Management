@@ -23,12 +23,14 @@
         }
 	}
 
-//login.php backend
+    //login.php backend
     if(isset($_POST['email'])&&isset($_POST['pass'])){
         //Accept email & password from submitted form
         $email = mysqli_real_escape_string($conn,$_POST['email']);
 	    $pass = mysqli_real_escape_string($conn,$_POST['pass']);
         //check if email is registered
+        if(!str_contains($email,'@'))
+            $email=$email.'@somaiya.edu';
         $result_fetch_user_data = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email'");
         if(!$result_fetch_user_data){
             header("Location:login.php?conn=false");
@@ -133,7 +135,7 @@
                             <span class="icon position-absolute h4" style="z-index: 100; width:60px; height: 60px; text-align:center; vertical-align:middle;">&#128231; </span>
                             
                             <div class="form-floating col-12 mb-6">
-                                <input class="form-control" type="email" id="email" name="email" placeholder="Email" required pattern=".+@somaiya\.edu$" title="Please enter a valid @somaiya.edu email address">             
+                                <input class="form-control" type="text" id="email" name="email" placeholder="Email" title="Please enter a valid email address">             
                                 <label class="label ms-2" for="email">Email</label>
                             </div>
                         </div>    

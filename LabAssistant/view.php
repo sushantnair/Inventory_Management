@@ -301,7 +301,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <title>IM-KJSCE</title>
     <link rel="stylesheet" href="../css/bootstrap.css">
     <script src="../js/bootstrap.bundle.js"></script>
@@ -313,7 +313,7 @@
 <body style="background-color: #f8f9fc;overflow-x: hidden;">
     
     <?php include('../Components/sidebar.php') ?>
-    <div class="position-absolute container row w-100 ms-4" style="left: 100px;">
+    <div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; width: calc(100% - 100px);">
         <!-- Search bar -->
         <div class="search-container">
         <form action="" method="post" style="text-align:center;">

@@ -84,7 +84,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.min.css">
     <!-- ../ is used to go one level up from Admin folder. -->
     <title>IM-KJSCE | Admin Dashboard</title>

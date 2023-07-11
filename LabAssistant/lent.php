@@ -144,7 +144,7 @@
 <html lang="en" class="notranslate" translate="no">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <meta name="google" content="notranslate" /> 
     <title>IM-KJSCE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -170,7 +170,7 @@
 <body style="background-color: #f8f9fc; overflow-x: hidden;">
     
     <?php include('../Components/sidebar.php') ?>
-    <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px;">
+    <div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; width: calc(100% - 100px);">
 
     <!-- Search bar -->
         <form action="" method="post" style="text-align:center;">
