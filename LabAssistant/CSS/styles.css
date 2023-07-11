@@ -66,4 +66,6 @@ button.nav-link {
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
-
+button.nav-link:hover {
+    color:rgba(0, 0, 0, 0.811);
+}

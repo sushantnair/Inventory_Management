@@ -372,13 +372,12 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="staticBackdropLabel">Returning</h5>
+                                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Return Equipment</h5>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <div class="modal-body">
+                                                            <div class="modal-body" style="text-align: center;">
                                                                 <?php
                                                                     $dsrno=$eqrow['dsrno'];
-                                                                    echo $dsrno;
                                                                     $fetch_equipment=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
                                                                     $fetch_lab=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$labno' AND dsrno='$dsrno'");
                                                                     
@@ -391,9 +390,9 @@
                                                                     $quantity=$eqroww['quantity'];
                                                                     echo "Equipment Name: <strong>".$eqname."</strong><br>";
                                                                     echo "Equipment Type: <strong>".$eqtype."</strong><br>";
-                                                                    echo "Equipment Type: <strong>".$dsrno."</strong><br>";
+                                                                    echo "Equipment DSR No: <strong>".$dsrno."</strong><br>";
                                                                     echo "Equipment Quantity: <strong>".$quantity."</strong><br>";
-                                                                    echo "Returning to: <strong>".$lendfrom."</strong><br><br>";
+                                                                    echo "Returning to: <strong>".$lendfrom."</strong><br><hr>";
                                                                     
                                                                 ?>
                                                                 <form action="" method="post">  
@@ -403,6 +402,7 @@
                                                                         <input class="form-control" type="number" name="requan" id="requan" min="1" max="<?php echo $eqroww['quantity'];?>" required>
                                                                         <label class="label ms-2" for="requan">Returning Quantity</label>        
                                                                     </div>
+                                                                    <hr>
                                                                     <p style="font-size: small; margin:0;">Click 'Return All' to return all quantity of the equipment</p>
                                                                     <p style="font-size: small;">Input quantity and click 'Return' to return some quantity of the equipment</p>
                                                             </div>
@@ -412,7 +412,7 @@
                                                                 <button type="submit" name="return" class="btn btn-danger">Return</button>
                                                                 </form>
 
-                                                                <form action="" method="post">  
+                                                                <form action="" method="post" style="margin: 0;padding:0%;">  
                                                                     <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                                                     <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">    
                                                                     <button type="submit" name="returnall" class="btn btn-danger">Return All</button>
@@ -508,39 +508,40 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="staticBackdropLabel">Returning</h5>
+                                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Equipment Request</h5>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <div class="modal-body">
+                                                            <div class="modal-body" style="text-align: center;">
                                                                 <?php
                                                                     $dsrno=$eqrow['dsrno'];
                                                                     // echo $dsrno;
                                                                     $fetch_equipment=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
-                                                                    $fetch_student_id=mysqli_query($conn,"SELECT * FROM request WHERE labno='$labno'");
+                                                                    $fetch_user_id=mysqli_query($conn,"SELECT * FROM request WHERE labno='$labno'");
                                                                     
-                                                                    $student_row=mysqli_fetch_array($fetch_student_id,MYSQLI_ASSOC);
-                                                                    $studentrequest=$student_row['id'];
-                                                                    $requestquantity=$student_row['quantity'];
+                                                                    $user_row=mysqli_fetch_array($fetch_user_id,MYSQLI_ASSOC);
+                                                                    $user_id=$user_row['id'];
+                                                                    $re_quan=$user_row['requan'];
 
-                                                                    $fetch_student=mysqli_query($conn,"SELECT * FROM user WHERE id='$studentrequest'");
-                                                                    $student_details=mysqli_fetch_array($fetch_student,MYSQLI_ASSOC);
-                                                                    $studentname=$student_details['name'];
-                                                                    $studentemail=$student_details['email'];
-                                                                    $studentdept=$student_details['dept'];
+                                                                    $fetch_user=mysqli_query($conn,"SELECT * FROM user WHERE id='$user_id'");
+                                                                    $user_details=mysqli_fetch_array($fetch_user,MYSQLI_ASSOC);
+                                                                    $user_name=$user_details['name'];
+                                                                    $user_email=$user_details['email'];
+                                                                    $user_dept=$user_details['dept'];
 
                                                                     $eqroww=mysqli_fetch_array($fetch_equipment,MYSQLI_ASSOC);
                                                                     $eqtype=$eqroww['eqtype'];
                                                                     $eqname=$eqroww['eqname'];
                                                                     $quantity=$eqroww['quantity'];
-                                                                    echo "Equipment DSR: <strong>".$dsrno."</strong><br>";
                                                                     echo "Equipment Name: <strong>".$eqname."</strong><br>";
+                                                                    echo "Equipment DSR: <strong>".$dsrno."</strong><br>";
                                                                     echo "Equipment Type: <strong>".$eqtype."</strong><br>";
                                                                     echo "Equipment Quantity: <strong>".$quantity."</strong><br>";
-                                                                    echo "Request Quantity: <strong>".$requestquantity."</strong><br>";
+                                                                    echo "Request Quantity: <strong>".$re_quan."</strong><hr>";
                                                                     echo "<u>Requesting User</u>: <br>";
-                                                                    echo "Name: <strong>".$studentname."</strong><br>";
-                                                                    echo "Email: <strong>".$studentemail."</strong><br>";
-                                                                    echo "Dept: <strong>".$studentdept."</strong><br><br>";
+                                                                    echo "Name: <strong>".$user_name."</strong><br>";
+                                                                    echo "ID: <strong>".$user_id."</strong><br>";
+                                                                    echo "Email: <strong>".$user_email."</strong><br>";
+                                                                    echo "Dept: <strong>".$user_dept."</strong><br><hr>";
                                                                     
                                                                 ?>
                                                                 <form action="" method="post">  
@@ -548,10 +549,12 @@
                                                                     <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                                                     <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">
                                                                     <div class="form-floating col-12 mb-2">
-                                                                        <input class="form-control" type="number" name="lendquan" id="lendquan" min ="1" max="<?php if($row['quantity']>$eqrow['quantity']) echo $eqrow['quantity']; else echo $row['quantity'];?>" placeholder="Quantity" required>                                                                    <label class="label ms-2" for="lendquan">Returning Quantity</label>        
+                                                                        <input class="form-control" type="number" name="lendquan" id="lendquan" min ="1" max="<?php if($row['requan']>$eqrow['quantity']) echo $eqrow['quantity']; else echo $row['quantity'];?>" placeholder="Quantity" required>                                                                    
+                                                                        <label class="label ms-2" for="lendquan">Lending Quantity</label>        
                                                                     </div>
+                                                                    <hr>
                                                                     <p style="font-size: small; margin:0;">Click 'Lend' to lend the specified quantity of the equipment.</p>
-                                                                    <p style="font-size: small; margin:0;">Click 'Deny  Request' to remove the request.</p>
+                                                                    <p style="font-size: small; margin:0;">Click 'Deny  Request' to deny the request.</p>
                                                                     <p style="font-size: small;">Click 'Cancel' to dismiss the popup for now.</p>
                                                             </div>
 
@@ -560,7 +563,7 @@
                                                                 <input class="btn btn-outline-dark" type="submit" name="lend" value="Lend Equipment"> 
                                                                 </form>
 
-                                                                <form action="" method="post">  
+                                                                <form action="" method="post" style="margin: 0;padding:0%;">  
                                                                     <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                                                                     <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                                                     <input type="text" name="lendto" value="<?php echo $row['id']; ?>" style="display:none;">

@@ -450,7 +450,7 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="staticBackdropLabel">Lending</h5>
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Lend Equipment</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -465,8 +465,8 @@
                                                         
                                                         echo "Equipment Name: <strong>".$eqname."</strong><br>";
                                                         echo "Equipment Type: <strong>".$eqtype."</strong><br>";
-                                                        echo "Equipment Type: <strong>".$dsrno."</strong><br>";
-                                                        echo "Equipment Quantity: <strong>".$quantity."</strong><br><br>";
+                                                        echo "Equipment DSR No: <strong>".$dsrno."</strong><br>";
+                                                        echo "Equipment Quantity: <strong>".$quantity."</strong><br><hr>";
                                                     
                                                     ?>
                                                     
@@ -497,7 +497,10 @@
                                                             <input class="form-control" type="number" name="lendquan" id="lendquan" min ="1" max="<?php echo $quantity;?>" required>
                                                             <label class="label ms-2" for="lendquan">Lending Quantity</label>        
                                                         </div>
-                                                        <p style='font-size: smaller; margin:0;'>Once lent, only the borrower can return.</p>
+                                                        <hr>
+                                                        <p style='font-size: small; margin:0;'>Once lent, only the borrower can return.</p>
+                                                        <p style="font-size: small; margin:0;">Click 'Cancel' to dismiss the popup for now.</p>
+
 
                                                                 
                                                 </div>
@@ -521,7 +524,7 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Update</h5>
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Update Equipment</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
@@ -545,16 +548,17 @@
                                                                 <label class="label ms-2" for="name">Name</label>        
                                                             </div>
                                                             <div class="row">
-                                                                <div class="form-floating col-6 mb-4">
+                                                                <div class="form-floating col-6">
                                                                     <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">              
                                                                     <input class="form-control" type="text" name="dsr" id="dsr" value="<?php echo $row['dsrno']?>" disabled>
                                                                     <label class="label ms-2" for="dsr">DSR No</label>        
                                                                 </div>
-                                                                <div class="form-floating col-6 mb-4">
+                                                                <div class="form-floating col-6">
                                                                     <input class="form-control" type="text" name="eqtype" id="eqtype" value="<?php echo $row['eqtype']?>" disabled>
                                                                     <label class="label ms-2" for="eqtype">Type</label>        
                                                                 </div>
                                                             </div>
+                                                            <hr>
                                                             <div class="row">
                                                                 <div class="form-floating col-6 mb-4">
                                                                     <input class="form-control" type="number" name="quan" id="quan" min="1" value=<?php echo $row['quantity']?>>
@@ -573,7 +577,10 @@
                                                                 <input class="form-control" type="textarea" name="desc2" id="desc2" value="<?php echo $row['desc2']?>">
                                                                 <label class="label ms-2" for="desc2">Description 2</label>        
                                                             </div>
-                                                            
+                                                            <hr>
+                                                            <p style='font-size: small; margin:0;'>Once updated, changes will reflect at all places.</p>
+                                                            <p style="font-size: small; margin:0;">Click 'Cancel' to dismiss the popup for now.</p>
+
                                                             
                                                     
                                                     </div>
@@ -598,14 +605,18 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Warning</h5>
+                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Delete Equipment</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <?php
+                                                echo "Equipment Name: <strong>".$eqname."</strong><br>";
+                                                echo "Equipment Type: <strong>".$eqtype."</strong><br>";
+                                                echo "Equipment DSR No: <strong>".$dsrno."</strong><br>";
+                                                echo "Equipment Quantity: <strong>".$quantity."</strong><br><hr>";
                                                     if($row['toquan']>0)
                                                     {
-                                                        echo "This equipment has been lent to other labs.<br>Are you sure you want to delete the equipment you have?<br><br>";
+                                                        echo "<p class='text-danger'>This equipment has been lent to other labs.<br>Are you sure you want to delete the equipment you have?<br></p><hr>";
                                                         echo "<p style='font-size: smaller;margin:0;'>This will not delete the equipments lent to others.</p>";
 
                                                         
@@ -644,7 +655,7 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="staticBackdropLabel">Returning</h5>
+                                                            <h5 class="modal-title text-danger" id="staticBackdropLabel">Returning</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
@@ -666,9 +677,9 @@
                                                                 $quantity=$eqrow['quantity'];
                                                                 echo "Equipment Name: <strong>".$eqname."</strong><br>";
                                                                 echo "Equipment Type: <strong>".$eqtype."</strong><br>";
-                                                                echo "Equipment Type: <strong>".$dsrno."</strong><br>";
+                                                                echo "Equipment DSR No: <strong>".$dsrno."</strong><br>";
                                                                 echo "Equipment Quantity: <strong>".$quantity."</strong><br>";
-                                                                echo "Returning to: <strong>".$lendfrom."</strong><br><br>";
+                                                                echo "Returning to: <strong>".$lendfrom."</strong><br><hr>";
                                                                 
                                                             ?>
                                                             <form action="" method="post">  
@@ -678,6 +689,7 @@
                                                                     <input class="form-control" type="number" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" required>
                                                                     <label class="label ms-2" for="lendquan">Returning Quantity</label>        
                                                                 </div>
+                                                                <hr>
                                                                 <p style="font-size: small; margin:0;">Click 'Return All' to return all quantity of the equipment</p>
                                                                 <p style="font-size: small;">Input quantity and click 'Return' to return some quantity of the equipment</p>
                                                         </div>
