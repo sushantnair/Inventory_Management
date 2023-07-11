@@ -141,19 +141,44 @@
     }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="notranslate" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate" /> 
     <title>IM-KJSCE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="CSS/styles.css">
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
-
+    <script>
+        $(document).ready(function(){
+            $('button[data-bs-toggle="tab"]').on('show.bs.tab', function(e) {
+                localStorage.setItem('activeTab', $(e.target).attr('data-bs-target'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if(activeTab){
+                $('#myTab button[data-bs-target="' + activeTab + '"]').tab('show');
+            }
+        });
+    </script>
+    <style>
+        button.nav-link {
+            color: red;
+            font-weight: bold;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        button.nav-link:hover {
+            color:red;
+        }
+        button.active {
+            color: black;
+        }
+    </style>
 </head>
 <body style="background-color: #f8f9fc; overflow-x: hidden;">
     
@@ -192,14 +217,14 @@
         ?>
         <!-- Nav tabs -->
         <div>
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Equipment Lent</button>
+            <ul class="nav nav-tabs justify-content-center h4" id="myTab" role="tablist">
+                <li class="nav-item mx-3" role="presentation">
+                    <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Equipment Lent</button>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li class="nav-item mx-3" role="presentation">
                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Equipment Borrowed</button>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li class="nav-item mx-3" role="presentation">
                     <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab" aria-controls="messages" aria-selected="false">Equipment Requests</button>
                 </li>
                 
@@ -211,7 +236,7 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <!-- Equipment Lent  -->
-            <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="row col-lg-12 card card-body table-card table-responsive">
                     <table class="mb-0">
                         <thead>
