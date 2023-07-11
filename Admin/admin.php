@@ -134,9 +134,6 @@
                             $sta="Granted";
                         }
                         elseif($row['status']==0){
-                            $sta="Pending";
-                        }
-                        elseif($row['status']==-1){
                             $sta="Revoked";
                         }
                         ?>
@@ -161,61 +158,98 @@
                         
                                 
                                 <td>
-                                    <?php 
-                                    if($row['status'] == 0 || $row['status'] == -1)
-                                    {
-                                        ?>
-                                            <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1">Grant Access</button>
+                                    <button type="button" name="return" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropAdminupdate<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>">
                                         <?php 
-                                    }
-                                    else if($row['status']==1) 
-                                    {
-                                        ?>
-                                            <button  class="btn btn-outline-dark" type="submit" value="-1" data-bs-toggle="modal" data-bs-target="#staticBackdroprevoke<?php echo $row['id'];?>">
+                                        if($row['status']==0)
+                                        {
+                                            ?>
+                                                Grant Access
+                                            <?php 
+                                        }
+                                        else if($row['status']==1) 
+                                        {
+                                            ?>
                                                 Revoke Access
-                                            </button>
-                                            
-                                        <?php 
-                                    } 
-                                    ?>
+                                            <?php 
+                                        } 
+                                        ?>
+                                    </button>
                                         <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdropAdmindelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>" name="delete">Delete Account</button>
 
                                 </td>
+                                
+                                <!-- Revoke Modal -->
+                                <div class="modal fade" id="staticBackdropAdminupdate<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Revoke Access</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <?php
+                                                if($row['status']==1)
+                                                
+                                                    echo "Are you sure you want to revoke access from the following Admin?<br>";
+                                                
+                                                else 
+                                                    echo "Are you sure you want to grant access to the following Admin?<br>";
+
+                                                    echo "Admin Name: <strong>".$row['name']."</strong><br>";
+                                                    echo "Admin ID: <strong>".$row['id']."</strong><br>";
+                                                    echo "Admin Dept: <strong>".$row['dept']."</strong><br><br>";
+                                                    
+                                                    echo "<p style='font-size: small; margin:0;'>This action cannot be reversed.</p>";
+                                                        
+                                                        
+                                                ?>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
+                                                <?php if($row['status']==1) {?>
+                                                    <button class="btn btn-outline-danger" type="submit" name="btn-send" value="0">Yes, Revoke Admin</button>
+                                                <?php } else {?>
+                                                <button class="btn btn-outline-danger" type="submit" name="btn-send" value="1">Yes, Grant Admin</button>
+                                                    <?php }?>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="staticBackdropAdmindelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title text-danger" id="staticBackdropLabel">Warning</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <?php
-                                                    if($row['status']==1)
-                                                    {
-                                                        echo "Are you sure you want to remove this administrator?<br><br>";                                                        
-                                                    }
-                                                    else if($row['status']>1)
-                                                    {
-
-                                                        echo "This assistant has been appointed to one or more labs, remove them before revoking access.<br><br>";
-                                                    }
-                                                        echo "Admin Name: <strong>".$row['name']."</strong><br>";
-                                                        echo "Admin ID: <strong>".$row['id']."</strong><br>";
-                                                        echo "Admin Dept: <strong>".$row['dept']."</strong><br><br>";
-                                                        
-                                                        echo "<p style='font-size: x-small; margin:0;'>This action cannot be reversed.</p>";
-                                                            
-                                                            
-                                                    ?>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
-                                                        <button class="btn btn-outline-danger" type="submit" name="delete">Yes, Delete Admin</button>
-                                                </div>
-                                                </div>
-                                                </div>
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Warning</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
+                                            <div class="modal-body">
+                                                <?php
+                                                if($row['status']==1)
+                                                {
+                                                    echo "Are you sure you want to remove this administrator?<br><br>";                                                        
+                                                }
+                                                else if($row['status']>1)
+                                                {
+
+                                                    echo "This assistant has been appointed to one or more labs, remove them before revoking access.<br><br>";
+                                                }
+                                                    echo "Admin Name: <strong>".$row['name']."</strong><br>";
+                                                    echo "Admin ID: <strong>".$row['id']."</strong><br>";
+                                                    echo "Admin Dept: <strong>".$row['dept']."</strong><br><br>";
+                                                    
+                                                    echo "<p style='font-size: small; margin:0;'>This action cannot be reversed.</p>";
+                                                        
+                                                        
+                                                ?>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
+                                                <button class="btn btn-outline-danger" type="submit" name="delete">Yes, Delete Admin</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                             </tr>
                         <?php

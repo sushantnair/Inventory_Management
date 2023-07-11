@@ -80,47 +80,58 @@
     <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
     <link rel="stylesheet" href="./CSS/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $('button[data-bs-toggle="tab"]').on('show.bs.tab', function(e) {
+                localStorage.setItem('activeTab', $(e.target).attr('data-bs-target'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if(activeTab){
+                $('#myTab button[data-bs-target="' + activeTab + '"]').tab('show');
+            }
+        });
+    </script>
+
 </head>
 <body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>
     <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
 
-    <!-- Search bar -->
-    <div class="search-container">
-    <form action="" method="post" style="text-align:center;">
-            <br>
-            <div class="row">
-                <div class="col-md-2">
+        <!-- Search bar -->
+        <div class="search-container">
+        <form action="" method="post" style="text-align:center;">
+                <br>
+                <div class="row">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-1 pe-0 mt-1">
+                        <label for="search">Search</label>
+                    </div>
+                    <div class="col-md-2 ps-0">
+                        <input type="text" class="form-control" id="search" name="search">
+                    </div>
+                    <div class="col-md-1 pe-0">
+                        <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
+                    </div>
                 </div>
-                <div class="col-md-1 pe-0 mt-1">
-                    <label for="search">Search</label>
-                </div>
-                <div class="col-md-2 ps-0">
-                    <input type="text" class="form-control" id="search" name="search">
-                </div>
-                <div class="col-md-1 pe-0 mt-1">
-                    <label for="filter" class="form-label">Filter</label>
-                </div>
-                <div class="col-md-2 ps-0">
-                    <select id="filter" name="filter" class="form-select">
-                        <option value="" selected>None</option>
-                        <option value="1">Search from Lended Equipments</option>
-                        <option value="2">Search from Requested Equipments</option>
-                        <option value="3">Search from All Equipmenrs</option>
-                    </select>         
-                </div>
-                <div class="col-md-1 pe-0">
-                <input class="btn btn-outline-danger alert-danger" type="submit" value="Search"><br><br>
-                </div>
-            </div>
-        </form>
-    </div>
-    <?php
-        $f_id = $_POST['filter'] ?? '';
-        if($f_id == '' || $f_id == '1' || $f_id == '3')
-        {
-            ?>
-                <h4 style="text-align: center; margin-right:50px;">Equipment Borrowed</h4>
+            </form>
+        </div>
+            <!-- Nav tabs -->
+        <div>
+            <ul class="nav nav-tabs justify-content-center h4" id="myTab" role="tablist">
+                <li class="nav-item mx-3" role="presentation">
+                    <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Equipment Borrowed</button>
+                </li>
+                <li class="nav-item mx-3" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Equipment Requests</button>
+                </li>
+            </ul>
+
+        </div>
+        <div class="tab-content">
+            <!-- Equipment Lent  -->
+            <div class="tab-pane" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="row col-lg-12 card card-body table-card table-responsive">
                     <table class="mb-0">
                         <thead>
@@ -161,7 +172,6 @@
                                         return;
                                     }
                                 }
-                                    // $parts = parse_url(basename($_SERVER['REQUEST_URI']));
                                 while($row = mysqli_fetch_array($result_table_display, MYSQLI_ASSOC)) 
                                 {    
 
@@ -196,17 +206,10 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
                 
-            <?php
-        }
-    ?>
-    
-    
-    <?php
-        if($f_id == '' || $f_id == '2' || $f_id == '3')
-        {
-            ?>
-            <h4 style="text-align: center; margin-right:50px;">Requests</h4>
+            
+            <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                 <div class="row col-lg-12 card card-body table-card table-responsive">
                     <table class="mb-0">
                         <thead>
@@ -232,7 +235,7 @@
                                                         WHERE id='$id' AND
                                                             (dsrno LIKE '%$search%' OR
                                                             id LIKE '%$search%' OR
-                                                            quantity LIKE '%$search%')";
+                                                            requan LIKE '%$search%')";
                                 $result_table_display = mysqli_query($conn,$sql_table_display);
                                 if(!$result_table_display){
                                     echo "There is some problem in fetching equipment data.";
@@ -276,9 +279,8 @@
                         ?>
                     </table>
                 </div>
-            <?php
-        }
-    ?>
+            </div>
+            
     </div>
     
     </body>

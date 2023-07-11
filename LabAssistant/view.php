@@ -678,8 +678,8 @@
                                                                     <input class="form-control" type="number" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" required>
                                                                     <label class="label ms-2" for="lendquan">Returning Quantity</label>        
                                                                 </div>
-                                                                <p style="font-size: x-small; margin:0;">Click 'Return All' to return all quantity of the equipment</p>
-                                                                <p style="font-size: x-small;">Input quantity and click 'Return' to return some quantity of the equipment</p>
+                                                                <p style="font-size: small; margin:0;">Click 'Return All' to return all quantity of the equipment</p>
+                                                                <p style="font-size: small;">Input quantity and click 'Return' to return some quantity of the equipment</p>
                                                         </div>
 
                                                     <div class="modal-footer">

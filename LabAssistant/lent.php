@@ -149,11 +149,11 @@
     <title>IM-KJSCE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="CSS/styles.css">
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <!-- <link rel="stylesheet" href="../CSS/bootstrap.min.css"> -->
     <!-- using an offline copy saves time spent for loading bootstrap from online source  -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function(){
             $('button[data-bs-toggle="tab"]').on('show.bs.tab', function(e) {
@@ -165,20 +165,7 @@
             }
         });
     </script>
-    <style>
-        button.nav-link {
-            color: red;
-            font-weight: bold;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-        button.nav-link:hover {
-            color:red;
-        }
-        button.active {
-            color: black;
-        }
-    </style>
+    
 </head>
 <body style="background-color: #f8f9fc; overflow-x: hidden;">
     
@@ -416,8 +403,8 @@
                                                                         <input class="form-control" type="number" name="requan" id="requan" min="1" max="<?php echo $eqroww['quantity'];?>" required>
                                                                         <label class="label ms-2" for="requan">Returning Quantity</label>        
                                                                     </div>
-                                                                    <p style="font-size: x-small; margin:0;">Click 'Return All' to return all quantity of the equipment</p>
-                                                                    <p style="font-size: x-small;">Input quantity and click 'Return' to return some quantity of the equipment</p>
+                                                                    <p style="font-size: small; margin:0;">Click 'Return All' to return all quantity of the equipment</p>
+                                                                    <p style="font-size: small;">Input quantity and click 'Return' to return some quantity of the equipment</p>
                                                             </div>
 
                                                         <div class="modal-footer">
@@ -563,9 +550,9 @@
                                                                     <div class="form-floating col-12 mb-2">
                                                                         <input class="form-control" type="number" name="lendquan" id="lendquan" min ="1" max="<?php if($row['quantity']>$eqrow['quantity']) echo $eqrow['quantity']; else echo $row['quantity'];?>" placeholder="Quantity" required>                                                                    <label class="label ms-2" for="lendquan">Returning Quantity</label>        
                                                                     </div>
-                                                                    <p style="font-size: x-small; margin:0;">Click 'Lend' to lend the specified quantity of the equipment.</p>
-                                                                    <p style="font-size: x-small; margin:0;">Click 'Deny  Request' to remove the request.</p>
-                                                                    <p style="font-size: x-small;">Click 'Cancel' to dismiss the popup for now.</p>
+                                                                    <p style="font-size: small; margin:0;">Click 'Lend' to lend the specified quantity of the equipment.</p>
+                                                                    <p style="font-size: small; margin:0;">Click 'Deny  Request' to remove the request.</p>
+                                                                    <p style="font-size: small;">Click 'Cancel' to dismiss the popup for now.</p>
                                                             </div>
 
                                                         <div class="modal-footer">

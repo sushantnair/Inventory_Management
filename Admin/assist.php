@@ -188,13 +188,11 @@
                                                 {
                                                     ?>
                                                         Grant Access
-                                                        <!-- <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1">Grant Access</button> -->
                                                     <?php 
                                                 }
                                                 else if($row['status']>=1) 
                                                 {
                                                     ?>
-                                                        <!-- <button class="btn btn-outline-dark" type="submit" name="btn-send" value="-1">Revoke Access</button> -->
                                                         Revoke Access
                                                     <?php 
                                                 } 
@@ -216,22 +214,40 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <?php
-                                                                $lab_id=$row['id'];
-                                                                if($row['status']<=0)
-                                                                    echo "Are you sure you want to grant access to the following Lab Assistant?<br>";
-                                                                else if($row['status']>=1)
-                                                                    echo "Are you sure you want to revoke access from the following Lab Assistant?<br>";
+                                                                $assist_id=$row['id'];
                                                                 echo "Name: <strong>".$ben_name."</strong><br>";
                                                                 echo "Email: <strong>".$row['email']."</strong><br>";
-                                                                echo "Dept: <strong>".$row['dept']."</strong><br><br>";
+                                                                echo "Dept: <strong>".$row['dept']."</strong><br><hr>";
+                                                                if($row['status']<=0)
+                                                                    echo "Are you sure you want to grant access to the following Lab Assistant?<br>";
+                                                                else if($row['status']==1)
+                                                                    echo "Are you sure you want to revoke access from the following Lab Assistant?<br>";
+                                                                else if($row['status']>1)
+                                                                {
+                                                                    echo "<p style='font-size: small; margin:0;'><strong>This lab assistant is assigned to one or more labs.<br>Please remove assistant from the following labs before revoking access.</strong><br><hr></p>";
+                                                                    $fetch_lab_no=mysqli_query($conn,"SELECT * FROM LABS WHERE assistid=$assist_id");
+                                                                    $labno_row1=mysqli_fetch_array($fetch_lab_no);
+                                                                    if($row['status']>2)
+                                                                        echo "<strong>Lab 1 Details<br></strong>";
+                                                                    else 
+                                                                    echo "<strong>Lab Details</strong><br>";
+                                                                    echo "Lab No: ".$labno_row1['labno']."<br>Lab Name: ".$labno_row1['labname'];
+                                                                    if($row['status']>2)
+                                                                    {
+                                                                        $labno_row2=mysqli_fetch_array($fetch_lab_no);
+                                                                        echo "<br><br><strong>Lab 2 Details</strong><br>";
+                                                                        echo "Lab No: ".$labno_row2['labno']."<br>Lab Name: ".$labno_row2['labname'];
+                                                                    }
+                                                                }
                                                                 
                                                             ?>
+                                                            <hr>
                                                                 <?php if($row['status']<=0){ ?>
-                                                                <p style="font-size: x-small; margin:0;">Clicking 'Grant Access' will grant this user Lab Assistant privileges.</p>
+                                                                <p style="font-size: small; margin:0;">Clicking 'Grant Access' will grant this user Lab Assistant privileges.</p>
                                                                 <?php } else if($row['status']>=1) { ?>
-                                                                <p style="font-size: x-small; margin:0;">Clicking 'Revoke Access' will revoke Lab Assistant privileges from this user.</p>
+                                                                <p style="font-size: small; margin:0;">Clicking 'Revoke Access' will revoke Lab Assistant privileges from this user.</p>
                                                                 <?php } ?>
-                                                                <p style="font-size: x-small;">Click 'Cancel' to dismiss the popup for now.</p>
+                                                                <p style="font-size: small;">Click 'Cancel' to dismiss the popup for now.</p>
                                                         </div>
 
                                                     <div class="modal-footer">
@@ -241,13 +257,13 @@
                                                         {
                                                             ?>
                                                                 
-                                                                <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1">Yes, Grant Access</button>
+                                                                <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1" >Yes, Grant Access</button>
                                                             <?php 
                                                         }
                                                         else if($row['status']>=1) 
                                                         {
                                                             ?>
-                                                                <button class="btn btn-outline-dark" type="submit" name="btn-send" value="-1">Yes, Revoke Access</button>
+                                                                <button class="btn btn-outline-dark" type="submit" name="btn-send" value="-1" <?php if($row['status']>1) echo "disabled"?>>Yes, Revoke Access</button>
                                                                 
                                                             <?php 
                                                         } 
@@ -265,19 +281,35 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <?php
-                                                                $lab_id=$row['id'];
+                                                                $assistid_id=$row['id'];
                                                                 echo "Are you sure you want to delete the following Lab Assistant?<br>";
                                                                 echo "Name: <strong>".$ben_name."</strong><br>";
                                                                 echo "Email: <strong>".$row['email']."</strong><br>";
-                                                                echo "Dept: <strong>".$row['dept']."</strong><br><br>";
-                                                                
+                                                                echo "Dept: <strong>".$row['dept']."</strong><br><hr>";
+                                                                if($row['status']>1)
+                                                                {
+                                                                    echo "<p style='font-size: small; margin:0;'><strong>This lab assistant is assigned to one or more labs.<br>Please remove assistant from the following labs before revoking access.</strong><br><hr></p>";
+                                                                    $fetch_lab_no=mysqli_query($conn,"SELECT * FROM LABS WHERE assistid=$assist_id");
+                                                                    $labno_row1=mysqli_fetch_array($fetch_lab_no);
+                                                                    if($row['status']>2)
+                                                                        echo "<strong>Lab 1 Details<br></strong>";
+                                                                    else 
+                                                                    echo "<strong>Lab Details</strong><br>";
+                                                                    echo "Lab No: ".$labno_row1['labno']."<br>Lab Name: ".$labno_row1['labname'];
+                                                                    if($row['status']>2)
+                                                                    {
+                                                                        $labno_row2=mysqli_fetch_array($fetch_lab_no);
+                                                                        echo "<br><br><strong>Lab 2 Details</strong><br>";
+                                                                        echo "Lab No: ".$labno_row2['labno']."<br>Lab Name: ".$labno_row2['labname'];
+                                                                    }
+                                                                }
                                                             ?>
-                                                                <p style="font-size: x-small; margin:0;">This action cannot be reversed!</p>
+                                                                <p style="font-size: small; margin:0;"><br>This action cannot be reversed!</p>
                                                         </div>
 
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
-                                                        <button class="btn btn-outline-danger" type="submit" name="delete">Delete Account</button>
+                                                        <button class="btn btn-outline-danger" type="submit" name="delete" <?php if($row['status']>1) echo "disabled"?>>Delete Account</button>
                                                         </div>
                                                     </div>
                                                 </div>
