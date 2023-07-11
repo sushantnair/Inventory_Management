@@ -182,7 +182,7 @@
                                     
                                             
                                             <td>
-                                            <button type="button" name="return" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstupdate<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>">
+                                            <button style="width:136px;" type="button" name="return" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstupdate<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>">
                                                 <?php 
                                                 if($row['status']<=0)
                                                 {
@@ -198,7 +198,7 @@
                                                 } 
                                                 ?>
                                             </button>
-                                            <button type="button" name="return" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstdelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>">
+                                            <button style="width:136px;" type="button" name="return" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropAsstdelete<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>">
                                                 Delete Account
                                             </button>
                                             
@@ -209,8 +209,12 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="staticBackdropLabel">Update Lab Asst.</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        <?php 
+                                                            if($row['status']>=1) 
+                                                            echo "<h5 class='modal-title text-danger' id='staticBackdropLabel'>Revoke Assistant Access </h5>";                                              
+                                                            else 
+                                                            echo "<h5 class='modal-title text-success' id='staticBackdropLabel'>Grant Assistant Access </h5>";
+                                                            ?>                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body" style="text-align:center;">
                                                             <?php
@@ -220,12 +224,12 @@
                                                                 echo "Assistant Email: <strong>".$row['email']."</strong><br>";
                                                                 echo "Assistant Dept: <strong>".$row['dept']."</strong><br><hr>";
                                                                 if($row['status']<=0)
-                                                                    echo "Are you sure you want to grant access to the following Lab Assistant?<br>";
+                                                                    echo "<p class='text-success'>Are you sure you want to grant access to this Lab Assistant?<br></p>";
                                                                 else if($row['status']==1)
-                                                                    echo "Are you sure you want to revoke access from the following Lab Assistant?<br>";
+                                                                    echo "<p class='text-danger'>Are you sure you want to revoke access from this Lab Assistant?<br></p>";
                                                                 else if($row['status']>1)
                                                                 {
-                                                                    echo "<p style='font-size: small; margin:0;'><strong>This lab assistant is assigned to one or more labs.<br>Please remove assistant from the following labs before revoking access.</strong><br><hr></p>";
+                                                                    echo "<p class='text-danger'>This lab assistant is assigned to one or more labs.<br>Please remove assistant from the following labs first.<br><hr></p>";
                                                                     $fetch_lab_no=mysqli_query($conn,"SELECT * FROM LABS WHERE assistid=$assist_id");
                                                                     $labno_row1=mysqli_fetch_array($fetch_lab_no);
                                                                     if($row['status']>2)
@@ -252,19 +256,19 @@
                                                         </div>
 
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
                                                         <?php 
                                                         if($row['status']<=0)
                                                         {
                                                             ?>
-                                                                
-                                                                <button class="btn btn-outline-dark" type="submit" name="btn-send" value="1" >Yes, Grant Access</button>
+                                                                <button type="button" class="btn alert-success" data-bs-dismiss="modal">No, Cancel</button>
+                                                                <button class="btn btn-outline-success" type="submit" name="btn-send" value="1" >Yes, Grant Access</button>
                                                             <?php 
                                                         }
                                                         else if($row['status']>=1) 
                                                         {
                                                             ?>
-                                                                <button class="btn btn-outline-dark" type="submit" name="btn-send" value="-1" <?php if($row['status']>1) echo "disabled"?>>Yes, Revoke Access</button>
+                                                                <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
+                                                                <button class="btn btn-outline-danger" type="submit" name="btn-send" value="-1" <?php if($row['status']>1) echo "disabled"?>>Yes, Revoke Access</button>
                                                                 
                                                             <?php 
                                                         } 
@@ -277,19 +281,23 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="staticBackdropLabel">Delete Lab Asst.</h5>
+                                                            <h5 class="modal-title text-danger" id="staticBackdropLabel">Delete Assistant Account</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body" style="text-align:center;">
                                                             <?php
                                                                 $assistid_id=$row['id'];
-                                                                echo "Are you sure you want to delete the following Lab Assistant?<br>";
+                                                                
                                                                 echo "Name: <strong>".$ben_name."</strong><br>";
                                                                 echo "Email: <strong>".$row['email']."</strong><br>";
                                                                 echo "Dept: <strong>".$row['dept']."</strong><br><hr>";
                                                                 if($row['status']>1)
+                                                                    echo "<p class='text-danger' style='margin:0;'>This lab assistant is assigned to one or more labs.<br>Please remove assistant from the following labs first.<br><hr></p>";
+                                                                else 
+                                                                echo "<p class='text-danger'>Are you sure you want to delete this Lab Assistant?<br><hr></p>";
+
+                                                                if($row['status']>1)
                                                                 {
-                                                                    echo "<p style='font-size: small; margin:0;'><strong>This lab assistant is assigned to one or more labs.<br>Please remove assistant from the following labs before deleting account.</strong><br><hr></p>";
                                                                     $fetch_lab_no=mysqli_query($conn,"SELECT * FROM LABS WHERE assistid=$assist_id");
                                                                     $labno_row1=mysqli_fetch_array($fetch_lab_no);
                                                                     if($row['status']>2)
@@ -303,9 +311,10 @@
                                                                         echo "<br><br><strong>Lab 2 Details</strong><br>";
                                                                         echo "Lab No: <strong>".$labno_row2['labno']."</strong><br>Lab Name: <strong>".$labno_row2['labname']."</strong>";
                                                                     }
+                                                                    echo "<hr>";
+
                                                                 }
                                                             ?>
-                                                            <hr>
                                                                 <p style="font-size: small; margin:0;">This action cannot be reversed!</p>
                                                                 <p style="font-size: small;">Click 'Cancel' to dismiss the popup for now.</p>
 
