@@ -182,25 +182,24 @@
                                 <div class="modal fade" id="staticBackdropAdminupdate<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['id']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Revoke Access</h5>
+                                            <div class="modal-header" >
+                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Revoke Admin Access</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">
+                                            <div class="modal-body" style="text-align: center;">
                                                 <?php
                                                 if($row['status']==1)
-                                                
-                                                    echo "Are you sure you want to revoke access from the following Admin?<br>";
-                                                
+                                                    echo "<p style='font-size: small; margin:0;'>Are you sure you want to revoke access from the following Admin?<hr></p>";
                                                 else 
-                                                    echo "Are you sure you want to grant access to the following Admin?<br>";
+                                                    echo "<p style='font-size: small; margin:0;'>Are you sure you want to grant access to the following Admin?<br></p>";
 
-                                                    echo "Admin Name: <strong>".$row['name']."</strong><br>";
-                                                    echo "Admin ID: <strong>".$row['id']."</strong><br>";
-                                                    echo "Admin Dept: <strong>".$row['dept']."</strong><br><br>";
-                                                    
-                                                    echo "<p style='font-size: small; margin:0;'>This action cannot be reversed.</p>";
-                                                        
+                                                echo "Admin ID: <strong>".$row['id']."</strong><br>";
+                                                echo "Admin Name: <strong>".$row['name']."</strong><br>";
+                                                echo "Admin Dept: <strong>".$row['dept']."</strong><br><hr>";
+                                                
+                                                echo "<p style='font-size: small; margin:0;'>This action can be reversed.</p>";
+                                                echo "<p style='font-size: small; margin:0;'>Click 'Cancel' to dismiss the popup for now.</p>";
+
                                                         
                                                 ?>
                                             </div>
@@ -220,23 +219,17 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Warning</h5>
+                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Delete Admin Account</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">
+                                            <div class="modal-body" style="text-align: center;">
                                                 <?php
-                                                if($row['status']==1)
-                                                {
-                                                    echo "Are you sure you want to remove this administrator?<br><br>";                                                        
-                                                }
-                                                else if($row['status']>1)
-                                                {
-
-                                                    echo "This assistant has been appointed to one or more labs, remove them before revoking access.<br><br>";
-                                                }
-                                                    echo "Admin Name: <strong>".$row['name']."</strong><br>";
+                                                
+                                                    echo "<p style='font-size: small; margin:0;'>Are you sure you want to delete this Admin account?<hr></p>";                                                
+                                                
                                                     echo "Admin ID: <strong>".$row['id']."</strong><br>";
-                                                    echo "Admin Dept: <strong>".$row['dept']."</strong><br><br>";
+                                                    echo "Admin Name: <strong>".$row['name']."</strong><br>";
+                                                    echo "Admin Dept: <strong>".$row['dept']."</strong><br><hr>";
                                                     
                                                     echo "<p style='font-size: small; margin:0;'>This action cannot be reversed.</p>";
                                                         

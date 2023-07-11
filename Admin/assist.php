@@ -212,12 +212,13 @@
                                                             <h5 class="modal-title" id="staticBackdropLabel">Update Lab Asst.</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
-                                                        <div class="modal-body">
+                                                        <div class="modal-body" style="text-align:center;">
                                                             <?php
                                                                 $assist_id=$row['id'];
-                                                                echo "Name: <strong>".$ben_name."</strong><br>";
-                                                                echo "Email: <strong>".$row['email']."</strong><br>";
-                                                                echo "Dept: <strong>".$row['dept']."</strong><br><hr>";
+                                                                echo "Assistant ID: <strong>".$assist_id."</strong><br>";
+                                                                echo "Assistant Name: <strong>".$ben_name."</strong><br>";
+                                                                echo "Assistant Email: <strong>".$row['email']."</strong><br>";
+                                                                echo "Assistant Dept: <strong>".$row['dept']."</strong><br><hr>";
                                                                 if($row['status']<=0)
                                                                     echo "Are you sure you want to grant access to the following Lab Assistant?<br>";
                                                                 else if($row['status']==1)
@@ -231,12 +232,12 @@
                                                                         echo "<strong>Lab 1 Details<br></strong>";
                                                                     else 
                                                                     echo "<strong>Lab Details</strong><br>";
-                                                                    echo "Lab No: ".$labno_row1['labno']."<br>Lab Name: ".$labno_row1['labname'];
+                                                                    echo "Lab No: <strong>".$labno_row1['labno']."</strong><br>Lab Name: <strong>".$labno_row1['labname']."</strong>";
                                                                     if($row['status']>2)
                                                                     {
                                                                         $labno_row2=mysqli_fetch_array($fetch_lab_no);
                                                                         echo "<br><br><strong>Lab 2 Details</strong><br>";
-                                                                        echo "Lab No: ".$labno_row2['labno']."<br>Lab Name: ".$labno_row2['labname'];
+                                                                        echo "Lab No: <strong>".$labno_row2['labno']."</strong><br>Lab Name: <strong>".$labno_row2['labname']."</strong>";
                                                                     }
                                                                 }
                                                                 
@@ -279,7 +280,7 @@
                                                             <h5 class="modal-title" id="staticBackdropLabel">Delete Lab Asst.</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
-                                                        <div class="modal-body">
+                                                        <div class="modal-body" style="text-align:center;">
                                                             <?php
                                                                 $assistid_id=$row['id'];
                                                                 echo "Are you sure you want to delete the following Lab Assistant?<br>";
@@ -288,23 +289,26 @@
                                                                 echo "Dept: <strong>".$row['dept']."</strong><br><hr>";
                                                                 if($row['status']>1)
                                                                 {
-                                                                    echo "<p style='font-size: small; margin:0;'><strong>This lab assistant is assigned to one or more labs.<br>Please remove assistant from the following labs before revoking access.</strong><br><hr></p>";
+                                                                    echo "<p style='font-size: small; margin:0;'><strong>This lab assistant is assigned to one or more labs.<br>Please remove assistant from the following labs before deleting account.</strong><br><hr></p>";
                                                                     $fetch_lab_no=mysqli_query($conn,"SELECT * FROM LABS WHERE assistid=$assist_id");
                                                                     $labno_row1=mysqli_fetch_array($fetch_lab_no);
                                                                     if($row['status']>2)
                                                                         echo "<strong>Lab 1 Details<br></strong>";
                                                                     else 
                                                                     echo "<strong>Lab Details</strong><br>";
-                                                                    echo "Lab No: ".$labno_row1['labno']."<br>Lab Name: ".$labno_row1['labname'];
+                                                                    echo "Lab No: <strong>".$labno_row1['labno']."</strong><br>Lab Name: <strong>".$labno_row1['labname']."</strong>";
                                                                     if($row['status']>2)
                                                                     {
                                                                         $labno_row2=mysqli_fetch_array($fetch_lab_no);
                                                                         echo "<br><br><strong>Lab 2 Details</strong><br>";
-                                                                        echo "Lab No: ".$labno_row2['labno']."<br>Lab Name: ".$labno_row2['labname'];
+                                                                        echo "Lab No: <strong>".$labno_row2['labno']."</strong><br>Lab Name: <strong>".$labno_row2['labname']."</strong>";
                                                                     }
                                                                 }
                                                             ?>
-                                                                <p style="font-size: small; margin:0;"><br>This action cannot be reversed!</p>
+                                                            <hr>
+                                                                <p style="font-size: small; margin:0;">This action cannot be reversed!</p>
+                                                                <p style="font-size: small;">Click 'Cancel' to dismiss the popup for now.</p>
+
                                                         </div>
 
                                                     <div class="modal-footer">
