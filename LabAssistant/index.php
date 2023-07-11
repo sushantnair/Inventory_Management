@@ -217,8 +217,9 @@
             <?php 
         } 
     ?>
-    <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem; z-index: 1000;;" onmouseenter="butExp()" onmouseleave="butCol() " onclick="window.print()">
-        <a href="#" id="reportlink" class="btn btn-danger rounded-circle shadow p-3">
+        <!-- <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem; z-index: 1000;;" onmouseenter="butExp()" onmouseleave="butCol() " onclick="window.print()"> -->
+    <div class="position-absolute" id="report" style="bottom: 2rem; right: 3rem; z-index: 1000;;" onmouseenter="butExp()" onmouseleave="butCol()">
+        <a href="report.php" id="reportlink" class="btn btn-danger rounded-circle shadow p-3">
         <span class="buttontext buttontext1" style="float:left; padding-right: 0.75em; font-weight: bold;">Generate<br>Report</span>
         <span style="float:right;">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-file-earmark-bar-graph" viewBox="0 0 16 16">
