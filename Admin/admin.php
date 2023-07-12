@@ -250,9 +250,9 @@
                                                 <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
                                                 <button class="btn btn-outline-danger" type="submit" name="delete">Yes, Delete Admin</button>
                                             </div>
-                                            </div>
                                         </div>
                                     </div>
+                                </div>
                                 </form>
                             </tr>
                         <?php

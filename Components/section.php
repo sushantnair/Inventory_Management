@@ -1,3 +1,8 @@
+<?php
+if (str_contains($_SERVER['REQUEST_URI'],'/Inventory_Management/Components/')){
+  header('Location: ../login.php');
+}
+?>
 <head>
     <link rel="stylesheet" href="./css/bootstrap.css">
     <script src="./js/bootstrap.bundle.js"></script>

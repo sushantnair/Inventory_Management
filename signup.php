@@ -150,13 +150,29 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> --> 
         
         <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="CSS/signup.css">
+        <script>
+            // var dropvalue = "";
+            // function getVal() {
+            //     const dropdown = document.getElementByID('role');
+            //     dropvalue = dropdown.value;
+            //     const register = document.getElementByClassNames('')
+            // }
+            function getVal() {
+                if($('#role').val()=='lab-assistant'){
+                    $('#myModal').modal('show');
+                } else {
+                    $('#registerButton').removeAttr("type").attr("type", "submit");
+                }
+            }
+        </script>
     </head>
 <body>
     
     <div class="container-fluid">
         <div class="row">
-        <?php include('Components/section2.php') ?>
+        <?php include('Components/section.php') ?>
 
             <div class="col-lg-6 col-md-6 col-12 mt-3">
                 <div class="container ">
@@ -262,8 +278,35 @@
                         </div>  
                         <br>
 
-                        <button class="btn btn-danger col-lg-12 col-md-10 col-10 mb-4" type="submit" style="background-color: #D40000 ; color: white; height:45px;">Register</button>
-                            </div>
+                        <!-- <button class="btn btn-danger col-lg-12 col-md-10 col-10 mb-4" type="submit" style="background-color: #D40000 ; color: white; height:45px;">Register</button> -->
+                        <button class="btn btn-danger col-lg-12 col-md-10 col-10 mb-4" type="button" id="registerButton" style="background-color: #D40000; color: white; height:45px;" onclick="getVal()">Register</button>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Register as a Lab Assistant</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="text-align: center;">
+                                                <?php
+                                                
+                                                    echo "<p class='text-danger' style='margin:0;'>Are you sure you want to register as a Lab Assistant? If these credentials are not associated with a lab assistant account, action could be taken!</p>";
+
+                                                    echo "<p style='font-size: small; margin:0;'>This action cannot be reversed.</p>";
+                                                    echo "<p style='font-size: small; margin:0;'>Click 'Cancel' to edit your details.</p>";
+
+                                                        
+                                                ?>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn alert-danger" data-bs-dismiss="modal">No, Cancel</button>
+                                                <button class="btn btn-outline-danger" type="submit" name="delete">Yes, Register</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                     </form>
                     <p style="text-align:center;">Already have an account? <a href="login.php">Login</a></p>
 

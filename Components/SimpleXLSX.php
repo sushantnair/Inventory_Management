@@ -3,7 +3,9 @@
 namespace Shuchkin;
 
 use SimpleXMLElement;
-
+if (str_contains($_SERVER['REQUEST_URI'],'/Inventory_Management/Components/')){
+    header('Location: ../login.php');
+}
 /**
  *    SimpleXLSX php class
  *    MS Excel 2007+ workbooks reader

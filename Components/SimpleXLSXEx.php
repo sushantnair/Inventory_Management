@@ -6,6 +6,10 @@ namespace Shuchkin;
 
 use SimpleXMLElement;
 
+if (str_contains($_SERVER['REQUEST_URI'],'/Inventory_Management/Components/')){
+    header('Location: ../login.php');
+}
+
 class SimpleXLSXEx
 {
     public static $IC = [

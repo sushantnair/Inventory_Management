@@ -13,7 +13,9 @@
         $lab_row=mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM labs WHERE labno='$labno'"),MYSQLI_ASSOC);
         $labname=$lab_row['labname'];
     }
-    
+    if (str_contains($_SERVER['REQUEST_URI'],'/Inventory_Management/Components/')){
+        header('Location: ../login.php');
+    }
  ?>
 <head>
     <link rel="stylesheet" href="../css/bootstrap.css">
