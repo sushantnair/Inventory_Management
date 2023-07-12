@@ -99,7 +99,7 @@
                     {    
                         ?>
                         <tr>
-                            <form action="lab.php" method="post">
+                            <form action="lab.php" method="get">
                                 <input type="text" value="<?php echo $row['labno']?>" style="display:none" name="labno" id="labno">
                                 <td><?php echo $row['labno']?></td>
                                 <td class="lname"><?php echo $row['labname']?></td>
@@ -108,7 +108,7 @@
                                 <td class="lname"> <?php echo $row['assistname'] ?> </td>
                                 <td>
                                     
-                                    <button class="btn btn-outline-dark" type="submit" name="lab">
+                                    <button class="btn btn-outline-dark" type="submit">
                                         View Lab
                                     </button>
                                 </td>

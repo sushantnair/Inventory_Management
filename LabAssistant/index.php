@@ -6,12 +6,12 @@
         include '../connection.php';
         $id=$_SESSION['id'];
         $status=$_SESSION['status'];
-        $labno=$_SESSION['labno'] ?? '';
-        $temp_labno2_var = $_SESSION['labno2'] ?? '';
-        if($labno==$temp_labno2_var)
-            $lab2=$_SESSION['labno1'] ?? '';
+        $labno=$_SESSION['labno'];
+
+        if($labno==$_SESSION['labno2'])
+            $lab2=$_SESSION['labno1'];
         else
-            $lab2=$_SESSION['labno2'] ?? '';
+            $lab2=$_SESSION['labno2'];
             
         if(isset($_POST['switch']))
         {
