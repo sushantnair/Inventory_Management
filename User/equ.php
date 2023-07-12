@@ -96,7 +96,7 @@
 </head>
 <body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>
-    <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
+    <div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; width: calc(100% - 100px);">
 
         <!-- Search bar -->
         <div class="search-container">
@@ -144,7 +144,6 @@
                                 <th scope="col">Desc1</th>
                                 <th scope="col">Desc2</th>
                                 <th scope="col">Lab</th>
-                                <th scope="col">Return Quantity</th>
                                 <th scope="col">Return</th>
                                 <!-- <th scope="col">View<br></th> -->
                             </tr>
@@ -192,12 +191,50 @@
                                             <input type="text" name="dsrno" value="<?php echo $row['dsrno']; ?>" style="display:none;">
                                             <input type="text" name="labno" value="<?php echo $labno; ?>" style="display:none;">
                                             <td>
-                                                <input type="number" class="col-sm-1 form-control" name="requan" id="requan" min ="1" max="<?php echo $row['lendquan'];?>"required>                                
-                                            </td>
-                                            <td>
-                                                <input class="col-sm-1 btn btn-outline-dark form-control" type="submit" name="return" value="Return"> 
+                                                <button class="btn btn-outline-dark" type="button" name="request" style="width:85px;" data-bs-toggle="modal" data-bs-target="#staticBackdropreq<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>">
+                                                    Return 
+                                                </button>
+                                                
+                                                <div class="modal fade" id="staticBackdropreq<?php echo str_replace(array('/','(',')'), array('_','open','close'), strtolower($row['dsrno']));?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title text-danger" id="staticBackdropLabel">Request Equipment</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <?php
+                                                                    
+                                                                    $eqname=$eqrow['eqname'];
+                                                                    $eqtype=$eqrow['eqtype'];
+                                                                    $dsrno=$row['dsrno'];
+                                                                    $quantity=$row['lendquan'];
+                                                                    echo "Equipment Name: <strong>".$eqname."</strong><br>";
+                                                                    echo "Equipment Type: <strong>".$eqtype."</strong><br>";
+                                                                    echo "Equipment DSR No: <strong>".$dsrno."</strong><br>";
+                                                                    echo "Lended Quantity: <strong>".$quantity."</strong><br>";
+                                                                    echo "Returning To: <strong>".$labno."</strong><br><hr>";
+                                                                    
+                                                                ?>
+                                                                <div class="form-floating col-12">
+
+                                                                    <input type="number" class="form-control" name="requan" id="requan" min ="1" max="<?php echo $row['quantity'];?>" required>                             
+                                                                    <label class="label ms-2" for="requan">Returning Quantity</label>        
+                                                                    <hr>
+                                                                    <p style="font-size: small; margin:0;">Click 'Return' to raise return request of the equipment</p>
+                                                                    <p style="font-size: small; margin:0;">Click 'Cancel' to dismiss the popup for now.</p>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn alert-danger" data-bs-dismiss="modal">Cancel</button>
+                                                                <button type="submit" name="return" class="btn btn-danger">Return</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
+                                            
                                         </form>
                                     </tr>
                                     <?php

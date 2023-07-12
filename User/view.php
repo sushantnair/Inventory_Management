@@ -38,7 +38,7 @@
 </head>
 <body style="background-color: #f8f9fc;overflow-x: hidden;">
     <?php include('../Components/sidebar.php') ?>
-    <div class="position-absolute container row w-100 top-0 ms-4" style="left: 100px; z-index:100;">
+    <div class="position-absolute row pe-4 top-0 mx-4" style="left: 100px; width: calc(100% - 100px);">
     <form action="" method="post" style="text-align:center;">
             <br>
             <div class="row">

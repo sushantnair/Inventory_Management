@@ -195,18 +195,7 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <?php
-                                                                // $dsrno=$row['dsrno'];
-                                                                // $fetch_equipment=mysqli_query($conn,"SELECT * FROM $labno WHERE dsrno='$dsrno'");
-                                                                // $fetch_lab=mysqli_query($conn,"SELECT * FROM lend WHERE lendto='$labno' AND dsrno='$dsrno'");
-                                                                // if(!$fetch_equipment)
-                                                                // {
-                                                                //     echo mysqli_error($conn);
-                                                                //     die();
-                                                                // }
-                                                                // $labno_row=mysqli_fetch_array($fetch_lab,MYSQLI_ASSOC);
-                                                                // $lendfrom=$labno_row['lendfrom'];
-
-                                                                // $eqrow=mysqli_fetch_array($fetch_equipment,MYSQLI_ASSOC);
+                                                                
                                                                 $eqname=$row['eqname'];
                                                                 $eqtype=$row['eqtype'];
                                                                 $dsrno=$row['dsrno'];
