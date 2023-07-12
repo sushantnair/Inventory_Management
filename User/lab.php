@@ -213,7 +213,7 @@
                                                                 <label class="label ms-2" for="requan">Requesting Quantity</label>        
                                                                 <hr>
                                                                 <p style="font-size: small; margin:0;">Click 'Request' to request given quantity of the equipment</p>
-                                                                <p style="font-size: small;" margin:0;"">Click 'Cancel' to dismiss the popup for now.</p>
+                                                                <p style="font-size: small; margin:0;">Click 'Cancel' to dismiss the popup for now.</p>
                                                             </div>
                                                         </div>
 
